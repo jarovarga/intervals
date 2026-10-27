@@ -133,6 +133,7 @@
                 <div class="timer__bar">
                     <button type="button" data-action="end" class="button button--circle" aria-label="End workout"><span data-icon="x" aria-hidden="true"></span></button>
                     <p class="timer__remaining"><span class="visually-hidden">Remaining</span> <span data-remaining>0:00</span></p>
+                    <p data-paused class="timer__paused" hidden>Paused</p>
                     <button type="button" data-action="sound" class="button button--circle" aria-pressed="true" aria-label="Sound"><span data-icon="volume-on" data-sound-icon aria-hidden="true"></span></button>
                 </div>
 
@@ -140,17 +141,16 @@
                     <div data-wipe class="timer__wipe" aria-hidden="true"></div>
                     <div data-flash class="timer__flash" aria-hidden="true"></div>
                     <p data-label class="timer__label">Get ready</p>
-                    <div class="timer__reading">
-                        <p data-clock class="timer__clock" role="timer">00:00</p>
+                    <p data-clock class="timer__clock" role="timer">00:00</p>
+                    <div class="timer__detail">
                         <div class="timer__progress" aria-hidden="true"><div data-progress class="timer__progress-bar"></div></div>
                         <p data-focus class="timer__focus"></p>
-                        <p data-paused class="timer__paused" hidden>Paused</p>
                     </div>
                 </div>
 
                 <div class="timer__next">
                     <p data-next-label class="timer__next-label">Up next</p>
-                    <p data-next-title class="timer__next-title"></p>
+                    <p data-marquee class="timer__next-title"><span data-next-title></span></p>
                     <p data-next-sub class="timer__next-sub"></p>
                 </div>
 

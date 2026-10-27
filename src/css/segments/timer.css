@@ -25,6 +25,10 @@ body:has(.timer:not([hidden])) {
   line-height: var(--leading-none);
 }
 
+.timer[data-paused] .timer__remaining {
+  display: none;
+}
+
 .timer__panel {
   background-color: var(--phase);
   border-radius: var(--radius-4xl);
@@ -35,7 +39,7 @@ body:has(.timer:not([hidden])) {
   isolation: isolate;
   min-block-size: 0;
   overflow: clip;
-  padding: calc(var(--spacing) * 3.5) calc(var(--spacing) * 5) calc(var(--spacing) * 5);
+  padding: calc(var(--spacing) * 5);
   position: relative;
 }
 
@@ -58,35 +62,39 @@ body:has(.timer:not([hidden])) {
 }
 
 .timer__label {
-  align-items: center;
+  align-items: flex-end;
   display: flex;
-  flex: 1.3 1 0;
+  flex: 1 1 0;
   font-size: var(--text-6xl);
   font-weight: var(--font-weight-normal);
   justify-content: center;
   letter-spacing: var(--tracking-wide);
   line-height: var(--leading-none);
   min-block-size: 0;
+  padding-block-end: calc(var(--spacing) * 4);
   text-align: center;
   text-transform: uppercase;
   text-wrap: balance;
 }
 
-.timer__reading {
+/* The label and the detail share the free space equally, which keeps the clock in the middle of the panel. */
+.timer__detail {
   align-items: center;
   display: flex;
-  flex: 0.8 1 auto;
+  flex: 1 1 0;
   flex-direction: column;
   gap: calc(var(--spacing) * 2);
-  justify-content: flex-start;
+  min-block-size: 0;
+  padding-block-start: calc(var(--spacing) * 2);
   text-align: center;
 }
 
 .timer__clock {
-  font-size: clamp(var(--text-7xl), 41vw, var(--text-clock));
+  font-size: clamp(var(--text-7xl), 32vw, var(--text-clock));
   font-variant-numeric: tabular-nums;
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-clock);
+  text-align: center;
   white-space: nowrap;
 }
 
@@ -101,15 +109,17 @@ body:has(.timer:not([hidden])) {
 }
 
 .timer__progress-bar {
+  --progress: 0;
+
   background-color: var(--color-on-phase);
   block-size: 100%;
   border-radius: var(--radius-sm);
-  transform: scaleX(var(--progress, 0));
+  transform: scaleX(var(--progress));
   transform-origin: left;
 }
 
 .timer__focus {
-  font-size: var(--text-2xl);
+  font-size: var(--text-xl);
   font-weight: var(--font-weight-bold);
   line-height: var(--leading-snug);
   margin-block-start: calc(var(--spacing) * 1);
@@ -124,9 +134,9 @@ body:has(.timer:not([hidden])) {
 }
 
 .timer__paused {
-  background-color: var(--color-on-phase);
+  background-color: var(--color-text);
   border-radius: var(--radius-4xl);
-  color: var(--phase);
+  color: var(--color-surface-deep);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--tracking-widest);
@@ -153,13 +163,10 @@ body:has(.timer:not([hidden])) {
 }
 
 .timer__next-title {
-  font-size: var(--text-4xl);
+  font-size: clamp(var(--text-xl), 5.5vw, var(--text-2xl));
   letter-spacing: var(--tracking-wide);
   line-height: var(--leading-tight);
-  overflow: clip;
-  text-overflow: ellipsis;
   text-transform: uppercase;
-  white-space: nowrap;
 }
 
 .timer__next-sub {
@@ -174,7 +181,7 @@ body:has(.timer:not([hidden])) {
   align-items: center;
   display: flex;
   gap: calc(var(--spacing) * 3);
-  padding: calc(var(--spacing) * 3) calc(var(--spacing) * 3) 0;
+  padding: calc(var(--spacing) * 3) calc(var(--spacing) * 2) 0;
 }
 
 .timer__segments {
@@ -256,14 +263,12 @@ body:has(.timer:not([hidden])) {
   }
 
   .timer__label {
-    flex: none;
     font-size: var(--text-5xl);
   }
 
-  .timer__reading {
-    flex: 1;
+  .timer__detail {
     gap: calc(var(--spacing) * 1);
-    justify-content: center;
+    padding-block-start: calc(var(--spacing) * 1);
   }
 
   .timer__clock {
@@ -276,7 +281,8 @@ body:has(.timer:not([hidden])) {
   }
 
   .timer__next-title {
-    font-size: var(--text-3xl);
+    --marquee-fade: 0;
+
     white-space: normal;
   }
 
