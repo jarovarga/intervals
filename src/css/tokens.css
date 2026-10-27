@@ -1,5 +1,5 @@
 :root {
-  --font-sans: "Anton", "Arial Narrow", sans-serif;
+  --font-sans: "Anton", sans-serif;
   --font-mono: ui-monospace, monospace;
 
   --color-accent: oklch(0.914 0.203 126.7);
