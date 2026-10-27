@@ -1,11 +1,12 @@
 .swatch {
   appearance: none;
-  aspect-ratio: 1;
   background-color: var(--colour);
+  block-size: 2.5rem;
   border-radius: 50%;
   cursor: pointer;
-  inline-size: 100%;
-  max-inline-size: 2.75rem;
+  flex: none;
+  inline-size: 2.5rem;
+  margin: 0;
 
   &:checked {
     box-shadow:

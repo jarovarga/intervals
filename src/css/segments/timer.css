@@ -7,6 +7,8 @@ body:has(.timer:not([hidden])) {
   background-color: var(--color-surface-deep);
   color: var(--color-text);
   gap: calc(var(--spacing) * 2);
+  /* The bar starts clear of the soft fade that iOS draws under the status bar. */
+  padding-block-start: calc(env(safe-area-inset-top) + var(--spacing) * 7);
   padding-inline: calc(env(safe-area-inset-left) + var(--spacing) * 2)
     calc(env(safe-area-inset-right) + var(--spacing) * 2);
 }
@@ -220,8 +222,7 @@ body:has(.timer:not([hidden])) {
     grid-template-rows: auto 1fr auto auto;
     max-inline-size: none;
     min-block-size: 100svh;
-    padding-block: calc(env(safe-area-inset-top) + var(--spacing) * 3)
-      calc(env(safe-area-inset-bottom) + var(--spacing) * 3);
+    padding-block: calc(var(--spacing) * 3);
   }
 
   .timer.screen {
