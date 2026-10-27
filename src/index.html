@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en-GB">
+    <head>
+        <title>Intervals</title>
+        <meta charset="utf-8">
+        <meta name="description" content="Timer for circuit workouts">
+        <meta name="author" content="Jaro Varga">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="viewport" content="width=device-width, viewport-fit=cover">
+        <meta name="color-scheme" content="dark">
+        <meta name="theme-color" content="#121212">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-title" content="Intervals">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link href="./assets/img/icon.svg" rel="icon" type="image/svg+xml">
+        <link href="./assets/img/icon-96x96.png" rel="icon" type="image/png" sizes="96x96">
+        <link href="./assets/img/icon-180x180.png" rel="apple-touch-icon" sizes="180x180">
+        <link href="./assets/fonts/anton-400.woff2" rel="preload" as="font" type="font/woff2" crossorigin>
+        <link href="./assets/css/app.min.css" rel="stylesheet">
+        <link href="./app.webmanifest" rel="manifest">
+    </head>
+    <body id="app">
+        <noscript>This app requires JavaScript to run.</noscript>
+
+        <main>
+            <section data-view="home" class="screen home" hidden>
+                <h1 tabindex="-1" class="home__title">Intervals</h1>
+
+                <h2 class="screen__heading">Workouts</h2>
+                <ul data-workouts class="home__list"></ul>
+                <p data-empty class="home__empty" hidden>No workouts yet.</p>
+
+                <a href="#/edit/new" class="button button--outline"><span data-icon="plus" aria-hidden="true"></span>New workout</a>
+            </section>
+
+            <section data-view="editor" class="screen editor" hidden>
+                <form data-form class="editor__form" novalidate>
+                    <div class="editor__bar">
+                        <a href="#/" class="editor__cancel">Cancel</a>
+                        <h2 tabindex="-1" data-heading class="editor__title">Edit workout</h2>
+                        <button type="submit" class="button button--primary button--compact">Save</button>
+                    </div>
+
+                    <p id="time-hint" class="editor__hint">Enter 30 for 30 seconds or 130 for 1:30.</p>
+                    <p data-error class="editor__error" role="alert" hidden></p>
+
+                    <div class="panel">
+                        <label for="workout-name" class="panel__label">Name</label>
+                        <input type="text" maxlength="60" autocomplete="off" data-field="name" id="workout-name" class="input input--large">
+                    </div>
+
+                    <fieldset class="panel">
+                        <legend class="panel__label">Colour</legend>
+                        <div class="editor__swatches">
+                            <input type="radio" name="colour" data-colour="green" value="green" class="swatch" aria-label="Green">
+                            <input type="radio" name="colour" data-colour="orange" value="orange" class="swatch" aria-label="Orange">
+                            <input type="radio" name="colour" data-colour="blue" value="blue" class="swatch" aria-label="Blue">
+                            <input type="radio" name="colour" data-colour="yellow" value="yellow" class="swatch" aria-label="Yellow">
+                            <input type="radio" name="colour" data-colour="pink" value="pink" class="swatch" aria-label="Pink">
+                            <input type="radio" name="colour" data-colour="purple" value="purple" class="swatch" aria-label="Purple">
+                        </div>
+                    </fieldset>
+
+                    <div class="panel panel--row">
+                        <div class="panel__text">
+                            <label for="prepare-time" class="panel__title">Get ready</label>
+                            <span class="panel__note">Countdown before the start</span>
+                        </div>
+                        <input type="text" autocomplete="off" inputmode="numeric" data-field="prepare" id="prepare-time" class="input input--time" aria-describedby="time-hint">
+                    </div>
+
+                    <fieldset class="editor__exercises">
+                        <legend class="editor__legend">Exercises (<span data-count>0</span>)</legend>
+                        <ol data-exercises class="editor__list"></ol>
+                        <button type="button" data-action="add" class="button button--secondary"><span data-icon="plus" aria-hidden="true"></span>Add exercise</button>
+                    </fieldset>
+
+                    <div class="panel panel--row">
+                        <div class="panel__text">
+                            <label for="rest-time" class="panel__title">Rest</label>
+                            <span class="panel__note">Between exercises</span>
+                        </div>
+                        <input type="text" autocomplete="off" inputmode="numeric" data-field="rest" id="rest-time" class="input input--time" aria-describedby="time-hint">
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel__row">
+                            <div class="panel__text">
+                                <label for="rounds" class="panel__title">Rounds</label>
+                                <span id="rounds-hint" class="panel__note">Repeat the whole circuit</span>
+                            </div>
+                            <div class="stepper">
+                                <button type="button" data-action="fewer-rounds" class="button button--secondary button--square" aria-controls="rounds" aria-label="Fewer rounds"><span data-icon="minus" aria-hidden="true"></span></button>
+                                <input type="number" min="1" max="99" inputmode="numeric" data-field="rounds" id="rounds" class="input input--rounds" aria-describedby="rounds-hint">
+                                <button type="button" data-action="more-rounds" class="button button--secondary button--square" aria-controls="rounds" aria-label="More rounds"><span data-icon="plus" aria-hidden="true"></span></button>
+                            </div>
+                        </div>
+                        <div class="panel__row panel__row--divided">
+                            <div class="panel__text">
+                                <label for="round-rest-time" class="panel__title">Cooldown</label>
+                                <span class="panel__note">Between rounds</span>
+                            </div>
+                            <input type="text" autocomplete="off" inputmode="numeric" data-field="round-rest" id="round-rest-time" class="input input--time" aria-describedby="time-hint">
+                        </div>
+                    </div>
+
+                    <p class="editor__total">
+                        <span class="editor__total-label">Total time</span>
+                        <output for="prepare-time rest-time rounds round-rest-time" data-total>0:00</output>
+                    </p>
+
+                    <button type="button" data-action="delete" class="button button--outline button--danger">Delete workout</button>
+                </form>
+            </section>
+
+            <section data-view="timer" data-phase="prepare" class="screen timer" hidden>
+                <h2 tabindex="-1" data-heading class="visually-hidden">Workout</h2>
+
+                <div class="timer__bar">
+                    <button type="button" data-action="end" class="button button--circle" aria-label="End workout"><span data-icon="x" aria-hidden="true"></span></button>
+                    <p class="timer__remaining"><span class="visually-hidden">Remaining</span> <span data-remaining>0:00</span></p>
+                    <button type="button" data-action="sound" class="button button--circle" aria-pressed="true" aria-label="Sound"><span data-icon="volume-on" data-sound-icon aria-hidden="true"></span></button>
+                </div>
+
+                <div class="timer__panel">
+                    <div data-wipe class="timer__wipe" aria-hidden="true"></div>
+                    <div data-flash class="timer__flash" aria-hidden="true"></div>
+                    <p data-label class="timer__label">Get ready</p>
+                    <div class="timer__reading">
+                        <p data-clock class="timer__clock" role="timer">00:00</p>
+                        <div class="timer__progress" aria-hidden="true"><div data-progress class="timer__progress-bar"></div></div>
+                        <p data-focus class="timer__focus"></p>
+                        <p data-paused class="timer__paused" hidden>Paused</p>
+                    </div>
+                </div>
+
+                <div class="timer__next">
+                    <p data-next-label class="timer__next-label">Up next</p>
+                    <p data-next-title class="timer__next-title"></p>
+                    <p data-next-sub class="timer__next-sub"></p>
+                </div>
+
+                <div class="timer__steps">
+                    <div data-segments class="timer__segments" role="img"></div>
+                    <span data-round class="timer__round"></span>
+                </div>
+
+                <div class="timer__controls">
+                    <button type="button" data-action="previous" class="button button--circle button--large" aria-label="Previous interval"><span data-icon="chevrons-left" aria-hidden="true"></span></button>
+                    <button type="button" data-action="toggle" class="button button--circle button--play" aria-label="Pause"><span data-icon="pause" data-toggle-icon aria-hidden="true"></span></button>
+                    <button type="button" data-action="next" class="button button--circle button--large" aria-label="Next interval"><span data-icon="chevrons-right" aria-hidden="true"></span></button>
+                </div>
+
+                <p data-announce class="visually-hidden" aria-live="polite"></p>
+            </section>
+        </main>
+
+        <dialog data-dialog class="dialog" aria-labelledby="dialog-title">
+            <form method="dialog" class="dialog__form">
+                <h2 data-dialog-title id="dialog-title" class="dialog__title">Confirm</h2>
+                <p data-dialog-text class="dialog__text"></p>
+                <div class="dialog__actions">
+                    <button type="submit" data-dialog-cancel value="cancel" class="button button--secondary" autofocus>Cancel</button>
+                    <button type="submit" data-dialog-confirm value="confirm" class="button button--danger">Confirm</button>
+                </div>
+            </form>
+        </dialog>
+
+        <template data-template="workout">
+            <li class="workout">
+                <div class="workout__text">
+                    <h3 class="workout__title"><span class="workout__dot" aria-hidden="true"></span><span data-name>Workout</span></h3>
+                    <p data-meta class="workout__meta"></p>
+                </div>
+                <div class="workout__actions">
+                    <a href="#/timer/" data-start class="button button--primary"><span data-icon="play" aria-hidden="true"></span>Start</a>
+                    <a href="#/edit/" data-edit class="button button--secondary"><span data-icon="pencil" aria-hidden="true"></span>Edit</a>
+                </div>
+            </li>
+        </template>
+
+        <template data-template="exercise">
+            <li class="exercise">
+                <span data-number class="exercise__number" aria-hidden="true"></span>
+                <label class="exercise__name"><span data-name-label class="visually-hidden">Exercise name</span><input type="text" maxlength="60" autocomplete="off" data-field="exercise-name" class="input"></label>
+                <label class="exercise__time"><span>Time<span data-time-label class="visually-hidden"></span></span><input type="text" autocomplete="off" inputmode="numeric" data-field="exercise-time" class="input input--time input--small" aria-describedby="time-hint"></label>
+                <div class="exercise__actions">
+                    <button type="button" data-action="up" class="button button--secondary button--square" aria-label="Move up"><span data-icon="arrow-up" aria-hidden="true"></span></button>
+                    <button type="button" data-action="down" class="button button--secondary button--square" aria-label="Move down"><span data-icon="arrow-down" aria-hidden="true"></span></button>
+                    <button type="button" data-action="remove" class="button button--secondary button--square button--danger" aria-label="Remove"><span data-icon="trash" aria-hidden="true"></span></button>
+                </div>
+            </li>
+        </template>
+
+        <script src="./assets/js/app.min.js" type="module"></script>
+    </body>
+</html>
