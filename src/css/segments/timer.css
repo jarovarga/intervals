@@ -1,3 +1,8 @@
+/* The screen stops above the bottom safe area on iPhone, so the page behind it takes the timer's colour as well. */
+body:has(.timer:not([hidden])) {
+  background-color: var(--color-surface-deep);
+}
+
 .timer {
   background-color: var(--color-surface-deep);
   color: var(--color-text);
