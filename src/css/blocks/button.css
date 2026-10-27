@@ -11,7 +11,7 @@
   font-weight: var(--font-weight-semibold);
   gap: calc(var(--spacing) * 2.5);
   justify-content: center;
-  min-block-size: 3.5rem;
+  min-block-size: 3rem;
   padding-inline: calc(var(--spacing) * 5);
 }
 
