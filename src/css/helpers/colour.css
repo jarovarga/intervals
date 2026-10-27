@@ -1,0 +1,23 @@
+[data-colour="green"] {
+  --colour: var(--color-workout-green);
+}
+
+[data-colour="orange"] {
+  --colour: var(--color-workout-orange);
+}
+
+[data-colour="blue"] {
+  --colour: var(--color-workout-blue);
+}
+
+[data-colour="yellow"] {
+  --colour: var(--color-workout-yellow);
+}
+
+[data-colour="pink"] {
+  --colour: var(--color-workout-pink);
+}
+
+[data-colour="purple"] {
+  --colour: var(--color-workout-purple);
+}

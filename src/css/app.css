@@ -1,0 +1,35 @@
+@layer reset, base, helper, block, module, segment, util;
+
+@import "./tokens.css";
+
+@import "./reset.css" layer(reset);
+
+@import "./base.css" layer(base);
+
+@import "./helpers/icons.css" layer(helper);
+@import "./helpers/colour.css" layer(helper);
+@import "./helpers/phase.css" layer(helper);
+
+@import "./blocks/button.css" layer(block);
+@import "./blocks/input.css" layer(block);
+@import "./blocks/stepper.css" layer(block);
+@import "./blocks/swatch.css" layer(block);
+@import "./blocks/panel.css" layer(block);
+@import "./blocks/workout.css" layer(block);
+@import "./blocks/dialog.css" layer(block);
+
+@import "./segments/screen.css" layer(segment);
+@import "./segments/home.css" layer(segment);
+@import "./segments/editor.css" layer(segment);
+@import "./segments/timer.css" layer(segment);
+
+@import "./utils/a11y.css" layer(util);
+@import "./utils/states.css" layer(util);
+
+@font-face {
+  font-display: swap;
+  font-family: Anton;
+  font-style: normal;
+  font-weight: 400 400;
+  src: url("../fonts/anton-400.woff2") format("woff2");
+}

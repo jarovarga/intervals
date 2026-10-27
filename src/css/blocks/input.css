@@ -1,0 +1,51 @@
+.input {
+  background-color: var(--color-surface-variant);
+  border: 0;
+  border-radius: var(--radius-xl);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  inline-size: 100%;
+  min-block-size: 3rem;
+  min-inline-size: 0;
+  padding-inline: calc(var(--spacing) * 3);
+
+  @media (forced-colors: active) {
+    border: 1px solid;
+  }
+}
+
+.input--large {
+  min-block-size: 3.25rem;
+  padding-inline: calc(var(--spacing) * 3.5);
+}
+
+.input--time {
+  font-size: var(--text-xl);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-bold);
+  inline-size: 5.5rem;
+  text-align: end;
+}
+
+.input--small {
+  font-size: var(--text-lg);
+  inline-size: 4.75rem;
+  min-block-size: 2.75rem;
+}
+
+.input--rounds {
+  appearance: textfield;
+  font-size: var(--text-xl);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-bold);
+  inline-size: 3.5rem;
+  padding-inline: 0;
+  text-align: center;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: none;
+  }
+}

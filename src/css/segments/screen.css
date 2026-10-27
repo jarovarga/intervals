@@ -1,0 +1,19 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing) * 6);
+  margin-inline: auto;
+  max-inline-size: 32rem;
+  min-block-size: 100svh;
+  padding-block: calc(env(safe-area-inset-top) + var(--spacing) * 4)
+    calc(env(safe-area-inset-bottom) + var(--spacing) * 5);
+  padding-inline: calc(env(safe-area-inset-left) + var(--spacing) * 5)
+    calc(env(safe-area-inset-right) + var(--spacing) * 5);
+}
+
+.screen__heading {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}

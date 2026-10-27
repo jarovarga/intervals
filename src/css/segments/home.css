@@ -1,0 +1,18 @@
+.home__title {
+  font-size: var(--text-6xl);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--tracking-wide);
+  line-height: var(--leading-none);
+  margin-block-start: calc(var(--spacing) * 3);
+  text-transform: uppercase;
+}
+
+.home__list {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing) * 3);
+}
+
+.home__empty {
+  color: var(--color-text-muted);
+}

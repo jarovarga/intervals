@@ -1,0 +1,19 @@
+[data-phase="prepare"] {
+  --phase: var(--color-phase-prepare);
+}
+
+[data-phase="work"] {
+  --phase: var(--color-phase-work);
+}
+
+[data-phase="rest"] {
+  --phase: var(--color-phase-rest);
+}
+
+[data-phase="round"] {
+  --phase: var(--color-phase-round);
+}
+
+[data-phase="done"] {
+  --phase: var(--color-phase-done);
+}

@@ -1,0 +1,18 @@
+.swatch {
+  appearance: none;
+  background-color: var(--colour);
+  block-size: 2.75rem;
+  border-radius: 50%;
+  cursor: pointer;
+  inline-size: 2.75rem;
+
+  &:checked {
+    box-shadow:
+      0 0 0 3px var(--color-surface),
+      0 0 0 6px var(--color-text);
+
+    @media (forced-colors: active) {
+      outline: 4px solid;
+    }
+  }
+}
