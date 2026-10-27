@@ -2,6 +2,7 @@ import * as dialog from './modules/dialog.js';
 import * as editor from './modules/editor.js';
 import * as home from './modules/home.js';
 import * as install from './modules/install.js';
+import * as loader from './modules/loader.js';
 import * as marquee from './modules/marquee.js';
 import * as player from './modules/player.js';
 import * as router from './modules/router.js';
@@ -27,6 +28,8 @@ router.init('[data-view]', {
     })
   }
 });
+
+loader.init('[data-loader]', { timeout: 3000 });
 
 window.addEventListener(
   'load',

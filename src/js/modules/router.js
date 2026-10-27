@@ -43,7 +43,8 @@ export const navigate = (route, { replace = false } = {}) => {
 };
 
 /**
- * Show the view named by the current route and keep following it. Each view hides while another shows.
+ * Show the view named by the current route and keep following it. Each view hides while another shows, with a
+ * cross-fade between them where the browser supports view transitions.
  *
  * A page opened with a `#/…` address, such as a link opened in a new tab, shows that view and then drops the
  * address. A reload shows the same view again, because the history state survives it.
@@ -58,7 +59,7 @@ export const init = (selector, { views }) => {
   let active = null;
   let first = true;
 
-  render = () => {
+  const update = () => {
     const { name, params } = parse(history.state?.route ?? '/');
     const view = views[name] ?? views[HOME];
 
@@ -83,6 +84,16 @@ export const init = (selector, { views }) => {
     if (!first) view.element.querySelector('[tabindex="-1"]')?.focus({ preventScroll: true });
 
     first = false;
+  };
+
+  // The browser cross-fades the old and the new screen; where it cannot, or when motion is reduced, the screens switch.
+  render = () => {
+    if (first || !document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      update();
+      return;
+    }
+
+    document.startViewTransition(update);
   };
 
   // The route links are plain anchors, so that they stay links; the router follows them without changing the address.

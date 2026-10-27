@@ -19,6 +19,7 @@
 @import "./blocks/dialog.css" layer(block);
 @import "./blocks/install.css" layer(block);
 @import "./blocks/update.css" layer(block);
+@import "./blocks/loader.css" layer(block);
 
 @import "./modules/marquee.css" layer(module);
 
