@@ -6,6 +6,9 @@ html {
   overscroll-behavior-block: none;
   scroll-behavior: smooth;
   scrollbar-gutter: stable;
+
+  /* Stops the double-tap zoom on iOS and keeps pinch zoom for accessibility. */
+  touch-action: manipulation;
 }
 
 body {
