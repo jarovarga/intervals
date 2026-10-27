@@ -1,0 +1,35 @@
+[data-marquee] {
+  overflow: clip;
+  white-space: nowrap;
+}
+
+/* The padding keeps the text clear of the faded edges at both ends of the slide. */
+[data-marquee] > * {
+  display: inline-block;
+  padding-inline: calc(var(--spacing) * var(--marquee-fade, 6));
+}
+
+[data-marquee][data-overflowing] {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    oklch(0 0 0) calc(var(--spacing) * var(--marquee-fade, 6)),
+    oklch(0 0 0) calc(100% - calc(var(--spacing) * var(--marquee-fade, 6))),
+    transparent
+  );
+}
+
+/* Without motion the text stays still and is cut with an ellipsis instead. */
+@media (prefers-reduced-motion: reduce) {
+  [data-marquee] > * {
+    max-inline-size: 100%;
+    overflow: clip;
+    padding-inline: 0;
+    text-overflow: ellipsis;
+    vertical-align: top;
+  }
+
+  [data-marquee][data-overflowing] {
+    mask-image: none;
+  }
+}

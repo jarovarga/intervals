@@ -1,18 +1,16 @@
-/** Shortest time between two checks for a new version while the app stays open. */
-const CHECK_INTERVAL_MS = 60 * 60 * 1000;
-
 /**
  * Check for a new version whenever the app comes back to the foreground. A Home Screen app is resumed rather than
  * launched, so the browser would not look for an update by itself.
  *
  * @param {ServiceWorkerRegistration} registration Registration to check.
+ * @param {number} checkInterval Shortest time between two checks.
  * @returns {void}
  */
-const checkOnReturn = (registration) => {
+const checkOnReturn = (registration, checkInterval) => {
   let checkedAt = Date.now();
 
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState !== 'visible' || Date.now() - checkedAt < CHECK_INTERVAL_MS) return;
+    if (document.visibilityState !== 'visible' || Date.now() - checkedAt < checkInterval) return;
 
     checkedAt = Date.now();
     registration.update().catch((error) => console.warn('The update check failed.', error));
@@ -20,20 +18,47 @@ const checkOnReturn = (registration) => {
 };
 
 /**
+ * Unregister every service worker of this origin and delete its caches.
+ *
+ * @returns {Promise<void>}
+ */
+const removeAll = async () => {
+  try {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+
+    await Promise.all(registrations.map((registration) => registration.unregister()));
+    await Promise.all((await caches.keys()).map((name) => caches.delete(name)));
+  } catch (error) {
+    console.warn('The service worker could not be removed.', error);
+  }
+};
+
+/**
  * Registers the service worker that makes the app installable and available offline.
  *
  * @param {string} [path] Service worker URL relative to the document.
- * @returns {Promise<ServiceWorkerRegistration | undefined>} The registration, or nothing when it is unsupported or fails.
+ * @param {object} [options] Settings.
+ * @param {number} [options.checkInterval] Shortest time in milliseconds between two checks for a new version while the app stays open.
+ * @param {string[]} [options.bypassHosts] Host names on which no service worker runs and an earlier one is removed with its caches, so that development always loads the current files.
+ * @returns {Promise<ServiceWorkerRegistration | undefined>} The registration, or nothing when it is unsupported, bypassed or fails.
  */
-export const register = async (path = './service-worker.js') => {
+export const register = async (
+  path = './service-worker.js',
+  { checkInterval = 60 * 60 * 1000, bypassHosts = [] } = {}
+) => {
   if (!('serviceWorker' in navigator)) return undefined;
+
+  if (bypassHosts.includes(location.hostname)) {
+    await removeAll();
+    return undefined;
+  }
 
   try {
     const registration = await navigator.serviceWorker.register(new URL(path, document.baseURI).href, {
       updateViaCache: 'none'
     });
 
-    checkOnReturn(registration);
+    checkOnReturn(registration, checkInterval);
 
     return registration;
   } catch (error) {

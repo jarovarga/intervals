@@ -20,6 +20,8 @@
 @import "./blocks/install.css" layer(block);
 @import "./blocks/update.css" layer(block);
 
+@import "./modules/marquee.css" layer(module);
+
 @import "./segments/screen.css" layer(segment);
 @import "./segments/home.css" layer(segment);
 @import "./segments/editor.css" layer(segment);

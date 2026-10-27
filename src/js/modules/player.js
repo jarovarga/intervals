@@ -4,26 +4,11 @@ import { count } from './plural.js';
 import * as router from './router.js';
 import * as sound from './sound.js';
 import { formatClock, formatField, formatTotal } from './time.js';
-import { buildCues, buildTimeline, locate } from './timeline.js';
+import { buildCues, buildTimeline, COUNTDOWN_SECONDS, locate } from './timeline.js';
 import * as wakeLock from './wake-lock.js';
 import { buildSteps } from './workout.js';
 
 const MS = 1000;
-const TICK_MS = 200;
-/** How far ahead signals are handed to the audio clock. */
-const LOOKAHEAD_MS = 1000;
-/** A signal later than this is skipped rather than played out of time, for example after the page was hidden. */
-const STALE_MS = 500;
-const COUNTDOWN_SECONDS = 3;
-/** Previous restarts the current step when it is further in than this. */
-const RESTART_MS = 2000;
-const WIPE_MS = 320;
-const FLASH_MS = 360;
-const SETTLE_MS = 900;
-const PULSE_MS = 320;
-const SEGMENT_MS = 220;
-const SEGMENT_STAGGER_MS = 90;
-
 const PHASE_LABELS = {
   prepare: 'Get ready',
   work: 'Work',
@@ -37,9 +22,34 @@ const PHASE_LABELS = {
  * has passed and when it last resumed, so it stays exact when ticks are late or the page was hidden.
  *
  * @param {string} [selector] Selector of the timer view.
+ * @param {object} [options] Timing in milliseconds.
+ * @param {number} [options.tickInterval] Interval between redraws.
+ * @param {number} [options.lookahead] How far ahead signals are handed to the audio clock.
+ * @param {number} [options.stale] A signal later than this is skipped rather than played out of time, for example after the page was hidden.
+ * @param {number} [options.restartAfter] Previous restarts the current step when it is further in than this.
+ * @param {number} [options.wipeDuration] Duration of the colour wipe at a step change.
+ * @param {number} [options.flashDuration] Duration of the flash at a step change.
+ * @param {number} [options.settleDuration] Duration of the label settling at a step change.
+ * @param {number} [options.pulseDuration] Duration of the clock pulse in the final countdown.
+ * @param {number} [options.segmentDuration] Duration of one finished segment lighting up.
+ * @param {number} [options.segmentStagger] Delay between the segments lighting up.
  * @returns {import('./router.js').View} The view.
  */
-export const init = (selector = '[data-view="timer"]') => {
+export const init = (
+  selector = '[data-view="timer"]',
+  {
+    tickInterval = 200,
+    lookahead = 1000,
+    stale = 500,
+    restartAfter = 2000,
+    wipeDuration = 320,
+    flashDuration = 360,
+    settleDuration = 900,
+    pulseDuration = 320,
+    segmentDuration = 220,
+    segmentStagger = 90
+  } = {}
+) => {
   const element = document.querySelector(selector);
   const part = (name) => element.querySelector(`[data-${name}]`);
   const heading = part('heading');
@@ -98,12 +108,12 @@ export const init = (selector = '[data-view="timer"]') => {
     // Keep the cues until the audio runs, so that the first signals are not lost while it starts up.
     if (library.isSoundOn() && !sound.isRunning()) return;
 
-    while (nextCue < cues.length && cues[nextCue].at <= at + LOOKAHEAD_MS) {
+    while (nextCue < cues.length && cues[nextCue].at <= at + lookahead) {
       const cue = cues[nextCue];
 
       nextCue += 1;
 
-      if (cue.at >= at - STALE_MS) sound.play(cue.kind, Math.max(0, cue.at - at));
+      if (cue.at >= at - stale) sound.play(cue.kind, Math.max(0, cue.at - at));
     }
   };
 
@@ -235,10 +245,10 @@ export const init = (selector = '[data-view="timer"]') => {
 
     wipe.dataset.phase = previous;
     animate(wipe, [{ clipPath: 'inset(0 0 0 0)' }, { clipPath: 'inset(0 0 100% 0)' }], {
-      duration: WIPE_MS,
+      duration: wipeDuration,
       easing: curve
     });
-    animate(flash, [{ opacity: 0 }, { opacity: 0.35 }, { opacity: 0 }], { duration: FLASH_MS });
+    animate(flash, [{ opacity: 0 }, { opacity: 0.35 }, { opacity: 0 }], { duration: flashDuration });
     animate(
       label,
       [
@@ -246,14 +256,14 @@ export const init = (selector = '[data-view="timer"]') => {
         { transform: 'scale(0.98)', opacity: 1, offset: 0.65 },
         { transform: 'scale(1)', opacity: 1 }
       ],
-      { duration: SETTLE_MS, easing: easing('--ease-out', 'ease-out') }
+      { duration: settleDuration, easing: easing('--ease-out', 'ease-out') }
     );
 
     if (finished) {
       Array.from(segments.children).forEach((segment, position) => {
         animate(segment, [{ opacity: 0.2 }, { opacity: 1 }], {
-          duration: SEGMENT_MS,
-          delay: position * SEGMENT_STAGGER_MS,
+          duration: segmentDuration,
+          delay: position * segmentStagger,
           fill: 'backwards'
         });
       });
@@ -297,7 +307,7 @@ export const init = (selector = '[data-view="timer"]') => {
 
       if (!changed && isRunning() && seconds >= 1 && seconds <= COUNTDOWN_SECONDS) {
         animate(clock, [{ transform: 'scale(1)' }, { transform: 'scale(1.08)' }, { transform: 'scale(1)' }], {
-          duration: PULSE_MS,
+          duration: pulseDuration,
           easing: easing('--ease-out', 'ease-out')
         });
       }
@@ -347,7 +357,7 @@ export const init = (selector = '[data-view="timer"]') => {
     wakeLock.acquire();
     resumedAt = Date.now();
     clearInterval(timerId);
-    timerId = setInterval(tick, TICK_MS);
+    timerId = setInterval(tick, tickInterval);
     cancelAnimationFrame(frameId);
     frameId = requestAnimationFrame(follow);
     tick();
@@ -387,7 +397,7 @@ export const init = (selector = '[data-view="timer"]') => {
     }
 
     // Going back restarts the current step first, unless it has only just begun.
-    const restart = !finished && delta < 0 && elapsed() - timeline.starts[index] > RESTART_MS;
+    const restart = !finished && delta < 0 && elapsed() - timeline.starts[index] > restartAfter;
     const target = finished ? last : Math.min(last, Math.max(0, index + (restart ? 0 : delta)));
 
     jumpTo(timeline.starts[target]);

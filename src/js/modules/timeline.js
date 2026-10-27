@@ -1,5 +1,5 @@
 const MS = 1000;
-const COUNTDOWN_SECONDS = 3;
+export const COUNTDOWN_SECONDS = 3;
 
 /**
  * @typedef {import('./workout.js').Step} Step
