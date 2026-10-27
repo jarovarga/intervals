@@ -1,5 +1,6 @@
 import * as dialog from './dialog.js';
 import * as library from './library.js';
+import * as presets from './presets.js';
 import * as router from './router.js';
 import { formatField, formatTotal, parse } from './time.js';
 import { MAX_ROUNDS, createBlankWorkout, createExercise, totalSeconds } from './workout.js';
@@ -264,12 +265,14 @@ export const init = (selector = '[data-view="editor"]') => {
     element,
     title: () => `${isNew ? 'New' : 'Edit'} workout – Interval timer for circuit workouts`,
     show: ([id]) => {
-      const existing = id === 'new' ? undefined : library.getWorkout(id);
+      const existing = library.getWorkout(id);
+      // A preset stays as it is; editing it starts a new workout from a copy.
+      const copy = existing ? undefined : presets.copyPreset(id);
 
-      if (id !== 'new' && !existing) return false;
+      if (id !== 'new' && !existing && !copy) return false;
 
       isNew = !existing;
-      draft = structuredClone(existing ?? createBlankWorkout());
+      draft = structuredClone(existing ?? copy ?? createBlankWorkout());
       heading.textContent = isNew ? 'New workout' : 'Edit workout';
       action('delete').hidden = isNew;
       say();

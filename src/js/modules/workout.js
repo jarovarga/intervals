@@ -49,7 +49,7 @@ export const createExercise = (name = 'New exercise') => ({
  * @param {string} workoutName Workout name.
  * @returns {Workout} A workout with 30 s exercises, 10 s rest and a single round.
  */
-const createWorkout = (names, workoutName) => ({
+export const createWorkout = (names, workoutName) => ({
   id: createId(),
   name: workoutName,
   colour: COLOURS[0],

@@ -1,0 +1,43 @@
+.tabs__list {
+  background-color: var(--color-surface-raised);
+  border-radius: var(--radius-2xl);
+  display: flex;
+  gap: calc(var(--spacing) * 1);
+  padding: calc(var(--spacing) * 1);
+}
+
+.tabs__list > li {
+  display: flex;
+  flex: 1;
+}
+
+.tabs__link {
+  --icon-color: currentColor;
+  --icon-size: 1.125rem;
+
+  align-items: center;
+  border-radius: var(--radius-xl);
+  color: var(--color-text-muted);
+  display: flex;
+  flex: 1;
+  font-size: var(--text-lg);
+  gap: calc(var(--spacing) * 2);
+  justify-content: center;
+  min-block-size: 2.75rem;
+}
+
+.tabs__link[aria-current="page"] {
+  background-color: var(--color-surface-variant);
+  color: var(--color-text);
+  font-weight: var(--font-weight-bold);
+
+  @media (forced-colors: active) {
+    outline: 2px solid currentColor;
+  }
+}
+
+/* Anton sits low in its line box, so the icon is lowered to share the centre of the capitals. */
+.tabs__link [data-icon] {
+  inset-block-start: 0.125rem;
+  position: relative;
+}

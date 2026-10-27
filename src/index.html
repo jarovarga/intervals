@@ -26,7 +26,7 @@
 
         <div class="views">
             <div data-view="home" class="screen home" hidden>
-                <h1 tabindex="-1" class="home__title">Intervals</h1>
+                <h1 tabindex="-1" class="home__title"><img src="./assets/img/icon-96x96.png" width="96" height="96" alt="" class="home__logo">Intervals</h1>
 
                 <div role="status">
                     <div data-update class="panel panel--row update" hidden>
@@ -41,11 +41,31 @@
                     <button type="button" data-action="dismiss-install" class="button button--secondary button--compact install__dismiss">Not now</button>
                 </aside>
 
-                <h2 class="screen__heading">Workouts</h2>
-                <ul data-workouts class="home__list"></ul>
-                <p data-empty class="home__empty" hidden>No workouts yet.</p>
+                <nav class="tabs" aria-label="Sections">
+                    <ul class="tabs__list">
+                        <li><a href="#/" data-tab="workouts" class="tabs__link"><span data-icon="timer" aria-hidden="true"></span>Workouts</a></li>
+                        <li><a href="#/stats" data-tab="stats" class="tabs__link"><span data-icon="chart" aria-hidden="true"></span>Statistics</a></li>
+                    </ul>
+                </nav>
 
-                <a href="#/edit/new" class="button button--outline"><span data-icon="plus" aria-hidden="true"></span>New workout</a>
+                <div data-section="workouts" class="home__section">
+                    <section class="home__group" aria-labelledby="mine-title">
+                        <h2 id="mine-title" class="screen__heading">My workouts</h2>
+                        <ul data-workouts class="home__list"></ul>
+                        <a href="#/edit/new" data-create-first class="button button--outline" hidden><span data-icon="plus" aria-hidden="true"></span>Create workout</a>
+                    </section>
+
+                    <section class="home__group" aria-labelledby="presets-title">
+                        <h2 id="presets-title" class="screen__heading">Quick start</h2>
+                        <ul data-presets class="home__list"></ul>
+                    </section>
+
+                    <a href="#/edit/new" class="button button--outline"><span data-icon="plus" aria-hidden="true"></span>Create workout</a>
+                </div>
+
+                <div data-section="stats" class="home__section" hidden>
+                    <p class="screen__heading">Soon</p>
+                </div>
             </div>
 
             <div data-view="editor" class="screen editor" hidden>

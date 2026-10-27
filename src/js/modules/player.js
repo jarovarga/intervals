@@ -1,6 +1,7 @@
 import * as dialog from './dialog.js';
 import * as library from './library.js';
 import { count } from './plural.js';
+import * as presets from './presets.js';
 import * as router from './router.js';
 import * as sound from './sound.js';
 import { formatClock, formatField, formatTotal } from './time.js';
@@ -441,7 +442,7 @@ export const init = (
     element,
     title: () => `${workout?.name ?? 'Workout'} – Interval timer for circuit workouts`,
     show: ([id]) => {
-      const found = library.getWorkout(id);
+      const found = library.getWorkout(id) ?? presets.getPreset(id);
 
       if (!found || found.exercises.length === 0) return false;
 

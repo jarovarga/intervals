@@ -16,6 +16,7 @@ update.init('[data-update]');
 router.init('[data-view]', {
   views: {
     home: home.init('[data-view="home"]'),
+    stats: home.stats('[data-view="home"]'),
     edit: editor.init('[data-view="editor"]'),
     timer: player.init('[data-view="timer"]', {
       tickInterval: 200,

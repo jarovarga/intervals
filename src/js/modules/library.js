@@ -1,4 +1,4 @@
-import { createDefaultWorkout, readWorkout } from './workout.js';
+import { readWorkout } from './workout.js';
 
 const STORAGE_KEY = 'intervals:v1';
 const VERSION = 1;
@@ -21,7 +21,7 @@ const persist = () => {
 };
 
 /**
- * Read and validate the stored library, falling back to the default workout when nothing usable is stored.
+ * Read and validate the stored library, falling back to an empty library when nothing usable is stored.
  *
  * @returns {{ sound: boolean, workouts: import('./workout.js').Workout[] }} Library to work with.
  */
@@ -52,7 +52,7 @@ const read = () => {
     }
   }
 
-  const fresh = { sound: true, workouts: [createDefaultWorkout()] };
+  const fresh = { sound: true, workouts: [] };
 
   library = fresh;
   persist();
