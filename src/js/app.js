@@ -21,9 +21,6 @@ router.init('[data-view]', {
       lookahead: 1000,
       stale: 500,
       restartAfter: 2000,
-      wipeDuration: 320,
-      flashDuration: 360,
-      settleDuration: 900,
       pulseDuration: 320,
       segmentDuration: 220,
       segmentStagger: 90

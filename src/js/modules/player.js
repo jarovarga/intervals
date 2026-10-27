@@ -27,9 +27,6 @@ const PHASE_LABELS = {
  * @param {number} [options.lookahead] How far ahead signals are handed to the audio clock.
  * @param {number} [options.stale] A signal later than this is skipped rather than played out of time, for example after the page was hidden.
  * @param {number} [options.restartAfter] Previous restarts the current step when it is further in than this.
- * @param {number} [options.wipeDuration] Duration of the colour wipe at a step change.
- * @param {number} [options.flashDuration] Duration of the flash at a step change.
- * @param {number} [options.settleDuration] Duration of the label settling at a step change.
  * @param {number} [options.pulseDuration] Duration of the clock pulse in the final countdown.
  * @param {number} [options.segmentDuration] Duration of one finished segment lighting up.
  * @param {number} [options.segmentStagger] Delay between the segments lighting up.
@@ -42,9 +39,6 @@ export const init = (
     lookahead = 1000,
     stale = 500,
     restartAfter = 2000,
-    wipeDuration = 320,
-    flashDuration = 360,
-    settleDuration = 900,
     pulseDuration = 320,
     segmentDuration = 220,
     segmentStagger = 90
@@ -55,8 +49,6 @@ export const init = (
   const heading = part('heading');
   const clock = part('clock');
   const label = part('label');
-  const wipe = part('wipe');
-  const flash = part('flash');
   const segments = part('segments');
   const toggle = element.querySelector('[data-action="toggle"]');
   const soundButton = element.querySelector('[data-action="sound"]');
@@ -232,42 +224,15 @@ export const init = (
     return finished ? 'Workout complete' : `${PHASE_LABELS[phase]}, ${focus}`;
   };
 
-  /**
-   * Mark a change of step: the old colour drains away, the panel flashes and the label settles. The wipe, flash and
-   * settle are skipped for visitors who ask for reduced motion.
-   *
-   * @param {string} previous Phase that just ended.
-   * @param {boolean} finished Whether the workout is now over.
-   * @returns {void}
-   */
-  const animateStep = (previous, finished) => {
-    const curve = easing('--ease-in-out', 'ease-in-out');
-
-    wipe.dataset.phase = previous;
-    animate(wipe, [{ clipPath: 'inset(0 0 0 0)' }, { clipPath: 'inset(0 0 100% 0)' }], {
-      duration: wipeDuration,
-      easing: curve
-    });
-    animate(flash, [{ opacity: 0 }, { opacity: 0.35 }, { opacity: 0 }], { duration: flashDuration });
-    animate(
-      label,
-      [
-        { transform: 'scale(1.15)', opacity: 0.4 },
-        { transform: 'scale(0.98)', opacity: 1, offset: 0.65 },
-        { transform: 'scale(1)', opacity: 1 }
-      ],
-      { duration: settleDuration, easing: easing('--ease-out', 'ease-out') }
-    );
-
-    if (finished) {
-      Array.from(segments.children).forEach((segment, position) => {
-        animate(segment, [{ opacity: 0.2 }, { opacity: 1 }], {
-          duration: segmentDuration,
-          delay: position * segmentStagger,
-          fill: 'backwards'
-        });
+  /** Light the segments up one after another when the workout ends. A change of step itself is not animated. */
+  const animateFinish = () => {
+    Array.from(segments.children).forEach((segment, position) => {
+      animate(segment, [{ opacity: 0.2 }, { opacity: 1 }], {
+        duration: segmentDuration,
+        delay: position * segmentStagger,
+        fill: 'backwards'
       });
-    }
+    });
   };
 
   /** Move the progress bar to where the current step stands at the given time. */
@@ -292,7 +257,8 @@ export const init = (
       const announcement = renderStep(index, finished);
 
       if (shown) {
-        animateStep(shown.finished ? 'done' : steps[shown.index].type, finished);
+        if (finished) animateFinish();
+
         part('announce').textContent = announcement;
       }
 
