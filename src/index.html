@@ -23,8 +23,8 @@
     <body id="app">
         <noscript>This app requires JavaScript to run.</noscript>
 
-        <main>
-            <section data-view="home" class="screen home" hidden>
+        <div class="views">
+            <div data-view="home" class="screen home" hidden>
                 <h1 tabindex="-1" class="home__title">Intervals</h1>
 
                 <div role="status">
@@ -45,9 +45,9 @@
                 <p data-empty class="home__empty" hidden>No workouts yet.</p>
 
                 <a href="#/edit/new" class="button button--outline"><span data-icon="plus" aria-hidden="true"></span>New workout</a>
-            </section>
+            </div>
 
-            <section data-view="editor" class="screen editor" hidden>
+            <div data-view="editor" class="screen editor" hidden>
                 <form data-form class="editor__form" novalidate>
                     <div class="editor__bar">
                         <a href="#/" class="editor__cancel">Cancel</a>
@@ -125,9 +125,9 @@
 
                     <button type="button" data-action="delete" class="button button--outline button--danger">Delete workout</button>
                 </form>
-            </section>
+            </div>
 
-            <section data-view="timer" data-phase="prepare" class="screen timer" hidden>
+            <div data-view="timer" data-phase="prepare" class="screen timer" hidden>
                 <h2 tabindex="-1" data-heading class="visually-hidden">Workout</h2>
 
                 <div class="timer__bar">
@@ -164,8 +164,8 @@
                 </div>
 
                 <p data-announce class="visually-hidden" aria-live="polite"></p>
-            </section>
-        </main>
+            </div>
+        </div>
 
         <dialog data-dialog class="dialog" aria-labelledby="dialog-title">
             <form method="dialog" class="dialog__form">

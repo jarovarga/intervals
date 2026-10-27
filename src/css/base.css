@@ -24,7 +24,8 @@ body {
   position: relative;
 }
 
-main {
+/* The screens do not scroll sideways. */
+.views {
   overflow-x: clip;
 }
 
