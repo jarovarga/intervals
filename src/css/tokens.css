@@ -16,12 +16,12 @@
   --color-on-phase: oklch(0.178 0 0);
   --color-on-phase-track: oklch(0.178 0 0 / 0.16);
 
-  --color-border: oklch(0.41 0.003 286.3);
+  --color-border: oklch(0.52 0.003 286.3);
 
-  --color-phase-prepare: oklch(0.899 0.166 95.7);
-  --color-phase-work: oklch(0.914 0.203 126.7);
-  --color-phase-rest: oklch(0.706 0.187 32.3);
-  --color-phase-round: oklch(0.728 0.146 250.3);
+  --color-phase-prepare: oklch(0.849 0.151 81.3);
+  --color-phase-work: oklch(0.915 0.203 126.4);
+  --color-phase-rest: oklch(0.663 0.225 19.7);
+  --color-phase-round: oklch(0.754 0.139 232.7);
   --color-phase-done: oklch(0.961 0 0);
 
   --colour: var(--color-accent);
