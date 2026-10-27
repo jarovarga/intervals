@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Intervals",
+  "name": "Interval timer for circuit & tabata workouts",
   "short_name": "Intervals",
-  "description": "Timer for circuit workouts",
+  "description": "Interval timer for circuit, HIIT and Tabata workouts. Build your own workouts with rounds, work and rest, then follow them on a full-screen timer.",
   "lang": "en-GB",
   "dir": "ltr",
   "start_url": "./",

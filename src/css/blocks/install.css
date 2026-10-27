@@ -6,6 +6,10 @@
   color: var(--color-text-muted);
 }
 
+.install__name {
+  color: var(--color-accent);
+}
+
 .install__icon {
   --icon-color: var(--color-text);
   --icon-size: 1.125rem;

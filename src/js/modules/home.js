@@ -66,7 +66,7 @@ export const init = (selector = '[data-view="home"]') => {
 
   return {
     element,
-    title: () => 'Intervals',
+    title: () => 'Interval timer for circuit & tabata workouts',
     show: render
   };
 };
