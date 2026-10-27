@@ -3,7 +3,7 @@
   border-radius: var(--radius-3xl);
   display: flex;
   flex-direction: column;
-  gap: calc(var(--spacing) * 4.5);
+  gap: calc(var(--spacing) * 4);
   padding: calc(var(--spacing) * 5);
 }
 

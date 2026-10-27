@@ -10,6 +10,7 @@
   min-block-size: 3rem;
   min-inline-size: 0;
   padding-inline: calc(var(--spacing) * 3);
+  text-overflow: ellipsis;
 
   @media (forced-colors: active) {
     border: 1px solid;

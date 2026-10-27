@@ -41,9 +41,11 @@
 }
 
 .editor__swatches {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: calc(var(--spacing) * 3);
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  justify-items: center;
 }
 
 .editor__exercises {
@@ -54,12 +56,9 @@
   min-inline-size: 0;
 }
 
+/* A legend is not a flex item, so the gap of the fieldset does not apply; this matches the label and gap of a panel. */
 .editor__legend {
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: var(--tracking-wider);
-  margin-block-end: calc(var(--spacing) * 3);
-  text-transform: uppercase;
+  margin-block-end: calc(var(--spacing) * 4);
 }
 
 .editor__list {
