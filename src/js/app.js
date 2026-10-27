@@ -5,9 +5,11 @@ import * as install from './modules/install.js';
 import * as player from './modules/player.js';
 import * as router from './modules/router.js';
 import * as serviceWorker from './modules/service-worker.js';
+import * as update from './modules/update.js';
 
 dialog.init('[data-dialog]');
 install.init('[data-install]');
+update.init('[data-update]');
 router.init('[data-view]', {
   views: {
     home: home.init('[data-view="home"]'),

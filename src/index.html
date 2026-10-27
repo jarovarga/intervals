@@ -27,6 +27,13 @@
             <section data-view="home" class="screen home" hidden>
                 <h1 tabindex="-1" class="home__title">Intervals</h1>
 
+                <div role="status">
+                    <div data-update class="panel panel--row update" hidden>
+                        <p class="update__text">A new version is ready.</p>
+                        <button type="button" data-action="reload" class="button button--primary button--compact">Reload</button>
+                    </div>
+                </div>
+
                 <aside data-install class="panel install" aria-labelledby="install-title" hidden>
                     <h2 id="install-title" class="install__title">Install Intervals</h2>
                     <p class="install__text">Tap <span data-icon="share" class="install__icon" aria-hidden="true"></span>Share, then Add to Home Screen to open Intervals full screen like an app.</p>

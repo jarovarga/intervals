@@ -18,6 +18,7 @@
 @import "./blocks/workout.css" layer(block);
 @import "./blocks/dialog.css" layer(block);
 @import "./blocks/install.css" layer(block);
+@import "./blocks/update.css" layer(block);
 
 @import "./segments/screen.css" layer(segment);
 @import "./segments/home.css" layer(segment);
