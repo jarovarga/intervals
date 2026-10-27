@@ -1,0 +1,19 @@
+.install__title {
+  font-size: var(--text-xl);
+}
+
+.install__text {
+  color: var(--color-text-muted);
+}
+
+.install__icon {
+  --icon-color: var(--color-text);
+  --icon-size: 1.125rem;
+
+  margin-inline: calc(var(--spacing) * 1);
+  vertical-align: text-bottom;
+}
+
+.install__dismiss {
+  align-self: flex-start;
+}

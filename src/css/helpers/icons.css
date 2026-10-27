@@ -16,8 +16,8 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *
- * The arrow-down, arrow-up, plus, minus and x (close) icons are derived from
- * the Feather project and fall under the MIT License:
+ * The arrow-down, arrow-up, plus, minus, share and x (close) icons are derived
+ * from the Feather project and fall under the MIT License:
  *
  * Copyright (c) 2013-present Cole Bemis
  *
@@ -108,4 +108,8 @@
 
 [data-icon="pause"] {
   --icon-source: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Crect x='5.5' y='4' width='4.5' height='16' rx='1.2'/%3E%3Crect x='14' y='4' width='4.5' height='16' rx='1.2'/%3E%3C/svg%3E");
+}
+
+[data-icon="share"] {
+  --icon-source: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13'/%3E%3C/svg%3E");
 }
