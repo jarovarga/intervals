@@ -1,0 +1,104 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "referenceFiles": ["src/css/tokens.css"],
+  "plugins": ["stylelint-order"],
+  "rules": {
+    "alpha-value-notation": "number",
+    "at-rule-empty-line-before": null,
+    "color-named": "never",
+    "color-no-hex": true,
+    "comment-empty-line-before": null,
+    "custom-property-empty-line-before": null,
+    "custom-property-pattern": [
+      "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:--[a-z][a-z0-9]*(?:-[a-z0-9]+)*)?$",
+      {
+        "message": "Expected kebab-case with an optional --modifier suffix"
+      }
+    ],
+    "declaration-empty-line-before": null,
+    "declaration-no-important": true,
+    "declaration-property-unit-disallowed-list": {
+      "font-size": ["px"],
+      "/^(?:min-|max-)?(?:block|inline)-size$/": ["em"],
+      "/^inset(?:-.+)?$/": ["em"]
+    },
+    "declaration-property-value-allowed-list": {
+      "/^(?:font-size|line-height)$/": ["/^var\\(--/", "/^clamp\\(\\s*var\\(--/", "inherit"],
+      "font-weight": ["/^var\\(--/", "/^\\d+ \\d+$/"],
+      "letter-spacing": ["/^var\\(--/", "inherit"],
+      "/^border(?:-[a-z]+){0,2}-radius$/": ["/^var\\(--/", "0", "50%", "inherit"],
+      "/^(?:transition|animation)-timing-function$/": ["/^var\\(--/"]
+    },
+    "declaration-property-value-disallowed-list": {
+      "/^transition(?:-property)?$/": ["/\\ball\\b/", "/(?<![\\w-])\\d*\\.?\\d+m?s\\b/"],
+      "/^(?:padding|margin)(?:-.+)?$|^(?:row-|column-)?gap$/": [
+        "/^(?![\\s\\S]*\\b(?:clamp|min|max)\\()[\\s\\S]*\\d*\\.?\\d+(?:px|rem|em)\\b/",
+        "/\\d(?:px|em)\\b/"
+      ],
+      "/^(?:(?:min-|max-)?(?:block|inline)-size|inset(?:-.+)?)$/": ["/(?<![\\d.])-?(?!1px\\b)\\d*\\.?\\d+px\\b/"],
+      "container-type": ["size"],
+      "container": ["/\\/\\s*size\\b/"],
+      "/^outline(?:-style|-width)?$/": ["none", "0"],
+      "overflow-x": ["hidden"],
+      "font-display": ["/^(?!swap$).+/"]
+    },
+    "font-weight-notation": "numeric",
+    "function-disallowed-list": ["rgb", "rgba", "hsl", "hsla", "hwb", "lab", "lch"],
+    "function-url-no-scheme-relative": true,
+    "hue-degree-notation": "number",
+    "import-notation": "string",
+    "keyframes-name-pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+    "lightness-notation": "number",
+    "max-nesting-depth": [
+      2,
+      {
+        "ignore": ["blockless-at-rules", "pseudo-classes"],
+        "ignoreAtRules": ["media", "supports", "container"]
+      }
+    ],
+    "no-empty-source": null,
+    "no-unknown-animations": true,
+    "no-unknown-custom-media": true,
+    "no-unknown-custom-properties": true,
+    "property-disallowed-list": ["float"],
+    "property-no-vendor-prefix": [
+      true,
+      {
+        "ignoreProperties": ["/^-moz-/", "/^-webkit-/"]
+      }
+    ],
+    "rule-empty-line-before": null,
+    "selector-class-pattern": [
+      "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:__[a-z0-9]+(?:-[a-z0-9]+)*)?(?:--[a-z0-9]+(?:-[a-z0-9]+)*(?:_[a-z0-9]+(?:-[a-z0-9]+)*)?)?$",
+      {
+        "message": "Expected class selector to use BEM notation"
+      }
+    ],
+    "selector-max-combinators": 2,
+    "selector-max-compound-selectors": 4,
+    "selector-max-id": 0,
+    "selector-max-specificity": "0,3,1",
+    "selector-nested-pattern": "^&",
+    "selector-no-qualifying-type": true,
+    "unit-disallowed-list": ["vh"],
+    "value-keyword-case": [
+      "lower",
+      {
+        "camelCaseSvgKeywords": true,
+        "ignoreProperties": ["/^--font/"]
+      }
+    ],
+    "order/properties-order": [
+      [
+        {
+          "properties": ["font-smoothing"],
+          "noEmptyLineBetween": true
+        }
+      ],
+      {
+        "unspecified": "bottomAlphabetical",
+        "emptyLineBeforeUnspecified": "always"
+      }
+    ]
+  }
+}

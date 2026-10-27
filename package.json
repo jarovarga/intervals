@@ -1,0 +1,37 @@
+{
+  "version": "1.0.0",
+  "private": true,
+  "author": "Jaro Varga (https://github.com/jarovarga)",
+  "license": "ISC",
+  "type": "module",
+  "engines": {
+    "node": "^22.22.0 || >=24.8.0"
+  },
+  "scripts": {
+    "build": "node build.js",
+    "watch": "node build.js --watch",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "fix:css": "stylelint \"src/css/**/*.css\" --fix",
+    "lint:css": "stylelint \"src/css/**/*.css\" --max-warnings 0",
+    "lint:js": "eslint build.js eslint.config.js src/js src/service-worker.js tests --max-warnings 0",
+    "lint:html": "html-validate \"src/**/*.html\" --max-warnings 0",
+    "lint": "npm run lint:css && npm run lint:js && npm run lint:html",
+    "test": "node --test tests/"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.11.0",
+    "globals": "^17.13.0",
+    "html-minifier-terser": "^7.2.0",
+    "html-validate": "^11.15.0",
+    "prettier": "3.9.6",
+    "stylelint": "^17.15.0",
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-order": "^8.1.1"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}

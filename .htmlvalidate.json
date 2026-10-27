@@ -1,0 +1,47 @@
+{
+  "root": true,
+  "extends": ["html-validate:recommended", "html-validate:document"],
+  "rules": {
+    "allowed-links": [
+      "error",
+      {
+        "allowExternal": {
+          "include": ["^https://"]
+        },
+        "allowRelative": {
+          "include": ["^(?:[.]/|mailto:|tel:)"]
+        },
+        "allowAbsolute": false,
+        "allowBase": true
+      }
+    ],
+    "attr-pattern": [
+      "error",
+      {
+        "pattern": "[a-z][a-z0-9]*(?:-[a-z0-9]+)*",
+        "ignoreForeign": true
+      }
+    ],
+    "attr-quotes": [
+      "error",
+      {
+        "style": "double",
+        "unquoted": false
+      }
+    ],
+    "class-pattern": [
+      "error",
+      {
+        "pattern": "/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:__[a-z0-9]+(?:-[a-z0-9]+)*)?(?:--[a-z0-9]+(?:-[a-z0-9]+)*(?:_[a-z0-9]+(?:-[a-z0-9]+)*)?)?$/"
+      }
+    ],
+    "deprecated-rule": "error",
+    "doctype-style": ["error", { "style": "lowercase" }],
+    "id-pattern": ["error", { "pattern": "kebabcase" }],
+    "name-pattern": ["error", { "pattern": "kebabcase" }],
+    "no-autoplay": ["error", { "include": ["audio"] }],
+    "no-style-tag": ["error", { "allowTemplate": false }],
+    "no-unknown-elements": "error",
+    "require-sri": ["error", { "target": "crossorigin" }]
+  }
+}

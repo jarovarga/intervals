@@ -1,0 +1,73 @@
+# Project files #
+#################
+
+# Deployment
+.env
+debug.log
+
+# Build output
+/public/index.html
+/public/app.webmanifest
+/public/service-worker.js
+/public/assets/
+
+# AI assistant files #
+######################
+
+# Claude Code
+.claude/CLAUDE.local.md
+.claude/settings.local.json
+
+# OS system files #
+###################
+
+# macOS
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
+._*
+Icon?
+
+# Linux
+.directory
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Editor & IDE files #
+######################
+
+# Vim
+*~
+*.swo
+*.swp
+
+# Sublime Text & TextMate
+*.sublime-*
+*.stTheme.cache
+*.tmlanguage.cache
+*.tmPreferences.cache
+
+# Eclipse
+.settings/
+
+# JetBrains
+.idea/
+.phpstorm.meta.php/
+
+# NetBeans
+nbproject/
+
+# Visual Studio Code
+.vscode/
+
+# Nova
+.nova/
+
+# Development tool artifacts #
+##############################
+
+# Node.js
+node_modules/
