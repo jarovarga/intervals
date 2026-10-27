@@ -281,18 +281,3 @@ body:has(.timer:not([hidden])) {
     padding: 0 calc(var(--spacing) * 1);
   }
 }
-
-.timer[data-phase="rest"] .timer__label,
-.timer[data-phase="round"] .timer__label {
-  animation: timer-breathe 4s var(--ease-in-out) 0.9s infinite;
-}
-
-.timer[data-paused] .timer__label {
-  animation-play-state: paused;
-}
-
-@keyframes timer-breathe {
-  50% {
-    transform: scale(1.07);
-  }
-}

@@ -195,8 +195,13 @@ export const init = (
     const total = workout.exercises.length;
     const phase = finished ? 'done' : step.type;
     const done = finished ? total : step.exercise;
-    const focus =
-      !finished && step.type === 'work' ? workout.exercises[step.exercise].name : `${done} of ${total} done`;
+    let focus = `${done} of ${total} done`;
+
+    if (!finished && step.type === 'work') {
+      focus = workout.exercises[step.exercise].name;
+    } else if (!finished && step.type === 'rest') {
+      focus = '';
+    }
 
     element.dataset.phase = phase;
     label.textContent = PHASE_LABELS[phase];
@@ -221,7 +226,7 @@ export const init = (
     );
     renderNext(index, finished);
 
-    return finished ? 'Workout complete' : `${PHASE_LABELS[phase]}, ${focus}`;
+    return finished ? 'Workout complete' : [PHASE_LABELS[phase], focus].filter(Boolean).join(', ');
   };
 
   /** Light the segments up one after another when the workout ends. A change of step itself is not animated. */
