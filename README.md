@@ -1,6 +1,6 @@
 # Intervals
 
-PWA interval timer for circuit & tabata workouts: build your own routines, then train with a full-screen timer, even offline.
+PWA interval timer for circuit workouts: build your own routines, then train with a full-screen timer, even offline.
 
 Open it at [jarovarga.github.io/intervals](https://jarovarga.github.io/intervals/) and add it to the Home Screen to use it like an app.
 

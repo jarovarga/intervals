@@ -434,7 +434,7 @@ export const init = (
 
   return {
     element,
-    title: () => `${workout?.name ?? 'Workout'} – Interval timer for circuit & tabata workouts`,
+    title: () => `${workout?.name ?? 'Workout'} – Interval timer for circuit workouts`,
     show: ([id]) => {
       const found = library.getWorkout(id);
 

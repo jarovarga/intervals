@@ -262,7 +262,7 @@ export const init = (selector = '[data-view="editor"]') => {
 
   return {
     element,
-    title: () => `${isNew ? 'New' : 'Edit'} workout – Interval timer for circuit & tabata workouts`,
+    title: () => `${isNew ? 'New' : 'Edit'} workout – Interval timer for circuit workouts`,
     show: ([id]) => {
       const existing = id === 'new' ? undefined : library.getWorkout(id);
 
