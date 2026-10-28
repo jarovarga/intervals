@@ -39,8 +39,8 @@
 .workout__actions {
   display: flex;
   gap: calc(var(--spacing) * 3);
+}
 
-  & > :first-child {
-    flex: 1;
-  }
+.workout__start {
+  flex: 1;
 }

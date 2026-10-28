@@ -29,9 +29,11 @@
                 <h1 tabindex="-1" class="intro__title"><img src="./assets/img/icon-96x96.png" width="96" height="96" alt="" class="intro__logo">Intervals</h1>
 
                 <div role="status">
-                    <div data-notice="update" class="panel panel--row update" hidden>
-                        <p class="update__text">A new version is ready.</p>
-                        <button type="button" data-action="reload" class="button button--accent button--compact">Reload</button>
+                    <div data-notice="update" class="panel update" hidden>
+                        <div class="panel__block">
+                            <p class="update__text">A new version is ready.</p>
+                            <button type="button" data-action="reload" class="button button--accent button--compact">Reload</button>
+                        </div>
                     </div>
                 </div>
 
@@ -73,7 +75,7 @@
                     <div class="editor__bar">
                         <a href="#/" class="editor__cancel">Cancel</a>
                         <h2 tabindex="-1" data-title="editor" class="editor__title">Edit workout</h2>
-                        <button type="submit" class="button button--accent button--compact">Save</button>
+                        <button type="submit" class="button button--accent button--compact editor__save">Save</button>
                     </div>
 
                     <p id="time-hint" class="editor__hint">Type 30 for 30 seconds or 1:30 for 1 minute 30 seconds.</p>
@@ -85,7 +87,7 @@
                     </div>
 
                     <div class="panel">
-                        <fieldset class="panel__group">
+                        <fieldset>
                             <legend class="panel__label panel__legend">Colour</legend>
                             <div class="editor__swatches">
                                 <input type="radio" name="colour" data-colour="green" value="green" class="swatch" aria-label="Green">
@@ -98,12 +100,14 @@
                         </fieldset>
                     </div>
 
-                    <div class="panel panel--row">
-                        <div class="panel__text">
-                            <label for="prepare-time" class="panel__title">Get ready</label>
-                            <span class="panel__note">Countdown before the start</span>
+                    <div class="panel">
+                        <div class="panel__block">
+                            <div class="panel__text">
+                                <label for="prepare-time" class="panel__title">Get ready</label>
+                                <span class="panel__note">Countdown before the start</span>
+                            </div>
+                            <input type="text" autocomplete="off" inputmode="numeric" data-field="prepare" id="prepare-time" class="input input--time" aria-describedby="time-hint">
                         </div>
-                        <input type="text" autocomplete="off" inputmode="numeric" data-field="prepare" id="prepare-time" class="input input--time" aria-describedby="time-hint">
                     </div>
 
                     <fieldset class="editor__exercises">
@@ -112,16 +116,18 @@
                         <button type="button" data-action="add" data-icon="plus" class="button">Add exercise</button>
                     </fieldset>
 
-                    <div class="panel panel--row">
-                        <div class="panel__text">
-                            <label for="rest-time" class="panel__title">Rest</label>
-                            <span class="panel__note">Between exercises</span>
+                    <div class="panel">
+                        <div class="panel__block">
+                            <div class="panel__text">
+                                <label for="rest-time" class="panel__title">Rest</label>
+                                <span class="panel__note">Between exercises</span>
+                            </div>
+                            <input type="text" autocomplete="off" inputmode="numeric" data-field="rest" id="rest-time" class="input input--time" aria-describedby="time-hint">
                         </div>
-                        <input type="text" autocomplete="off" inputmode="numeric" data-field="rest" id="rest-time" class="input input--time" aria-describedby="time-hint">
                     </div>
 
                     <div class="panel">
-                        <div class="panel__row">
+                        <div class="panel__block">
                             <div class="panel__text">
                                 <label for="rounds" class="panel__title">Rounds</label>
                                 <span id="rounds-hint" class="panel__note">Repeat the whole circuit</span>
@@ -132,7 +138,7 @@
                                 <button type="button" data-action="more-rounds" data-icon="plus" class="button button--square" aria-controls="rounds" aria-label="More rounds"></button>
                             </div>
                         </div>
-                        <div class="panel__row panel__row--divided">
+                        <div class="panel__block panel__block--divided">
                             <div class="panel__text">
                                 <label for="round-rest-time" class="panel__title">Cooldown</label>
                                 <span class="panel__note">Between rounds</span>
@@ -143,7 +149,7 @@
 
                     <p class="editor__total">
                         <span class="editor__total-label">Total time</span>
-                        <output for="prepare-time rest-time rounds round-rest-time" data-total="editor">0:00</output>
+                        <output for="prepare-time rest-time rounds round-rest-time" data-total="editor" class="editor__total-value">0:00</output>
                     </p>
 
                     <button type="button" data-action="delete" class="button button--outline button--danger">Delete workout</button>
@@ -208,7 +214,7 @@
                     <p data-meta="workout" class="workout__meta"></p>
                 </div>
                 <div class="workout__actions">
-                    <a href="#/timer" data-start="workout" data-icon="play" class="button button--accent">Start</a>
+                    <a href="#/timer" data-start="workout" data-icon="play" class="button button--accent workout__start">Start</a>
                     <a href="#/edit" data-edit="workout" data-icon="pencil" class="button">Edit</a>
                 </div>
             </li>

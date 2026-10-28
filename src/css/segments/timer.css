@@ -11,6 +11,20 @@ body:has(.timer:not([hidden])) {
   padding-block-start: calc(env(safe-area-inset-top) + var(--spacing) * 7);
   padding-inline: calc(env(safe-area-inset-left) + var(--spacing) * 2)
     calc(env(safe-area-inset-right) + var(--spacing) * 2);
+
+  /* A phone held sideways: the panel fills the left, the controls stack on the right. */
+  @media (orientation: landscape) and (height <= 32rem) {
+    column-gap: calc(var(--spacing) * 2.5);
+    grid-template-columns: minmax(0, 1fr) 14.75rem;
+    grid-template-rows: auto 1fr auto auto;
+    max-inline-size: none;
+    min-block-size: 100svh;
+    padding-block: calc(var(--spacing) * 3);
+
+    &.screen {
+      display: grid;
+    }
+  }
 }
 
 .timer__bar {
@@ -19,6 +33,10 @@ body:has(.timer:not([hidden])) {
   gap: calc(var(--spacing) * 3);
   justify-content: space-between;
   padding-inline: calc(var(--spacing) * 2);
+
+  @media (orientation: landscape) and (height <= 32rem) {
+    grid-column: 2;
+  }
 }
 
 .timer__remaining {
@@ -32,7 +50,7 @@ body:has(.timer:not([hidden])) {
 }
 
 .timer__panel {
-  background-color: var(--color-phase);
+  background-color: var(--color-phase, var(--color-accent));
   border-radius: var(--radius-4xl);
   color: var(--color-on-phase);
   display: flex;
@@ -41,6 +59,12 @@ body:has(.timer:not([hidden])) {
   min-block-size: 0;
   overflow: clip;
   padding: calc(var(--spacing) * 5);
+
+  @media (orientation: landscape) and (height <= 32rem) {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    padding: calc(var(--spacing) * 3.5) calc(var(--spacing) * 4.5);
+  }
 }
 
 .timer__label {
@@ -57,6 +81,10 @@ body:has(.timer:not([hidden])) {
   text-align: center;
   text-transform: uppercase;
   text-wrap: balance;
+
+  @media (orientation: landscape) and (height <= 32rem) {
+    font-size: var(--text-5xl);
+  }
 }
 
 /* The label and the detail share the free space equally, which keeps the clock in the middle of the panel. */
@@ -69,6 +97,11 @@ body:has(.timer:not([hidden])) {
   min-block-size: 0;
   padding-block-start: calc(var(--spacing) * 2);
   text-align: center;
+
+  @media (orientation: landscape) and (height <= 32rem) {
+    gap: calc(var(--spacing) * 1);
+    padding-block-start: calc(var(--spacing) * 1);
+  }
 }
 
 .timer__clock {
@@ -78,6 +111,10 @@ body:has(.timer:not([hidden])) {
   line-height: var(--leading-clock);
   text-align: center;
   white-space: nowrap;
+
+  @media (orientation: landscape) and (height <= 32rem) {
+    font-size: clamp(var(--text-7xl), 42svh, var(--text-clock-wide));
+  }
 }
 
 .timer__progress {
@@ -127,7 +164,7 @@ body:has(.timer:not([hidden])) {
 }
 
 .timer__next {
-  background-color: var(--color-phase);
+  background-color: var(--color-phase, var(--color-accent));
   border-radius: var(--radius-3xl);
   color: var(--color-on-phase);
   display: flex;
@@ -135,6 +172,12 @@ body:has(.timer:not([hidden])) {
   gap: calc(var(--spacing) * 0.5);
   padding: calc(var(--spacing) * 3) calc(var(--spacing) * 4) calc(var(--spacing) * 3.5);
   text-align: center;
+
+  @media (orientation: landscape) and (height <= 32rem) {
+    grid-column: 2;
+    justify-content: center;
+    text-align: start;
+  }
 }
 
 .timer__next-label {
@@ -149,6 +192,12 @@ body:has(.timer:not([hidden])) {
   letter-spacing: var(--tracking-wide);
   line-height: var(--leading-tight);
   text-transform: uppercase;
+
+  @media (orientation: landscape) and (height <= 32rem) {
+    --marquee-fade: 0;
+
+    white-space: normal;
+  }
 }
 
 .timer__next-sub {
@@ -157,6 +206,10 @@ body:has(.timer:not([hidden])) {
   overflow: clip;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  @media (orientation: landscape) and (height <= 32rem) {
+    white-space: normal;
+  }
 }
 
 .timer__steps {
@@ -164,6 +217,11 @@ body:has(.timer:not([hidden])) {
   display: flex;
   gap: calc(var(--spacing) * 3);
   padding: calc(var(--spacing) * 3) calc(var(--spacing) * 2) 0;
+
+  @media (orientation: landscape) and (height <= 32rem) {
+    grid-column: 2;
+    padding: 0 calc(var(--spacing) * 1);
+  }
 }
 
 .timer__segments {
@@ -194,7 +252,7 @@ body:has(.timer:not([hidden])) {
 }
 
 .timer__segment--current {
-  background-color: var(--color-phase);
+  background-color: var(--color-phase, var(--color-accent));
 }
 
 .timer__round {
@@ -212,71 +270,10 @@ body:has(.timer:not([hidden])) {
   gap: calc(var(--spacing) * 8);
   justify-content: center;
   padding-block: calc(var(--spacing) * 2.5) calc(var(--spacing) * 1);
-}
 
-/* A phone held sideways: the panel fills the left, the controls stack on the right. */
-@media (orientation: landscape) and (height <= 32rem) {
-  .timer {
-    column-gap: calc(var(--spacing) * 2.5);
-    grid-template-columns: minmax(0, 1fr) 14.75rem;
-    grid-template-rows: auto 1fr auto auto;
-    max-inline-size: none;
-    min-block-size: 100svh;
-    padding-block: calc(var(--spacing) * 3);
-  }
-
-  .timer.screen {
-    display: grid;
-  }
-
-  .timer__panel {
-    border-radius: var(--radius-4xl);
-    grid-column: 1;
-    grid-row: 1 / -1;
-    padding: calc(var(--spacing) * 3.5) calc(var(--spacing) * 4.5);
-  }
-
-  .timer__bar,
-  .timer__next,
-  .timer__steps,
-  .timer__controls {
-    grid-column: 2;
-  }
-
-  .timer__label {
-    font-size: var(--text-5xl);
-  }
-
-  .timer__detail {
-    gap: calc(var(--spacing) * 1);
-    padding-block-start: calc(var(--spacing) * 1);
-  }
-
-  .timer__clock {
-    font-size: clamp(var(--text-7xl), 42svh, var(--text-clock-wide));
-  }
-
-  .timer__next {
-    justify-content: center;
-    text-align: start;
-  }
-
-  .timer__next-title {
-    --marquee-fade: 0;
-
-    white-space: normal;
-  }
-
-  .timer__next-sub {
-    white-space: normal;
-  }
-
-  .timer__steps {
-    padding: 0 calc(var(--spacing) * 1);
-  }
-
-  .timer__controls {
+  @media (orientation: landscape) and (height <= 32rem) {
     gap: calc(var(--spacing) * 3);
+    grid-column: 2;
     justify-content: space-between;
     padding: 0 calc(var(--spacing) * 1);
   }
