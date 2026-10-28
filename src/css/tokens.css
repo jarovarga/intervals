@@ -17,7 +17,6 @@
   --color-border: oklch(0.52 0.003 286.3);
   --color-scrim: oklch(0 0 0 / 0.6);
 
-  --color-phase: var(--color-accent);
   --color-phase-done: oklch(0.961 0 0);
   --color-phase-prepare: oklch(0.849 0.151 81.3);
   --color-phase-rest: oklch(0.663 0.225 19.7);
