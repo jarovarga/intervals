@@ -5,7 +5,7 @@
  * @param {string} [selector] Selector of the notice.
  * @returns {void}
  */
-export const init = (selector = '[data-update]') => {
+export const init = (selector = '[data-notice="update"]') => {
   if (!('serviceWorker' in navigator)) return;
 
   const element = document.querySelector(selector);

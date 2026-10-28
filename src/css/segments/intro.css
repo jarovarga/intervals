@@ -1,4 +1,4 @@
-.home__title {
+.intro__title {
   align-items: center;
   display: flex;
   font-size: var(--text-3xl);
@@ -10,25 +10,25 @@
   text-transform: uppercase;
 }
 
-.home__logo {
+.intro__logo {
   block-size: 2.5rem;
   border-radius: var(--radius-lg);
   inline-size: 2.5rem;
 }
 
-.home__section {
+.intro__section {
   display: flex;
   flex-direction: column;
   gap: calc(var(--spacing) * 6);
 }
 
-.home__group {
+.intro__group {
   display: flex;
   flex-direction: column;
   gap: calc(var(--spacing) * 3);
 }
 
-.home__list {
+.intro__list {
   display: flex;
   flex-direction: column;
   gap: calc(var(--spacing) * 3);

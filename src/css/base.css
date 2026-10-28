@@ -34,7 +34,7 @@ body {
 }
 
 /* The screens do not scroll sideways. */
-.views {
+.screens {
   overflow-x: clip;
 }
 

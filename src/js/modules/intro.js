@@ -18,9 +18,9 @@ const describe = (workout) =>
   ].join(' · ');
 
 /**
- * Show one section of the home view and mark its tab as the current page.
+ * Show one section of the intro screen and mark its tab as the current page.
  *
- * @param {HTMLElement} element The home view.
+ * @param {HTMLElement} element The intro screen.
  * @param {string} name Section to show.
  * @returns {void}
  */
@@ -38,14 +38,14 @@ const showSection = (element, name) => {
 };
 
 /**
- * The statistics section of the home view.
+ * The statistics section of the intro screen.
  *
- * @param {string} [selector] Selector of the home view.
+ * @param {string} [selector] Selector of the intro screen.
  * @param {object} options Settings.
  * @param {string} options.appTitle Title of the app, which ends every page title.
- * @returns {import('./router.js').View} The view.
+ * @returns {import('./router.js').Screen} The screen.
  */
-export const stats = (selector = '[data-view="home"]', { appTitle } = {}) => {
+export const stats = (selector = '[data-screen="intro"]', { appTitle } = {}) => {
   const element = document.querySelector(selector);
 
   return {
@@ -58,21 +58,21 @@ export const stats = (selector = '[data-view="home"]', { appTitle } = {}) => {
 /**
  * The presets and the saved workouts with their Start and Edit links.
  *
- * @param {string} [selector] Selector of the home view.
+ * @param {string} [selector] Selector of the intro screen.
  * @param {object} options Settings.
- * @param {string} options.appTitle Title of the app, which is the page title of this view.
- * @returns {import('./router.js').View} The view.
+ * @param {string} options.appTitle Title of the app, which is the page title of this screen.
+ * @returns {import('./router.js').Screen} The screen.
  */
-export const init = (selector = '[data-view="home"]', { appTitle } = {}) => {
+export const init = (selector = '[data-screen="intro"]', { appTitle } = {}) => {
   const element = document.querySelector(selector);
-  const list = element.querySelector('[data-workouts]');
-  const presetList = element.querySelector('[data-presets]');
-  const createFirst = element.querySelector('[data-create-first]');
+  const list = element.querySelector('[data-workouts="custom"]');
+  const presetList = element.querySelector('[data-workouts="presets"]');
+  const createFirst = element.querySelector('[data-create="first"]');
   const template = document.querySelector('[data-template="workout"]');
 
   // Sound and the screen lock both need a tap, and the Start link is that tap.
   element.addEventListener('click', (event) => {
-    if (!event.target.closest('[data-start]')) return;
+    if (!event.target.closest('[data-start="workout"]')) return;
 
     sound.unlock();
     wakeLock.acquire();
@@ -84,18 +84,18 @@ export const init = (selector = '[data-view="home"]', { appTitle } = {}) => {
    */
   const createItem = (workout) => {
     const item = template.content.cloneNode(true).querySelector('.workout');
-    const start = item.querySelector('[data-start]');
-    const edit = item.querySelector('[data-edit]');
+    const start = item.querySelector('[data-start="workout"]');
+    const edit = item.querySelector('[data-edit="workout"]');
 
     item.dataset.colour = workout.colour;
-    item.querySelector('[data-name]').textContent = workout.name;
-    item.querySelector('[data-meta]').textContent = describe(workout);
+    item.querySelector('[data-name="workout"]').textContent = workout.name;
+    item.querySelector('[data-meta="workout"]').textContent = describe(workout);
 
     edit.href = `#/edit/${workout.id}`;
 
     // A preset cannot be changed, so the same link makes a copy of it to edit.
     if (presets.getPreset(workout.id)) {
-      edit.querySelector('[data-icon]').dataset.icon = 'copy';
+      edit.dataset.icon = 'copy';
       edit.lastChild.textContent = 'Copy';
       edit.setAttribute('aria-label', `Copy ${workout.name}`);
     } else {

@@ -23,7 +23,7 @@ const PHASE_LABELS = {
  * a deliberate choice: changing the system time moves a running timer, but performance.now() stands still while iOS
  * suspends the page, which would make the timer lose the time it ran in the background.
  *
- * @param {string} [selector] Selector of the timer view.
+ * @param {string} [selector] Selector of the timer screen.
  * @param {object} options Settings; the timings are in milliseconds.
  * @param {string} options.appTitle Title of the app, which ends the page title.
  * @param {number} [options.tickInterval] Interval between redraws.
@@ -33,10 +33,10 @@ const PHASE_LABELS = {
  * @param {number} [options.pulseDuration] Duration of the clock pulse in the final countdown.
  * @param {number} [options.segmentDuration] Duration of one finished segment lighting up.
  * @param {number} [options.segmentStagger] Delay between the segments lighting up.
- * @returns {import('./router.js').View} The view.
+ * @returns {import('./router.js').Screen} The screen.
  */
 export const init = (
-  selector = '[data-view="timer"]',
+  selector = '[data-screen="timer"]',
   {
     appTitle,
     tickInterval = 200,
@@ -49,8 +49,8 @@ export const init = (
   } = {}
 ) => {
   const element = document.querySelector(selector);
-  const part = (name) => element.querySelector(`[data-${name}]`);
-  const heading = part('heading');
+  const part = (name, context = 'timer') => element.querySelector(`[data-${name}="${context}"]`);
+  const heading = element.querySelector('[data-title="timer"]');
   const clock = part('clock');
   const label = part('label');
   const segments = part('segments');
@@ -118,9 +118,9 @@ export const init = (
     const paused = !isRunning() && !finished;
 
     element.toggleAttribute('data-paused', paused);
-    part('paused').hidden = !paused;
+    part('status').hidden = !paused;
     toggle.setAttribute('aria-label', finished ? 'Restart' : paused ? 'Resume' : 'Pause');
-    part('toggle-icon').dataset.icon = isRunning() ? 'pause' : 'play';
+    toggle.dataset.icon = isRunning() ? 'pause' : 'play';
   };
 
   const renderSound = () => {
@@ -128,7 +128,7 @@ export const init = (
 
     sound.setMuted(!on);
     soundButton.setAttribute('aria-pressed', String(on));
-    part('sound-icon').dataset.icon = on ? 'volume-on' : 'volume-off';
+    soundButton.dataset.icon = on ? 'volume-on' : 'volume-off';
   };
 
   /**
@@ -178,13 +178,13 @@ export const init = (
     }
 
     band.dataset.phase = phase;
-    part('next-label').textContent = heading;
-    part('next-title').textContent = title;
+    part('label', 'next').textContent = heading;
+    part('title', 'next').textContent = title;
     const name = document.createElement('span');
 
     name.classList.add('timer__name');
     name.textContent = then;
-    part('next-sub').replaceChildren(sub, name);
+    part('sub', 'next').replaceChildren(sub, name);
   };
 
   /**
@@ -394,7 +394,7 @@ export const init = (
       confirmLabel: 'End workout'
     });
 
-    // The user may have left this view by going back while the dialog was open.
+    // The user may have left this screen by going back while the dialog was open.
     if (element.hidden) return;
 
     if (confirmed) {

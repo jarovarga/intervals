@@ -5,7 +5,7 @@ let dialog = null;
  * @param {string} [selector] Selector of the confirmation dialog.
  * @returns {void}
  */
-export const init = (selector = '[data-dialog]') => {
+export const init = (selector = '[data-dialog="confirm"]') => {
   dialog = document.querySelector(selector);
 };
 
@@ -17,9 +17,9 @@ export const init = (selector = '[data-dialog]') => {
  */
 export const ask = ({ title, text, confirmLabel }) =>
   new Promise((resolve) => {
-    dialog.querySelector('[data-dialog-title]').textContent = title;
-    dialog.querySelector('[data-dialog-text]').textContent = text;
-    dialog.querySelector('[data-dialog-confirm]').textContent = confirmLabel;
+    dialog.querySelector('[data-title="dialog"]').textContent = title;
+    dialog.querySelector('[data-text="dialog"]').textContent = text;
+    dialog.querySelector('[data-confirm="dialog"]').textContent = confirmLabel;
     dialog.returnValue = '';
     // Going back while the dialog is open leaves its screen, so it answers no.
     const dismiss = () => dialog.close();

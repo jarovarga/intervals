@@ -3,18 +3,19 @@ import { test } from 'node:test';
 
 import { formatClock, formatField, formatTotal, MAX_SECONDS, parse } from '../src/js/modules/time.js';
 
-test('parse reads seconds, minutes and seconds, and colon forms', () => {
+test('parse reads plain numbers as seconds and the colon form as minutes and seconds', () => {
   assert.equal(parse('30'), 30);
   assert.equal(parse(':30'), 30);
   assert.equal(parse('1:30'), 90);
-  assert.equal(parse('130'), 90);
-  assert.equal(parse('1000'), 600);
+  assert.equal(parse('130'), 130);
+  assert.equal(parse('2:10'), 130);
+  assert.equal(parse('1000'), 1000);
   assert.equal(parse(' 90 '), 90);
   assert.equal(parse('99:59'), MAX_SECONDS);
 });
 
 test('parse rejects text that is not a time', () => {
-  for (const text of ['', 'abc', '1:75', ':60', '175', '100:00', '12345', '-5', '1.5']) {
+  for (const text of ['', 'abc', '1:75', ':60', '6000', '100:00', '12345', '-5', '1.5']) {
     assert.equal(parse(text, { allowZero: true }), null, text);
   }
 });

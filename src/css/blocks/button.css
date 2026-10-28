@@ -15,7 +15,7 @@
   padding-inline: calc(var(--spacing) * 5);
 }
 
-.button--primary {
+.button--accent {
   background-color: var(--colour, var(--color-accent));
   color: var(--color-on-accent);
   font-weight: var(--font-weight-bold);
@@ -70,8 +70,4 @@
   block-size: 4.75rem;
   color: var(--color-on-phase);
   inline-size: 4.75rem;
-}
-
-.button > [data-icon] {
-  display: flex;
 }

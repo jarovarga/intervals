@@ -25,7 +25,7 @@
 @import "./modules/marquee.css" layer(module);
 
 @import "./segments/screen.css" layer(segment);
-@import "./segments/home.css" layer(segment);
+@import "./segments/intro.css" layer(segment);
 @import "./segments/editor.css" layer(segment);
 @import "./segments/timer.css" layer(segment);
 

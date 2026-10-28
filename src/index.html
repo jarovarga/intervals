@@ -24,76 +24,78 @@
     <body id="app">
         <noscript>This app requires JavaScript to run.</noscript>
 
-        <div class="views">
-            <div data-view="home" class="screen home" hidden>
-                <h1 tabindex="-1" class="home__title"><img src="./assets/img/icon-96x96.png" width="96" height="96" alt="" class="home__logo">Intervals</h1>
+        <main class="screens">
+            <div data-screen="intro" class="screen intro" hidden>
+                <h1 tabindex="-1" class="intro__title"><img src="./assets/img/icon-96x96.png" width="96" height="96" alt="" class="intro__logo">Intervals</h1>
 
                 <div role="status">
-                    <div data-update class="panel panel--row update" hidden>
+                    <div data-notice="update" class="panel panel--row update" hidden>
                         <p class="update__text">A new version is ready.</p>
-                        <button type="button" data-action="reload" class="button button--primary button--compact">Reload</button>
+                        <button type="button" data-action="reload" class="button button--accent button--compact">Reload</button>
                     </div>
                 </div>
 
-                <aside data-install class="panel install" aria-labelledby="install-title" hidden>
+                <aside data-notice="install" class="panel install" aria-labelledby="install-title" hidden>
                     <h2 id="install-title" class="install__title">Install</h2>
                     <p class="install__text">Tap <span data-icon="share" class="install__icon" aria-hidden="true"></span>Share, then Add to Home Screen to open <span class="install__name">Intervals</span> full screen like an app.</p>
-                    <button type="button" data-action="dismiss-install" class="button button--secondary button--compact install__dismiss">Not now</button>
+                    <button type="button" data-action="dismiss-install" class="button button--compact install__dismiss">Not now</button>
                 </aside>
 
                 <nav class="tabs" aria-label="Sections">
                     <ul class="tabs__list">
-                        <li><a href="#/" data-tab="workouts" class="tabs__link"><span data-icon="timer" aria-hidden="true"></span>Workouts</a></li>
-                        <li><a href="#/stats" data-tab="stats" class="tabs__link"><span data-icon="chart" aria-hidden="true"></span>Statistics</a></li>
+                        <li><a href="#/" data-tab="workouts" data-icon="timer" class="tabs__link">Workouts</a></li>
+                        <li><a href="#/stats" data-tab="stats" data-icon="chart" class="tabs__link">Statistics</a></li>
                     </ul>
                 </nav>
 
-                <div data-section="workouts" class="home__section">
-                    <section class="home__group" aria-labelledby="mine-title">
-                        <h2 id="mine-title" class="screen__heading">My workouts</h2>
-                        <ul data-workouts class="home__list"></ul>
-                        <a href="#/edit/new" data-create-first class="button button--outline" hidden><span data-icon="plus" aria-hidden="true"></span>Create workout</a>
+                <div data-section="workouts" class="intro__section">
+                    <section class="intro__group" aria-labelledby="mine-title">
+                        <h2 id="mine-title" class="screen__title">My workouts</h2>
+                        <ul data-workouts="custom" class="intro__list"></ul>
+                        <a href="#/edit/new" data-create="first" data-icon="plus" class="button button--outline" hidden>Create workout</a>
                     </section>
 
-                    <section class="home__group" aria-labelledby="presets-title">
-                        <h2 id="presets-title" class="screen__heading">Quick start</h2>
-                        <ul data-presets class="home__list"></ul>
+                    <section class="intro__group" aria-labelledby="presets-title">
+                        <h2 id="presets-title" class="screen__title">Quick start</h2>
+                        <ul data-workouts="presets" class="intro__list"></ul>
                     </section>
 
-                    <a href="#/edit/new" class="button button--outline"><span data-icon="plus" aria-hidden="true"></span>Create workout</a>
+                    <a href="#/edit/new" data-icon="plus" class="button button--outline">Create workout</a>
                 </div>
 
-                <div data-section="stats" class="home__section" hidden>
-                    <p class="screen__heading">Soon</p>
+                <div data-section="stats" class="intro__section" hidden>
+                    <p class="screen__title">Soon</p>
                 </div>
             </div>
 
-            <div data-view="editor" class="screen editor" hidden>
-                <form data-form class="editor__form" novalidate>
+            <div data-screen="editor" class="screen editor" hidden>
+                <form data-form="editor" class="editor__form" novalidate>
                     <div class="editor__bar">
                         <a href="#/" class="editor__cancel">Cancel</a>
-                        <h2 tabindex="-1" data-heading class="editor__title">Edit workout</h2>
-                        <button type="submit" class="button button--primary button--compact">Save</button>
+                        <h2 tabindex="-1" data-title="editor" class="editor__title">Edit workout</h2>
+                        <button type="submit" class="button button--accent button--compact">Save</button>
                     </div>
 
-                    <p id="time-hint" class="editor__hint">Enter 30 for 30 seconds or 130 for 1:30.</p>
-                    <p data-error class="editor__error" role="alert" hidden></p>
+                    <p id="time-hint" class="editor__hint">Type 30 for 30 seconds or 1:30 for 1 minute 30 seconds.</p>
+                    <p data-error="editor" class="editor__error" role="alert" hidden></p>
 
                     <div class="panel">
                         <label for="workout-name" class="panel__label">Name</label>
-                        <input type="text" maxlength="60" autocomplete="off" data-field="name" id="workout-name" class="input input--large">
+                        <input type="text" maxlength="50" autocomplete="off" data-field="name" id="workout-name" class="input input--large">
                     </div>
 
-                    <div class="panel" role="radiogroup" aria-labelledby="colour-label">
-                        <p id="colour-label" class="panel__label">Colour</p>
-                        <div class="editor__swatches">
-                            <input type="radio" name="colour" data-colour="green" value="green" class="swatch" aria-label="Green">
-                            <input type="radio" name="colour" data-colour="orange" value="orange" class="swatch" aria-label="Orange">
-                            <input type="radio" name="colour" data-colour="blue" value="blue" class="swatch" aria-label="Blue">
-                            <input type="radio" name="colour" data-colour="yellow" value="yellow" class="swatch" aria-label="Yellow">
-                            <input type="radio" name="colour" data-colour="pink" value="pink" class="swatch" aria-label="Pink">
-                            <input type="radio" name="colour" data-colour="purple" value="purple" class="swatch" aria-label="Purple">
-                        </div>
+                    <div class="panel">
+                        <fieldset class="panel__group">
+                            <legend class="panel__label panel__legend">Colour</legend>
+                            <div class="editor__swatches">
+                                <input type="radio" name="colour" data-colour="green" value="green" class="swatch" aria-label="Green">
+                                <input type="radio" name="colour" data-colour="orange" value="orange" class="swatch" aria-label="Orange">
+                                <input type="radio" name="colour" data-colour="blue" value="blue" class="swatch" aria-label="Blue">
+                                <input type="radio" name="colour" data-colour="yellow" value="yellow" class="swatch" aria-label="Yellow">
+                                <input type="radio" name="colour" data-colour="pink" value="pink" class="swatch" aria-label="Pink">
+                                <input type="radio" name="colour" data-colour="purple" value="purple" class="swatch" aria-label="Purple">
+                            </div>
+                        </fieldset>
                     </div>
 
                     <div class="panel panel--row">
@@ -105,9 +107,9 @@
                     </div>
 
                     <fieldset class="editor__exercises">
-                        <legend class="panel__label editor__legend">Exercises (<span data-count>0</span>)</legend>
-                        <ol data-exercises class="editor__list"></ol>
-                        <button type="button" data-action="add" class="button button--secondary"><span data-icon="plus" aria-hidden="true"></span>Add exercise</button>
+                        <legend class="panel__label editor__legend">Exercises (<span data-count="exercises">0</span>)</legend>
+                        <ol data-editor="exercises" class="editor__list"></ol>
+                        <button type="button" data-action="add" data-icon="plus" class="button">Add exercise</button>
                     </fieldset>
 
                     <div class="panel panel--row">
@@ -125,9 +127,9 @@
                                 <span id="rounds-hint" class="panel__note">Repeat the whole circuit</span>
                             </div>
                             <div class="stepper">
-                                <button type="button" data-action="fewer-rounds" class="button button--secondary button--square" aria-controls="rounds" aria-label="Fewer rounds"><span data-icon="minus" aria-hidden="true"></span></button>
+                                <button type="button" data-action="fewer-rounds" data-icon="minus" class="button button--square" aria-controls="rounds" aria-label="Fewer rounds"></button>
                                 <input type="number" min="1" max="99" inputmode="numeric" data-field="rounds" id="rounds" class="input input--rounds" aria-describedby="rounds-hint">
-                                <button type="button" data-action="more-rounds" class="button button--secondary button--square" aria-controls="rounds" aria-label="More rounds"><span data-icon="plus" aria-hidden="true"></span></button>
+                                <button type="button" data-action="more-rounds" data-icon="plus" class="button button--square" aria-controls="rounds" aria-label="More rounds"></button>
                             </div>
                         </div>
                         <div class="panel__row panel__row--divided">
@@ -141,60 +143,60 @@
 
                     <p class="editor__total">
                         <span class="editor__total-label">Total time</span>
-                        <output for="prepare-time rest-time rounds round-rest-time" data-total>0:00</output>
+                        <output for="prepare-time rest-time rounds round-rest-time" data-total="editor">0:00</output>
                     </p>
 
                     <button type="button" data-action="delete" class="button button--outline button--danger">Delete workout</button>
                 </form>
             </div>
 
-            <div data-view="timer" data-phase="prepare" class="screen timer" hidden>
-                <h2 tabindex="-1" data-heading class="visually-hidden">Workout</h2>
+            <div data-screen="timer" data-phase="prepare" class="screen timer" hidden>
+                <h2 tabindex="-1" data-title="timer" class="visually-hidden">Workout</h2>
 
                 <div class="timer__bar">
-                    <button type="button" data-action="end" class="button button--circle" aria-label="End workout"><span data-icon="x" aria-hidden="true"></span></button>
-                    <p class="timer__remaining"><span class="visually-hidden">Remaining</span> <span data-remaining>0:00</span></p>
-                    <p data-paused class="timer__paused" hidden>Paused</p>
-                    <button type="button" data-action="sound" class="button button--circle" aria-pressed="true" aria-label="Sound"><span data-icon="volume-on" data-sound-icon aria-hidden="true"></span></button>
+                    <button type="button" data-action="end" data-icon="x" class="button button--circle" aria-label="End workout"></button>
+                    <p class="timer__remaining"><span class="visually-hidden">Remaining</span> <span data-remaining="timer">0:00</span></p>
+                    <p data-status="timer" class="timer__paused" hidden>Paused</p>
+                    <button type="button" data-action="sound" data-icon="volume-on" class="button button--circle" aria-pressed="true" aria-label="Sound"></button>
                 </div>
 
                 <div class="timer__panel">
-                    <p data-label class="timer__label">Get ready</p>
-                    <p data-clock class="timer__clock" role="timer">00:00</p>
+                    <p data-label="timer" class="timer__label">Get ready</p>
+                    <p data-clock="timer" class="timer__clock" role="timer">00:00</p>
                     <div class="timer__detail">
-                        <div class="timer__progress" aria-hidden="true"><div data-progress class="timer__progress-bar"></div></div>
-                        <p data-focus class="timer__focus"></p>
+                        <div class="timer__progress" aria-hidden="true"><div data-progress="timer" class="timer__progress-bar"></div></div>
+                        <p data-focus="timer" class="timer__focus"></p>
                     </div>
                 </div>
 
                 <div class="timer__next">
-                    <p data-next-label class="timer__next-label">Up next</p>
-                    <p data-marquee class="timer__next-title"><span data-next-title></span></p>
-                    <p data-next-sub class="timer__next-sub"></p>
+                    <p data-label="next" class="timer__next-label">Up next</p>
+                    <p data-marquee="next" class="timer__next-title"><span data-title="next"></span></p>
+                    <p data-sub="next" class="timer__next-sub"></p>
                 </div>
 
                 <div class="timer__steps">
-                    <div data-segments class="timer__segments" role="img"></div>
-                    <span data-round class="timer__round"></span>
+                    <div data-segments="timer" class="timer__segments" role="img"></div>
+                    <span data-round="timer" class="timer__round"></span>
                 </div>
 
                 <div class="timer__controls">
-                    <button type="button" data-action="previous" class="button button--circle button--large" aria-label="Previous interval"><span data-icon="chevrons-left" aria-hidden="true"></span></button>
-                    <button type="button" data-action="toggle" class="button button--circle button--play" aria-label="Pause"><span data-icon="pause" data-toggle-icon aria-hidden="true"></span></button>
-                    <button type="button" data-action="next" class="button button--circle button--large" aria-label="Next interval"><span data-icon="chevrons-right" aria-hidden="true"></span></button>
+                    <button type="button" data-action="previous" data-icon="chevrons-left" class="button button--circle button--large" aria-label="Previous interval"></button>
+                    <button type="button" data-action="toggle" data-icon="pause" class="button button--circle button--play" aria-label="Pause"></button>
+                    <button type="button" data-action="next" data-icon="chevrons-right" class="button button--circle button--large" aria-label="Next interval"></button>
                 </div>
 
-                <p data-announce class="visually-hidden" aria-live="polite"></p>
+                <p data-announce="timer" class="visually-hidden" aria-live="polite"></p>
             </div>
-        </div>
+        </main>
 
-        <dialog data-dialog class="dialog" aria-labelledby="dialog-title">
+        <dialog data-dialog="confirm" class="dialog" aria-labelledby="dialog-title">
             <form method="dialog" class="dialog__form">
-                <h2 data-dialog-title id="dialog-title" class="dialog__title">Confirm</h2>
-                <p data-dialog-text class="dialog__text"></p>
+                <h2 data-title="dialog" id="dialog-title" class="dialog__title">Confirm</h2>
+                <p data-text="dialog" class="dialog__text"></p>
                 <div class="dialog__actions">
-                    <button type="submit" data-dialog-cancel value="cancel" class="button button--secondary" autofocus>Cancel</button>
-                    <button type="submit" data-dialog-confirm value="confirm" class="button button--danger">Confirm</button>
+                    <button type="submit" data-cancel="dialog" value="cancel" class="button" autofocus>Cancel</button>
+                    <button type="submit" data-confirm="dialog" value="confirm" class="button button--danger">Confirm</button>
                 </div>
             </form>
         </dialog>
@@ -202,30 +204,30 @@
         <template data-template="workout">
             <li class="workout">
                 <div class="workout__text">
-                    <h3 class="workout__title"><span class="workout__dot" aria-hidden="true"></span><span data-name>Workout</span></h3>
-                    <p data-meta class="workout__meta"></p>
+                    <h3 class="workout__title"><span class="workout__dot" aria-hidden="true"></span><span data-name="workout">Workout</span></h3>
+                    <p data-meta="workout" class="workout__meta"></p>
                 </div>
                 <div class="workout__actions">
-                    <a href="#/timer/" data-start class="button button--primary"><span data-icon="play" aria-hidden="true"></span>Start</a>
-                    <a href="#/edit/" data-edit class="button button--secondary"><span data-icon="pencil" aria-hidden="true"></span>Edit</a>
+                    <a href="#/timer/" data-start="workout" data-icon="play" class="button button--accent">Start</a>
+                    <a href="#/edit/" data-edit="workout" data-icon="pencil" class="button">Edit</a>
                 </div>
             </li>
         </template>
 
         <template data-template="exercise">
             <li class="exercise">
-                <span data-number class="exercise__number" aria-hidden="true"></span>
-                <label class="exercise__name"><span data-name-label class="visually-hidden">Exercise name</span><input type="text" maxlength="60" autocomplete="off" data-field="exercise-name" class="input"></label>
-                <label class="exercise__time"><span>Time<span data-time-label class="visually-hidden"></span></span><input type="text" autocomplete="off" inputmode="numeric" data-field="exercise-time" class="input input--time input--small" aria-describedby="time-hint"></label>
+                <span data-number="exercise" class="exercise__number" aria-hidden="true"></span>
+                <label class="exercise__name"><span data-label="name" class="visually-hidden">Exercise name</span><input type="text" maxlength="50" autocomplete="off" data-field="exercise-name" class="input"></label>
+                <label class="exercise__time"><span>Time<span data-label="time" class="visually-hidden"></span></span><input type="text" autocomplete="off" inputmode="numeric" data-field="exercise-time" class="input input--time input--small" aria-describedby="time-hint"></label>
                 <div class="exercise__actions">
-                    <button type="button" data-action="up" class="button button--secondary button--square" aria-label="Move up"><span data-icon="arrow-up" aria-hidden="true"></span></button>
-                    <button type="button" data-action="down" class="button button--secondary button--square" aria-label="Move down"><span data-icon="arrow-down" aria-hidden="true"></span></button>
-                    <button type="button" data-action="remove" class="button button--secondary button--square button--danger" aria-label="Remove"><span data-icon="trash" aria-hidden="true"></span></button>
+                    <button type="button" data-action="up" data-icon="arrow-up" class="button button--square" aria-label="Move up"></button>
+                    <button type="button" data-action="down" data-icon="arrow-down" class="button button--square" aria-label="Move down"></button>
+                    <button type="button" data-action="remove" data-icon="trash" class="button button--square button--danger" aria-label="Remove"></button>
                 </div>
             </li>
         </template>
 
-        <div data-loader class="loader" role="status"><span class="visually-hidden">Loading</span></div>
+        <div data-loader="app" class="loader" role="status"><span class="visually-hidden">Loading</span></div>
 
         <script src="./assets/js/app.min.js" type="module"></script>
     </body>

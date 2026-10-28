@@ -1,6 +1,6 @@
 import * as dialog from './modules/dialog.js';
 import * as editor from './modules/editor.js';
-import * as home from './modules/home.js';
+import * as intro from './modules/intro.js';
 import * as install from './modules/install.js';
 import * as loader from './modules/loader.js';
 import * as marquee from './modules/marquee.js';
@@ -15,16 +15,16 @@ const APP_TITLE = 'Interval timer for circuit workouts';
 /** Shortest time between two checks for a new version while the app stays open: one hour. */
 const UPDATE_CHECK_INTERVAL = 60 * 60 * 1000;
 
-dialog.init('[data-dialog]');
+dialog.init('[data-dialog="confirm"]');
 marquee.init('[data-marquee]', { speed: 32, pause: 2.5 });
-install.init('[data-install]');
-update.init('[data-update]');
-router.init('[data-view]', {
-  views: {
-    home: home.init('[data-view="home"]', { appTitle: APP_TITLE }),
-    stats: home.stats('[data-view="home"]', { appTitle: APP_TITLE }),
-    edit: editor.init('[data-view="editor"]', { appTitle: APP_TITLE }),
-    timer: player.init('[data-view="timer"]', {
+install.init('[data-notice="install"]');
+update.init('[data-notice="update"]');
+router.init('[data-screen]', {
+  screens: {
+    intro: intro.init('[data-screen="intro"]', { appTitle: APP_TITLE }),
+    stats: intro.stats('[data-screen="intro"]', { appTitle: APP_TITLE }),
+    edit: editor.init('[data-screen="editor"]', { appTitle: APP_TITLE }),
+    timer: player.init('[data-screen="timer"]', {
       appTitle: APP_TITLE,
       tickInterval: 200,
       lookahead: 1000,
@@ -37,7 +37,7 @@ router.init('[data-view]', {
   }
 });
 
-loader.init('[data-loader]', { timeout: 3000 });
+loader.init('[data-loader="app"]', { timeout: 3000 });
 
 window.addEventListener(
   'load',
