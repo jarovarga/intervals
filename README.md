@@ -79,7 +79,7 @@ src/
 │   ├── segments/           Styles for individual page parts (layer segment)
 │   ├── utils/              Accessibility rules and global states (layer util)
 │   ├── app.css             Layer order, imports and @font-face
-│   ├── base.css            Global document styles and shared keyframes (layer base)
+│   ├── base.css            Global document styles (layer base)
 │   ├── reset.css           Minimal browser normalisation (layer reset)
 │   └── tokens.css          Global design values
 ├── fonts/
