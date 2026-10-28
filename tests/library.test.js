@@ -95,6 +95,39 @@ test('unusable workouts are dropped while the usable ones are kept', async () =>
   assert.equal(library.isSoundOn(), false);
 });
 
+test('persistent storage is requested once, after the first saved workout', async () => {
+  fakeStorage();
+
+  let requests = 0;
+  const original = Object.getOwnPropertyDescriptor(globalThis, 'navigator');
+
+  Object.defineProperty(globalThis, 'navigator', {
+    configurable: true,
+    value: {
+      storage: {
+        persist: async () => {
+          requests += 1;
+
+          return true;
+        }
+      }
+    }
+  });
+
+  try {
+    const library = await loadLibrary();
+
+    assert.equal(requests, 0);
+
+    library.saveWorkout(createDefaultWorkout());
+    library.saveWorkout(createDefaultWorkout());
+
+    assert.equal(requests, 1);
+  } finally {
+    Object.defineProperty(globalThis, 'navigator', original);
+  }
+});
+
 test('a failing write keeps the library working in memory', async () => {
   fakeStorage({}, [KEY]);
 

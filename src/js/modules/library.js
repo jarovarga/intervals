@@ -10,6 +10,26 @@ let library = null;
 /** Set when unreadable stored data could not be backed up, so that it is never overwritten. */
 let persistLocked = false;
 
+let persistenceRequested = false;
+
+/**
+ * Ask the browser once not to evict the stored workouts under storage pressure. Browsers may refuse, and
+ * the answer changes nothing for the app, so it neither blocks nor reports.
+ *
+ * @returns {void}
+ */
+const requestPersistence = () => {
+  if (persistenceRequested) {
+    return;
+  }
+
+  persistenceRequested = true;
+
+  Promise.resolve(navigator.storage?.persist?.()).catch((error) => {
+    console.warn('Persistent storage could not be requested.', error);
+  });
+};
+
 /**
  * Write the library to localStorage. A full or blocked store only costs persistence, so the app keeps working.
  *
@@ -104,6 +124,7 @@ export const saveWorkout = (workout) => {
   }
 
   persist();
+  requestPersistence();
 };
 
 /**
