@@ -32,7 +32,7 @@ body:has(.timer:not([hidden])) {
 }
 
 .timer__panel {
-  background-color: var(--phase);
+  background-color: var(--color-phase);
   border-radius: var(--radius-4xl);
   color: var(--color-on-phase);
   display: flex;
@@ -127,7 +127,7 @@ body:has(.timer:not([hidden])) {
 }
 
 .timer__next {
-  background-color: var(--phase);
+  background-color: var(--color-phase);
   border-radius: var(--radius-3xl);
   color: var(--color-on-phase);
   display: flex;
@@ -194,7 +194,7 @@ body:has(.timer:not([hidden])) {
 }
 
 .timer__segment--current {
-  background-color: var(--phase);
+  background-color: var(--color-phase);
 }
 
 .timer__round {

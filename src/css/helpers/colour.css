@@ -1,23 +1,23 @@
 [data-colour="green"] {
-  --colour: var(--color-workout-green);
+  --color-workout: var(--color-workout-green);
 }
 
 [data-colour="orange"] {
-  --colour: var(--color-workout-orange);
+  --color-workout: var(--color-workout-orange);
 }
 
 [data-colour="blue"] {
-  --colour: var(--color-workout-blue);
+  --color-workout: var(--color-workout-blue);
 }
 
 [data-colour="yellow"] {
-  --colour: var(--color-workout-yellow);
+  --color-workout: var(--color-workout-yellow);
 }
 
 [data-colour="pink"] {
-  --colour: var(--color-workout-pink);
+  --color-workout: var(--color-workout-pink);
 }
 
 [data-colour="purple"] {
-  --colour: var(--color-workout-purple);
+  --color-workout: var(--color-workout-purple);
 }

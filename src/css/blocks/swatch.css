@@ -1,6 +1,6 @@
 .swatch {
   appearance: none;
-  background-color: var(--colour);
+  background-color: var(--color-workout, var(--color-accent));
   block-size: 2.5rem;
   border-radius: 50%;
   cursor: pointer;
