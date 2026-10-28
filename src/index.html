@@ -29,9 +29,11 @@
                 <h1 tabindex="-1" class="intro__title"><img src="./assets/img/icon-96x96.png" width="96" height="96" alt="" class="intro__logo">Intervals</h1>
 
                 <div role="status">
-                    <div data-notice="update" class="panel panel--row update" hidden>
-                        <p class="update__text">A new version is ready.</p>
-                        <button type="button" data-action="reload" class="button button--accent button--compact">Reload</button>
+                    <div data-notice="update" class="panel update" hidden>
+                        <div class="panel__block">
+                            <p class="update__text">A new version is ready.</p>
+                            <button type="button" data-action="reload" class="button button--accent button--compact">Reload</button>
+                        </div>
                     </div>
                 </div>
 
@@ -98,12 +100,14 @@
                         </fieldset>
                     </div>
 
-                    <div class="panel panel--row">
-                        <div class="panel__text">
-                            <label for="prepare-time" class="panel__title">Get ready</label>
-                            <span class="panel__note">Countdown before the start</span>
+                    <div class="panel">
+                        <div class="panel__block">
+                            <div class="panel__text">
+                                <label for="prepare-time" class="panel__title">Get ready</label>
+                                <span class="panel__note">Countdown before the start</span>
+                            </div>
+                            <input type="text" autocomplete="off" inputmode="numeric" data-field="prepare" id="prepare-time" class="input input--time" aria-describedby="time-hint">
                         </div>
-                        <input type="text" autocomplete="off" inputmode="numeric" data-field="prepare" id="prepare-time" class="input input--time" aria-describedby="time-hint">
                     </div>
 
                     <fieldset class="editor__exercises">
@@ -112,16 +116,18 @@
                         <button type="button" data-action="add" data-icon="plus" class="button">Add exercise</button>
                     </fieldset>
 
-                    <div class="panel panel--row">
-                        <div class="panel__text">
-                            <label for="rest-time" class="panel__title">Rest</label>
-                            <span class="panel__note">Between exercises</span>
+                    <div class="panel">
+                        <div class="panel__block">
+                            <div class="panel__text">
+                                <label for="rest-time" class="panel__title">Rest</label>
+                                <span class="panel__note">Between exercises</span>
+                            </div>
+                            <input type="text" autocomplete="off" inputmode="numeric" data-field="rest" id="rest-time" class="input input--time" aria-describedby="time-hint">
                         </div>
-                        <input type="text" autocomplete="off" inputmode="numeric" data-field="rest" id="rest-time" class="input input--time" aria-describedby="time-hint">
                     </div>
 
                     <div class="panel">
-                        <div class="panel__row">
+                        <div class="panel__block">
                             <div class="panel__text">
                                 <label for="rounds" class="panel__title">Rounds</label>
                                 <span id="rounds-hint" class="panel__note">Repeat the whole circuit</span>
@@ -132,7 +138,7 @@
                                 <button type="button" data-action="more-rounds" data-icon="plus" class="button button--square" aria-controls="rounds" aria-label="More rounds"></button>
                             </div>
                         </div>
-                        <div class="panel__row panel__row--divided">
+                        <div class="panel__block panel__block--divided">
                             <div class="panel__text">
                                 <label for="round-rest-time" class="panel__title">Cooldown</label>
                                 <span class="panel__note">Between rounds</span>
