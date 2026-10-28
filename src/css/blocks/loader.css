@@ -6,7 +6,6 @@
   justify-content: center;
   position: fixed;
 
-  /* Without JavaScript nothing would ever hide it, and it would cover the notice. */
   @media (scripting: none) {
     display: none;
   }
@@ -19,11 +18,26 @@
     border-radius: 50%;
     content: "";
     inline-size: 3rem;
+
+    /* A pulse tells the visitor that something is loading without any turning. */
+    @media (prefers-reduced-motion: reduce) {
+      animation: loader-pulse 1.2s ease-in-out infinite alternate;
+    }
   }
 }
 
 @keyframes loader-spin {
   to {
     transform: rotate(1turn);
+  }
+}
+
+@keyframes loader-pulse {
+  from {
+    opacity: 0.3;
+  }
+
+  to {
+    opacity: 1;
   }
 }

@@ -12,6 +12,10 @@ html {
     scrollbar-gutter: auto;
     scrollbar-width: none;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
 }
 
 body {

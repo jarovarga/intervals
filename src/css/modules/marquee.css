@@ -7,6 +7,15 @@
 [data-marquee] > * {
   display: inline-block;
   padding-inline: calc(var(--spacing) * var(--marquee-fade, 6));
+
+  /* Without motion the text stays still and is cut with an ellipsis instead. */
+  @media (prefers-reduced-motion: reduce) {
+    max-inline-size: 100%;
+    overflow: clip;
+    padding-inline: 0;
+    text-overflow: ellipsis;
+    vertical-align: top;
+  }
 }
 
 [data-marquee][data-overflowing] {
@@ -17,19 +26,8 @@
     oklch(0 0 0) calc(100% - calc(var(--spacing) * var(--marquee-fade, 6))),
     transparent
   );
-}
 
-/* Without motion the text stays still and is cut with an ellipsis instead. */
-@media (prefers-reduced-motion: reduce) {
-  [data-marquee] > * {
-    max-inline-size: 100%;
-    overflow: clip;
-    padding-inline: 0;
-    text-overflow: ellipsis;
-    vertical-align: top;
-  }
-
-  [data-marquee][data-overflowing] {
+  @media (prefers-reduced-motion: reduce) {
     mask-image: none;
   }
 }

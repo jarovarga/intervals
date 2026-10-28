@@ -17,16 +17,3 @@
 [tabindex="-1"]:focus-visible {
   outline-color: transparent;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-delay: 0s;
-    animation-duration: 0.01ms;
-    animation-iteration-count: 1;
-    scroll-behavior: auto;
-    transition-delay: 0s;
-    transition-duration: 0.01ms;
-  }
-}
