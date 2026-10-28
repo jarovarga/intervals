@@ -29,7 +29,7 @@ const wasDismissed = () => {
 };
 
 /**
- * Show the install explanation where it applies, and remember when the visitor dismisses it.
+ * Show the installation explanation where it applies, and remember when the visitor dismisses it.
  *
  * @param {string} [selector] Selector of the explanation.
  * @returns {void}
