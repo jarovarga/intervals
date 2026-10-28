@@ -62,12 +62,18 @@ export const isRunning = () => context?.state === 'running';
  */
 export const isReady = () => !AudioContextClass || unlocked;
 
-// iOS suspends the context when the page is hidden or interrupted; resume it as soon as the page is back.
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && unlocked && !isRunning()) {
-    context.resume().catch((error) => console.warn('The audio could not be resumed.', error));
-  }
-});
+/**
+ * Resume the audio context when the page comes back. iOS suspends it when the page is hidden or interrupted.
+ *
+ * @returns {void}
+ */
+export const init = () => {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && unlocked && !isRunning()) {
+      context.resume().catch((error) => console.warn('The audio could not be resumed.', error));
+    }
+  });
+};
 
 /**
  * Silence every signal that has been scheduled but has not finished.

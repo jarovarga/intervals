@@ -16,10 +16,17 @@ export const init = (selector, { timeout = 3000 } = {}) => {
 
   if (!element) return;
 
-  const fonts = afterLayout().then(() => document.fonts.ready);
-  const limit = new Promise((resolve) => setTimeout(resolve, timeout));
-
-  Promise.race([fonts, limit]).then(() => {
-    element.hidden = true;
+  let timer;
+  const fonts = afterLayout().then(() => document.fonts?.ready);
+  const limit = new Promise((resolve) => {
+    timer = setTimeout(resolve, timeout);
   });
+
+  // Whatever the outcome, the loader must go, or it would cover the app for good.
+  Promise.race([fonts, limit])
+    .catch((error) => console.warn('The fonts could not be awaited.', error))
+    .then(() => {
+      clearTimeout(timer);
+      element.hidden = true;
+    });
 };

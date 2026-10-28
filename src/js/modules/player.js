@@ -25,7 +25,7 @@ const PHASE_LABELS = {
  *
  * @param {string} [selector] Selector of the timer screen.
  * @param {object} options Settings; the timings are in milliseconds.
- * @param {string} options.appTitle Title of the app, which ends the page title.
+ * @param {string} options.title Title of the app, which ends the page title.
  * @param {number} [options.tickInterval] Interval between redraws.
  * @param {number} [options.lookahead] How far ahead signals are handed to the audio clock.
  * @param {number} [options.stale] A signal later than this is skipped rather than played out of time, for example after the page was hidden.
@@ -38,7 +38,7 @@ const PHASE_LABELS = {
 export const init = (
   selector = '[data-screen="timer"]',
   {
-    appTitle,
+    title,
     tickInterval = 200,
     lookahead = 1000,
     stale = 500,
@@ -258,48 +258,75 @@ export const init = (
     frameId = requestAnimationFrame(follow);
   };
 
+  /** Draw a step that has just begun, and announce it unless it is the first one drawn. */
+  const showStep = (index, finished) => {
+    const announcement = renderStep(index, finished);
+
+    if (shown) {
+      if (finished) animateFinish();
+
+      part('announce').textContent = announcement;
+    }
+
+    shown = { index, finished };
+    shownSeconds = -1;
+  };
+
+  /** Show the seconds left in the step, and pulse the clock during the final countdown. */
+  const showClock = (seconds, stepChanged) => {
+    if (seconds === shownSeconds) return;
+
+    clock.textContent = formatClock(seconds);
+
+    if (!stepChanged && isRunning() && seconds >= 1 && seconds <= COUNTDOWN_SECONDS) {
+      animate(clock, [{ transform: 'scale(1)' }, { transform: 'scale(1.08)' }, { transform: 'scale(1)' }], {
+        duration: pulseDuration,
+        easing: easing('--ease-out', 'ease-out')
+      });
+    }
+
+    shownSeconds = seconds;
+  };
+
+  /** Show the time left in the whole workout. */
+  const showTotal = (left) => {
+    if (left === shownTotal) return;
+
+    part('remaining').textContent = formatTotal(left);
+    shownTotal = left;
+  };
+
   const render = (at) => {
     const { index, remaining, finished } = locate(timeline, at);
     const changed = !shown || shown.index !== index || shown.finished !== finished;
 
-    if (changed) {
-      const announcement = renderStep(index, finished);
+    if (changed) showStep(index, finished);
 
-      if (shown) {
-        if (finished) animateFinish();
-
-        part('announce').textContent = announcement;
-      }
-
-      shown = { index, finished };
-      shownSeconds = -1;
-    }
-
-    const seconds = finished ? 0 : Math.ceil(remaining / MS);
-
-    if (seconds !== shownSeconds) {
-      clock.textContent = formatClock(seconds);
-
-      if (!changed && isRunning() && seconds >= 1 && seconds <= COUNTDOWN_SECONDS) {
-        animate(clock, [{ transform: 'scale(1)' }, { transform: 'scale(1.08)' }, { transform: 'scale(1)' }], {
-          duration: pulseDuration,
-          easing: easing('--ease-out', 'ease-out')
-        });
-      }
-
-      shownSeconds = seconds;
-    }
-
-    const left = finished ? 0 : Math.ceil((timeline.total - at) / MS);
-
-    if (left !== shownTotal) {
-      part('remaining').textContent = formatTotal(left);
-      shownTotal = left;
-    }
-
+    showClock(finished ? 0 : Math.ceil(remaining / MS), changed);
+    showTotal(finished ? 0 : Math.ceil((timeline.total - at) / MS));
     paintProgress(at);
 
     if (changed) renderControls();
+  };
+
+  /** @returns {number | null} Where the reloaded workout stood, or null when this is not the one that was running. */
+  const savedProgress = () => {
+    const session = library.loadSession();
+
+    return session?.id === workout.id && session.elapsed < timeline.total ? session.elapsed : null;
+  };
+
+  /** Keep the position of an unfinished workout, because a reload loses everything held in memory. */
+  const rememberProgress = () => {
+    if (element.hidden) return;
+
+    const at = elapsed();
+
+    if (at > 0 && at < timeline.total) {
+      library.saveSession({ id: workout.id, elapsed: at, savedAt: Date.now() });
+    } else {
+      library.clearSession();
+    }
   };
 
   /** Stop the clock without touching the signals, so that a finish chime can ring out. */
@@ -437,14 +464,23 @@ export const init = (
     }
   });
 
+  // iOS may end the app while it is in the background, so the position is kept whenever the page is hidden.
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && isRunning()) tick();
+    if (document.visibilityState === 'hidden') {
+      rememberProgress();
+    } else if (isRunning()) {
+      tick();
+    }
   });
+
+  window.addEventListener('pagehide', rememberProgress);
 
   return {
     element,
-    title: () => `${workout?.name ?? 'Workout'} – ${appTitle}`,
-    show: ([id]) => {
+    title: () => `${workout?.name ?? 'Workout'} – ${title}`,
+    // A page that has just loaded on this screen, as after a reload, and the Resume link pick a workout up where it
+    // stopped; opening it from the list always starts it afresh.
+    show: ([id, mode], { initial }) => {
       const found = library.getWorkout(id) ?? presets.getPreset(id);
 
       if (!found || found.exercises.length === 0) return false;
@@ -453,16 +489,18 @@ export const init = (
       steps = buildSteps(workout);
       timeline = buildTimeline(steps);
       cues = buildCues(timeline);
-      elapsedBefore = 0;
+      const resumeAt = initial || mode === 'resume' ? savedProgress() : null;
+
+      elapsedBefore = resumeAt ?? 0;
       resumedAt = null;
-      nextCue = 0;
+      seekCues(elapsedBefore);
       shown = null;
       heading.textContent = workout.name;
       renderSound();
-      render(0);
+      render(elapsedBefore);
 
-      // Without a tap, the browser would keep the signals silent, so wait for the Resume button.
-      if (sound.isReady()) {
+      // Without a tap, the browser would keep the signals silent, so a reloaded workout waits for the Resume button.
+      if (resumeAt === null && sound.isReady()) {
         start();
       } else {
         renderControls();
@@ -473,6 +511,7 @@ export const init = (
     leave: () => {
       halt();
       sound.cancel();
+      library.clearSession();
     }
   };
 };

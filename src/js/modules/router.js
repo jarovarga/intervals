@@ -4,7 +4,7 @@ const INTRO = 'intro';
  * @typedef {{
  *   element: HTMLElement,
  *   title: (params: string[]) => string,
- *   show: (params: string[]) => boolean | void,
+ *   show: (params: string[], options: { initial: boolean }) => boolean | void,
  *   leave?: () => void
  * }} Screen
  */
@@ -68,7 +68,7 @@ export const init = (selector, { screens }) => {
       element.hidden = true;
     });
 
-    if (screen.show(params) === false) {
+    if (screen.show(params, { initial: first }) === false) {
       active = null;
       // Replace the bad entry, so that Back does not return to it and bounce back to the intro again.
       navigate('#/', { replace: true });

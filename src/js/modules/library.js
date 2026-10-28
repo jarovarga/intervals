@@ -1,8 +1,13 @@
+import { MS } from './time.js';
 import { readWorkout } from './workout.js';
 
 const STORAGE_KEY = 'intervals:v1';
 const VERSION = 1;
 const BACKUP_KEY = `${STORAGE_KEY}:backup`;
+const SESSION_KEY = `${STORAGE_KEY}:session`;
+
+/** How long after it was saved the progress of a workout can still be picked up again: one hour. */
+const SESSION_MAX_AGE = 60 * 60 * MS;
 
 /** @type {{ sound: boolean, workouts: import('./workout.js').Workout[] } | null} */
 let library = null;
@@ -148,4 +153,49 @@ export const isSoundOn = () => current().sound;
 export const setSoundOn = (on) => {
   current().sound = on;
   persist();
+};
+
+/**
+ * Remember how far a workout has got, so that it can be picked up again after a reload, or after iOS has ended the app
+ * in the background. A full or blocked store only costs the resume, so the app keeps working.
+ *
+ * @param {{ id: string, elapsed: number, savedAt: number }} session Workout, its active milliseconds and Date.now().
+ * @returns {void}
+ */
+export const saveSession = (session) => {
+  try {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  } catch (error) {
+    console.warn('The workout progress could not be saved.', error);
+  }
+};
+
+/**
+ * @param {number} [now] Date.now(), to tell whether the progress is too old to be worth picking up.
+ * @returns {{ id: string, elapsed: number, savedAt: number } | null} The saved progress, or null when there is none.
+ */
+export const loadSession = (now = Date.now()) => {
+  try {
+    const stored = JSON.parse(localStorage.getItem(SESSION_KEY) ?? 'null');
+    const valid = typeof stored?.id === 'string' && stored.elapsed >= 0 && Number.isFinite(stored.savedAt);
+
+    if (valid && now - stored.savedAt <= SESSION_MAX_AGE) {
+      return { id: stored.id, elapsed: stored.elapsed, savedAt: stored.savedAt };
+    }
+  } catch (error) {
+    console.warn('The saved workout progress could not be read.', error);
+  }
+
+  return null;
+};
+
+/**
+ * @returns {void}
+ */
+export const clearSession = () => {
+  try {
+    localStorage.removeItem(SESSION_KEY);
+  } catch (error) {
+    console.warn('The saved workout progress could not be cleared.', error);
+  }
 };

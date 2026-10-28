@@ -56,6 +56,13 @@ export const release = async () => {
   await held.release();
 };
 
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && wanted) acquire();
-});
+/**
+ * Request the lock again when the page comes back, if a workout still wants the screen on.
+ *
+ * @returns {void}
+ */
+export const init = () => {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && wanted) acquire();
+  });
+};

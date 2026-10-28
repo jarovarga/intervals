@@ -32,10 +32,21 @@
                     <div data-notice="update" class="panel update" hidden>
                         <div class="panel__block">
                             <p class="update__text">A new version is ready.</p>
-                            <button type="button" data-action="reload" class="button button--accent button--compact">Reload</button>
+                            <button type="button" data-action="reload" data-icon="reload" class="button button--accent button--compact">Reload</button>
                         </div>
                     </div>
                 </div>
+
+                <aside data-notice="resume" class="panel" aria-labelledby="resume-title" hidden>
+                    <div class="panel__text">
+                        <h2 id="resume-title" class="panel__title">Continue your workout?</h2>
+                        <p data-name="resume" class="panel__note"></p>
+                    </div>
+                    <div class="panel__block">
+                        <button type="button" data-action="discard" class="button button--compact">Discard</button>
+                        <a href="#/timer" data-resume="workout" data-icon="play" class="button button--accent button--compact">Resume</a>
+                    </div>
+                </aside>
 
                 <aside data-notice="install" class="panel install" aria-labelledby="install-title" hidden>
                     <h2 id="install-title" class="install__title">Install</h2>
