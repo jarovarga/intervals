@@ -68,6 +68,7 @@ export const init = (selector = '[data-screen="intro"]', { title } = {}) => {
   const list = element.querySelector('[data-workouts="custom"]');
   const presetList = element.querySelector('[data-workouts="presets"]');
   const createFirst = element.querySelector('[data-create="first"]');
+  const resume = element.querySelector('[data-notice="resume"]');
   const template = document.querySelector('[data-template="workout"]');
 
   // Sound and the screen lock both need a tap, and the Start link is that tap.
@@ -112,12 +113,31 @@ export const init = (selector = '[data-screen="intro"]', { title } = {}) => {
     return item;
   };
 
+  /** Offer to continue the workout that was left unfinished, for instance when iOS ended the app in the background. */
+  const renderResume = () => {
+    const session = library.loadSession();
+    const workout = session && (library.getWorkout(session.id) ?? presets.getPreset(session.id));
+
+    resume.hidden = !workout || workout.exercises.length === 0;
+
+    if (resume.hidden) return;
+
+    resume.querySelector('[data-name="resume"]').textContent = workout.name;
+    resume.querySelector('[data-resume="workout"]').href = `#/timer/${workout.id}/resume`;
+  };
+
+  resume.querySelector('[data-action="discard"]').addEventListener('click', () => {
+    library.clearSession();
+    resume.hidden = true;
+  });
+
   const render = () => {
     const workouts = library.getWorkouts();
 
     presetList.replaceChildren(...presets.getPresets().map(createItem));
     list.replaceChildren(...workouts.map(createItem));
     createFirst.hidden = workouts.length > 0;
+    renderResume();
     showSection(element, 'workouts');
   };
 

@@ -464,14 +464,23 @@ export const init = (
     }
   });
 
+  // iOS may end the app while it is in the background, so the position is kept whenever the page is hidden.
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && isRunning()) tick();
+    if (document.visibilityState === 'hidden') {
+      rememberProgress();
+    } else if (isRunning()) {
+      tick();
+    }
   });
+
+  window.addEventListener('pagehide', rememberProgress);
 
   return {
     element,
     title: () => `${workout?.name ?? 'Workout'} – ${title}`,
-    show: ([id]) => {
+    // A page that has just loaded on this screen, as after a reload, and the Resume link pick a workout up where it
+    // stopped; opening it from the list always starts it afresh.
+    show: ([id, mode], { initial }) => {
       const found = library.getWorkout(id) ?? presets.getPreset(id);
 
       if (!found || found.exercises.length === 0) return false;
@@ -480,16 +489,18 @@ export const init = (
       steps = buildSteps(workout);
       timeline = buildTimeline(steps);
       cues = buildCues(timeline);
-      elapsedBefore = 0;
+      const resumeAt = initial || mode === 'resume' ? savedProgress() : null;
+
+      elapsedBefore = resumeAt ?? 0;
       resumedAt = null;
-      nextCue = 0;
+      seekCues(elapsedBefore);
       shown = null;
       heading.textContent = workout.name;
       renderSound();
-      render(0);
+      render(elapsedBefore);
 
-      // Without a tap, the browser would keep the signals silent, so wait for the Resume button.
-      if (sound.isReady()) {
+      // Without a tap, the browser would keep the signals silent, so a reloaded workout waits for the Resume button.
+      if (resumeAt === null && sound.isReady()) {
         start();
       } else {
         renderControls();
@@ -500,6 +511,7 @@ export const init = (
     leave: () => {
       halt();
       sound.cancel();
+      library.clearSession();
     }
   };
 };

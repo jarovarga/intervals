@@ -5,6 +5,7 @@ import { createDefaultWorkout } from '../src/js/modules/workout.js';
 
 const KEY = 'intervals:v1';
 const BACKUP_KEY = `${KEY}:backup`;
+const SESSION_KEY = `${KEY}:session`;
 const originalStorage = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
 
 let imports = 0;
@@ -29,6 +30,9 @@ const fakeStorage = (data = {}, failing = []) => {
         }
 
         map.set(key, value);
+      },
+      removeItem: (key) => {
+        map.delete(key);
       }
     }
   });
@@ -152,4 +156,57 @@ test('a failing write keeps the library working in memory', async () => {
   }
 
   assert.equal(library.getWorkouts().length, 1);
+});
+
+test('workout progress is saved, read back and cleared', async () => {
+  const map = fakeStorage();
+  const library = await loadLibrary();
+  const session = { id: 'abc', elapsed: 42000, savedAt: 1700000000000 };
+
+  library.saveSession(session);
+
+  assert.deepEqual(library.loadSession(session.savedAt), session);
+
+  library.clearSession();
+
+  assert.equal(map.has(SESSION_KEY), false);
+  assert.equal(library.loadSession(session.savedAt), null);
+});
+
+test('progress is picked up for an hour and not after', async () => {
+  fakeStorage();
+
+  const library = await loadLibrary();
+  const hour = 60 * 60 * 1000;
+  const session = { id: 'abc', elapsed: 42000, savedAt: 1700000000000 };
+
+  library.saveSession(session);
+
+  assert.deepEqual(library.loadSession(session.savedAt + hour), session);
+  assert.equal(library.loadSession(session.savedAt + hour + 1), null);
+});
+
+test('unreadable or incomplete progress counts as none', async () => {
+  const library = await loadLibrary();
+
+  for (const stored of [
+    '{not json',
+    '"text"',
+    JSON.stringify({ id: 'abc' }),
+    JSON.stringify({ id: 1, elapsed: 5, savedAt: 1 })
+  ]) {
+    fakeStorage({ [SESSION_KEY]: stored });
+
+    assert.equal(library.loadSession(1), null, stored);
+  }
+});
+
+test('progress that cannot be stored costs only the resume', async () => {
+  fakeStorage({}, [SESSION_KEY]);
+
+  const library = await loadLibrary();
+
+  library.saveSession({ id: 'abc', elapsed: 1000, savedAt: 1 });
+
+  assert.equal(library.loadSession(1), null);
 });
