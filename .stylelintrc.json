@@ -12,7 +12,7 @@
     "custom-property-pattern": [
       "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:--[a-z][a-z0-9]*(?:-[a-z0-9]+)*)?$",
       {
-        "message": "Expected kebab-case with an optional --modifier suffix"
+        "message": "Expected kebab-case with an optional --modifier suffix."
       }
     ],
     "declaration-empty-line-before": null,
@@ -71,7 +71,7 @@
     "selector-class-pattern": [
       "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:__[a-z0-9]+(?:-[a-z0-9]+)*)?(?:--[a-z0-9]+(?:-[a-z0-9]+)*(?:_[a-z0-9]+(?:-[a-z0-9]+)*)?)?$",
       {
-        "message": "Expected class selector to use BEM notation"
+        "message": "Expected class selector to use BEM notation."
       }
     ],
     "selector-max-combinators": 2,

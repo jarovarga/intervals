@@ -98,6 +98,7 @@ export const init = (selector, { speed = 40, pause = 1.5 } = {}) => {
 
       update();
 
+      // The containers stay in the page for its whole life, so the observers and the listener are never disconnected.
       // The text changes with the step and its width with the layout, so measure on both.
       const observer = new ResizeObserver(queueUpdate);
 

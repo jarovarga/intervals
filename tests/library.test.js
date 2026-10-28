@@ -73,6 +73,15 @@ test('unreadable data is backed up before the library starts empty', async () =>
   assert.equal(JSON.parse(map.get(KEY)).workouts.length, 0);
 });
 
+test('data of an unknown version is backed up before the library starts empty', async () => {
+  const stored = JSON.stringify({ version: 2, sound: false, workouts: [createDefaultWorkout()] });
+  const map = fakeStorage({ [KEY]: stored });
+  const library = await loadLibrary();
+
+  assert.deepEqual(library.getWorkouts(), []);
+  assert.equal(map.get(BACKUP_KEY), stored);
+});
+
 test('unreadable data is never overwritten when the backup fails', async () => {
   const map = fakeStorage({ [KEY]: '{not json' }, [BACKUP_KEY]);
   const library = await loadLibrary();
