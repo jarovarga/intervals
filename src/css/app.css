@@ -16,6 +16,7 @@
 @import "./blocks/swatch.css" layer(block);
 @import "./blocks/panel.css" layer(block);
 @import "./blocks/workout.css" layer(block);
+@import "./blocks/exercise.css" layer(block);
 @import "./blocks/dialog.css" layer(block);
 @import "./blocks/install.css" layer(block);
 @import "./blocks/update.css" layer(block);
