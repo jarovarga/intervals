@@ -16,6 +16,10 @@ Open it at [jarovarga.github.io/intervals](https://jarovarga.github.io/intervals
 
 Plain HTML, layered CSS and ES modules, built with esbuild and checked with Stylelint, ESLint, HTML-validate and Prettier.
 
+## Known limitations
+
+On iOS, the app may flash white for a moment when opened from the Home Screen. iOS ignores `background_color` in the web app manifest and shows its own splash screen unless `apple-touch-startup-image` supplies one for each device's exact resolution; the app does not ship those images, because the list would need constant upkeep and WebKit may still flash white with one (see [WebKit bug 215479](https://bugs.webkit.org/show_bug.cgi?id=215479)).
+
 ## Requirements
 
 - Node.js `^22.22.0` or `>=24.8.0` (`.nvmrc` pins 24) and npm
