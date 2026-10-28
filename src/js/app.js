@@ -7,7 +7,9 @@ import * as marquee from './modules/marquee.js';
 import * as player from './modules/player.js';
 import * as router from './modules/router.js';
 import * as serviceWorker from './modules/service-worker.js';
+import * as sound from './modules/sound.js';
 import * as update from './modules/update.js';
+import * as wakeLock from './modules/wake-lock.js';
 
 /** Title of the app, which ends every page title. */
 const APP_TITLE = 'Interval timer for circuit workouts';
@@ -16,6 +18,8 @@ const APP_TITLE = 'Interval timer for circuit workouts';
 const UPDATE_CHECK_INTERVAL = 60 * 60 * 1000;
 
 dialog.init('[data-dialog="confirm"]');
+sound.init();
+wakeLock.init();
 marquee.init('[data-marquee]', { speed: 32, pause: 2.5 });
 install.init('[data-notice="install"]');
 update.init('[data-notice="update"]');
