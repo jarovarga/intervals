@@ -36,6 +36,8 @@ npm run build
 
 The build writes the deployable site to `public/`. To try it locally, serve that folder with any static server.
 
+The app needs a secure context: `localhost` and HTTPS work, but a plain `http://` address on the local network, such as `http://192.168.0.10`, does not. There `crypto.randomUUID()` throws, and the service worker and the screen wake lock are unavailable. To try it on a phone, serve the site over HTTPS or tunnel it.
+
 ## Commands
 
 | Command                | Description                                                       |
