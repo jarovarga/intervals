@@ -26,7 +26,7 @@ const parse = (route) => {
  * Go to a screen. The route lives in the history state, not in the address bar, so the URL stays the same while Back
  * still works.
  *
- * @param {string} route Target route, such as `#/edit/abc` or `/`.
+ * @param {string} route Target route, such as `#/edit/abc` or `#/`.
  * @param {{ replace?: boolean }} [options] Replace the current history entry instead of adding one.
  * @returns {void}
  */
@@ -71,7 +71,7 @@ export const init = (selector, { screens }) => {
     if (screen.show(params) === false) {
       active = null;
       // Replace the bad entry, so that Back does not return to it and bounce back to the intro again.
-      navigate('/', { replace: true });
+      navigate('#/', { replace: true });
       return;
     }
 
