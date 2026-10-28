@@ -24,7 +24,7 @@
     },
     "declaration-property-value-allowed-list": {
       "/^(?:font-size|line-height)$/": ["/^var\\(--/", "/^clamp\\(\\s*var\\(--/", "inherit"],
-      "font-weight": ["/^var\\(--/", "/^\\d+ \\d+$/"],
+      "font-weight": ["/^var\\(--/", "/^\\d+(?: \\d+)?$/"],
       "letter-spacing": ["/^var\\(--/", "inherit"],
       "/^border(?:-[a-z]+){0,2}-radius$/": ["/^var\\(--/", "0", "50%", "inherit"],
       "/^(?:transition|animation)-timing-function$/": ["/^var\\(--/"]

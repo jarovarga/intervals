@@ -16,7 +16,7 @@
 }
 
 .button--accent {
-  background-color: var(--colour, var(--color-accent));
+  background-color: var(--color-workout, var(--color-accent));
   color: var(--color-on-accent);
   font-weight: var(--font-weight-bold);
 }

@@ -6,11 +6,8 @@ html {
   overscroll-behavior-block: none;
   scroll-behavior: smooth;
   scrollbar-gutter: stable;
-
-  /* Stops the double-tap zoom on iOS and keeps pinch zoom for accessibility. */
   touch-action: manipulation;
 
-  /* Touch screens scroll by dragging, so no scrollbar or gutter is shown. */
   @media (pointer: coarse) {
     scrollbar-gutter: auto;
     scrollbar-width: none;
@@ -33,33 +30,18 @@ body {
   position: relative;
 }
 
-/* The screens do not scroll sideways. */
 .screens {
   overflow-x: clip;
 }
 
 h1,
 h2,
-h3,
-h4,
-h5,
-h6 {
+h3 {
   text-wrap: balance;
 }
 
 p {
   text-wrap: pretty;
-}
-
-.container {
-  margin-inline: auto;
-  max-inline-size: 88rem;
-  padding-inline: calc(var(--spacing) * 6);
-  position: relative;
-
-  @media (width >= 64rem) {
-    padding-inline: calc(var(--spacing) * 16);
-  }
 }
 
 ::selection {

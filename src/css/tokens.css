@@ -13,19 +13,19 @@
   --color-text: oklch(0.961 0 0);
   --color-text-muted: oklch(0.833 0 0);
   --color-text-danger: oklch(0.786 0.126 32.6);
-  --color-on-phase: oklch(0.178 0 0);
-  --color-on-phase-track: oklch(0.178 0 0 / 0.16);
 
   --color-border: oklch(0.52 0.003 286.3);
+  --color-scrim: oklch(0 0 0 / 0.6);
 
+  --color-phase: var(--color-accent);
+  --color-phase-done: oklch(0.961 0 0);
   --color-phase-prepare: oklch(0.849 0.151 81.3);
-  --color-phase-work: oklch(0.915 0.203 126.4);
   --color-phase-rest: oklch(0.663 0.225 19.7);
   --color-phase-round: oklch(0.754 0.139 232.7);
-  --color-phase-done: oklch(0.961 0 0);
+  --color-phase-work: oklch(0.915 0.203 126.4);
 
-  --colour: var(--color-accent);
-  --phase: var(--color-phase-work);
+  --color-on-phase: oklch(0.178 0 0);
+  --color-on-phase-track: oklch(0.178 0 0 / 0.16);
 
   --color-workout-green: oklch(0.914 0.203 126.7);
   --color-workout-orange: oklch(0.75 0.167 50.5);
