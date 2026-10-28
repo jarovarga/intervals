@@ -12,8 +12,7 @@
   outline-offset: 0.25rem;
 }
 
-/* Headings only take focus from the router when a screen opens, so that a screen reader starts at the new title; they
-   are not controls and need no indicator. */
+/* The router focuses a heading when a screen opens so that a screen reader starts there; it is no control. */
 [tabindex="-1"]:focus-visible {
   outline-color: transparent;
 }
