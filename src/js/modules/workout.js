@@ -7,7 +7,7 @@ export const COLOURS = ['green', 'orange', 'blue', 'yellow', 'pink', 'purple'];
 export const MAX_ROUNDS = 99;
 
 /** Longest workout name, in characters. */
-export const MAX_NAME_LENGTH = 60;
+export const MAX_NAME_LENGTH = 50;
 
 const DEFAULT_EXERCISE_SECONDS = 30;
 const DEFAULT_PREPARE_SECONDS = 10;
