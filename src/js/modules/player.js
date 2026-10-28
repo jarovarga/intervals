@@ -258,48 +258,75 @@ export const init = (
     frameId = requestAnimationFrame(follow);
   };
 
+  /** Draw a step that has just begun, and announce it unless it is the first one drawn. */
+  const showStep = (index, finished) => {
+    const announcement = renderStep(index, finished);
+
+    if (shown) {
+      if (finished) animateFinish();
+
+      part('announce').textContent = announcement;
+    }
+
+    shown = { index, finished };
+    shownSeconds = -1;
+  };
+
+  /** Show the seconds left in the step, and pulse the clock during the final countdown. */
+  const showClock = (seconds, stepChanged) => {
+    if (seconds === shownSeconds) return;
+
+    clock.textContent = formatClock(seconds);
+
+    if (!stepChanged && isRunning() && seconds >= 1 && seconds <= COUNTDOWN_SECONDS) {
+      animate(clock, [{ transform: 'scale(1)' }, { transform: 'scale(1.08)' }, { transform: 'scale(1)' }], {
+        duration: pulseDuration,
+        easing: easing('--ease-out', 'ease-out')
+      });
+    }
+
+    shownSeconds = seconds;
+  };
+
+  /** Show the time left in the whole workout. */
+  const showTotal = (left) => {
+    if (left === shownTotal) return;
+
+    part('remaining').textContent = formatTotal(left);
+    shownTotal = left;
+  };
+
   const render = (at) => {
     const { index, remaining, finished } = locate(timeline, at);
     const changed = !shown || shown.index !== index || shown.finished !== finished;
 
-    if (changed) {
-      const announcement = renderStep(index, finished);
+    if (changed) showStep(index, finished);
 
-      if (shown) {
-        if (finished) animateFinish();
-
-        part('announce').textContent = announcement;
-      }
-
-      shown = { index, finished };
-      shownSeconds = -1;
-    }
-
-    const seconds = finished ? 0 : Math.ceil(remaining / MS);
-
-    if (seconds !== shownSeconds) {
-      clock.textContent = formatClock(seconds);
-
-      if (!changed && isRunning() && seconds >= 1 && seconds <= COUNTDOWN_SECONDS) {
-        animate(clock, [{ transform: 'scale(1)' }, { transform: 'scale(1.08)' }, { transform: 'scale(1)' }], {
-          duration: pulseDuration,
-          easing: easing('--ease-out', 'ease-out')
-        });
-      }
-
-      shownSeconds = seconds;
-    }
-
-    const left = finished ? 0 : Math.ceil((timeline.total - at) / MS);
-
-    if (left !== shownTotal) {
-      part('remaining').textContent = formatTotal(left);
-      shownTotal = left;
-    }
-
+    showClock(finished ? 0 : Math.ceil(remaining / MS), changed);
+    showTotal(finished ? 0 : Math.ceil((timeline.total - at) / MS));
     paintProgress(at);
 
     if (changed) renderControls();
+  };
+
+  /** @returns {number | null} Where the reloaded workout stood, or null when this is not the one that was running. */
+  const savedProgress = () => {
+    const session = library.loadSession();
+
+    return session?.id === workout.id && session.elapsed < timeline.total ? session.elapsed : null;
+  };
+
+  /** Keep the position of an unfinished workout, because a reload loses everything held in memory. */
+  const rememberProgress = () => {
+    if (element.hidden) return;
+
+    const at = elapsed();
+
+    if (at > 0 && at < timeline.total) {
+      library.saveSession({ id: workout.id, elapsed: at, savedAt: Date.now() });
+    } else {
+      library.clearSession();
+    }
   };
 
   /** Stop the clock without touching the signals, so that a finish chime can ring out. */
