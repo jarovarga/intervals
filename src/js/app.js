@@ -25,11 +25,11 @@ install.init('[data-notice="install"]');
 update.init('[data-notice="update"]');
 router.init('[data-screen]', {
   screens: {
-    intro: intro.init('[data-screen="intro"]', { appTitle: APP_TITLE }),
-    stats: intro.stats('[data-screen="intro"]', { appTitle: APP_TITLE }),
-    edit: editor.init('[data-screen="editor"]', { appTitle: APP_TITLE }),
+    intro: intro.init('[data-screen="intro"]', { title: APP_TITLE }),
+    stats: intro.stats('[data-screen="intro"]', { title: APP_TITLE }),
+    edit: editor.init('[data-screen="editor"]', { title: APP_TITLE }),
     timer: player.init('[data-screen="timer"]', {
-      appTitle: APP_TITLE,
+      title: APP_TITLE,
       tickInterval: 200,
       lookahead: 1000,
       stale: 500,

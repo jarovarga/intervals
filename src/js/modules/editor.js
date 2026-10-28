@@ -28,10 +28,10 @@ const findProblem = (draft) => {
  *
  * @param {string} [selector] Selector of the editor screen.
  * @param {object} options Settings.
- * @param {string} options.appTitle Title of the app, which ends the page title.
+ * @param {string} options.title Title of the app, which ends the page title.
  * @returns {import('./router.js').Screen} The screen.
  */
-export const init = (selector = '[data-screen="editor"]', { appTitle } = {}) => {
+export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
   const element = document.querySelector(selector);
   const form = element.querySelector('[data-form="editor"]');
   const heading = element.querySelector('[data-title="editor"]');
@@ -265,7 +265,7 @@ export const init = (selector = '[data-screen="editor"]', { appTitle } = {}) => 
 
   return {
     element,
-    title: () => `${isNew ? 'New' : 'Edit'} workout – ${appTitle}`,
+    title: () => `${isNew ? 'New' : 'Edit'} workout – ${title}`,
     show: ([id]) => {
       const existing = library.getWorkout(id);
       // A preset stays as it is; editing it starts a new workout from a copy.

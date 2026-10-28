@@ -25,7 +25,7 @@ const PHASE_LABELS = {
  *
  * @param {string} [selector] Selector of the timer screen.
  * @param {object} options Settings; the timings are in milliseconds.
- * @param {string} options.appTitle Title of the app, which ends the page title.
+ * @param {string} options.title Title of the app, which ends the page title.
  * @param {number} [options.tickInterval] Interval between redraws.
  * @param {number} [options.lookahead] How far ahead signals are handed to the audio clock.
  * @param {number} [options.stale] A signal later than this is skipped rather than played out of time, for example after the page was hidden.
@@ -38,7 +38,7 @@ const PHASE_LABELS = {
 export const init = (
   selector = '[data-screen="timer"]',
   {
-    appTitle,
+    title,
     tickInterval = 200,
     lookahead = 1000,
     stale = 500,
@@ -443,7 +443,7 @@ export const init = (
 
   return {
     element,
-    title: () => `${workout?.name ?? 'Workout'} – ${appTitle}`,
+    title: () => `${workout?.name ?? 'Workout'} – ${title}`,
     show: ([id]) => {
       const found = library.getWorkout(id) ?? presets.getPreset(id);
 

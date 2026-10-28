@@ -42,15 +42,15 @@ const showSection = (element, name) => {
  *
  * @param {string} [selector] Selector of the intro screen.
  * @param {object} options Settings.
- * @param {string} options.appTitle Title of the app, which ends every page title.
+ * @param {string} options.title Title of the app, which ends every page title.
  * @returns {import('./router.js').Screen} The screen.
  */
-export const stats = (selector = '[data-screen="intro"]', { appTitle } = {}) => {
+export const stats = (selector = '[data-screen="intro"]', { title } = {}) => {
   const element = document.querySelector(selector);
 
   return {
     element,
-    title: () => `Statistics – ${appTitle}`,
+    title: () => `Statistics – ${title}`,
     show: () => showSection(element, 'stats')
   };
 };
@@ -60,10 +60,10 @@ export const stats = (selector = '[data-screen="intro"]', { appTitle } = {}) => 
  *
  * @param {string} [selector] Selector of the intro screen.
  * @param {object} options Settings.
- * @param {string} options.appTitle Title of the app, which is the page title of this screen.
+ * @param {string} options.title Title of the app, which is the page title of this screen.
  * @returns {import('./router.js').Screen} The screen.
  */
-export const init = (selector = '[data-screen="intro"]', { appTitle } = {}) => {
+export const init = (selector = '[data-screen="intro"]', { title } = {}) => {
   const element = document.querySelector(selector);
   const list = element.querySelector('[data-workouts="custom"]');
   const presetList = element.querySelector('[data-workouts="presets"]');
@@ -123,7 +123,7 @@ export const init = (selector = '[data-screen="intro"]', { appTitle } = {}) => {
 
   return {
     element,
-    title: () => appTitle,
+    title: () => title,
     show: render
   };
 };
