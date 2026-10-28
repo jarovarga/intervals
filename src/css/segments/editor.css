@@ -48,11 +48,9 @@
 }
 
 .editor__exercises {
-  border: 0;
   display: flex;
   flex-direction: column;
   gap: calc(var(--spacing) * 3);
-  min-inline-size: 0;
 }
 
 /* A legend is not a flex item, so the gap of the fieldset does not apply; this matches the label and gap of a panel. */

@@ -30,6 +30,11 @@
   max-inline-size: 100%;
 }
 
+:where(fieldset) {
+  border: 0;
+  min-inline-size: 0;
+}
+
 :where(button) {
   appearance: none;
   background: none;
