@@ -13,18 +13,18 @@
   display: grid;
   gap: calc(var(--spacing) * 2);
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+}
 
-  & > :first-child {
-    align-items: center;
-    display: flex;
-    font-size: var(--text-lg);
-    font-weight: var(--font-weight-semibold);
-    min-block-size: 2.75rem;
-  }
+.editor__cancel {
+  align-items: center;
+  display: flex;
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  min-block-size: 2.75rem;
+}
 
-  & > :last-child {
-    justify-self: end;
-  }
+.editor__save {
+  justify-self: end;
 }
 
 .editor__title {
@@ -72,18 +72,18 @@
   gap: calc(var(--spacing) * 4);
   justify-content: space-between;
   padding-inline: calc(var(--spacing) * 1);
-
-  & output {
-    font-size: var(--text-5xl);
-    font-variant-numeric: tabular-nums;
-    line-height: var(--leading-none);
-  }
 }
 
 .editor__total-label {
   color: var(--color-text-muted);
   font-size: var(--text-lg);
   font-weight: var(--font-weight-semibold);
+}
+
+.editor__total-value {
+  font-size: var(--text-5xl);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--leading-none);
 }
 
 .exercise {

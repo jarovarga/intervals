@@ -73,7 +73,7 @@
                     <div class="editor__bar">
                         <a href="#/" class="editor__cancel">Cancel</a>
                         <h2 tabindex="-1" data-title="editor" class="editor__title">Edit workout</h2>
-                        <button type="submit" class="button button--accent button--compact">Save</button>
+                        <button type="submit" class="button button--accent button--compact editor__save">Save</button>
                     </div>
 
                     <p id="time-hint" class="editor__hint">Type 30 for 30 seconds or 1:30 for 1 minute 30 seconds.</p>
@@ -143,7 +143,7 @@
 
                     <p class="editor__total">
                         <span class="editor__total-label">Total time</span>
-                        <output for="prepare-time rest-time rounds round-rest-time" data-total="editor">0:00</output>
+                        <output for="prepare-time rest-time rounds round-rest-time" data-total="editor" class="editor__total-value">0:00</output>
                     </p>
 
                     <button type="button" data-action="delete" class="button button--outline button--danger">Delete workout</button>
