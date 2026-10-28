@@ -8,7 +8,7 @@ const SECONDS_PER_MINUTE = 60;
 const twoDigits = new Intl.NumberFormat('en-GB', { minimumIntegerDigits: 2, useGrouping: false });
 
 /**
- * Parse a typed time such as `:30`, `1:30`, `30` (seconds) or `130` (1:30, minutes and seconds).
+ * Parse a typed time such as `:30` or `1:30` (minutes and seconds), or `30` and `130` (seconds).
  *
  * @param {string} text Typed value.
  * @param {{ allowZero?: boolean }} [options] Whether `0` is a valid time.
@@ -23,13 +23,9 @@ export const parse = (text, { allowZero = false } = {}) => {
     const [left, right] = value.split(':');
     minutes = Number(left || 0);
     seconds = Number(right);
-  } else if (/^\d{1,2}$/.test(value)) {
+  } else if (/^\d{1,4}$/.test(value)) {
     minutes = 0;
     seconds = Number(value);
-  } else if (/^\d{3,4}$/.test(value)) {
-    minutes = Number(value.slice(0, -2));
-    seconds = Number(value.slice(-2));
-    if (seconds >= SECONDS_PER_MINUTE) return null;
   } else {
     return null;
   }
