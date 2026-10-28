@@ -9,6 +9,12 @@ html {
 
   /* Stops the double-tap zoom on iOS and keeps pinch zoom for accessibility. */
   touch-action: manipulation;
+
+  /* Touch screens scroll by dragging, so no scrollbar or gutter is shown. */
+  @media (pointer: coarse) {
+    scrollbar-gutter: auto;
+    scrollbar-width: none;
+  }
 }
 
 body {
