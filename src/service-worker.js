@@ -3,6 +3,14 @@ const CACHE_NAME = 'intervals-__BUILD_HASH__';
 const CACHE_PREFIX = 'intervals-';
 const PRECACHE_PATHS = JSON.parse('__PRECACHE_PATHS__');
 
+// Shown when a navigation finds neither the cached shell nor a network, instead of the browser's error page.
+const OFFLINE_MESSAGE = 'Intervals is offline and the app is not cached yet. Reconnect and reload.';
+const OFFLINE_RESPONSE_INIT = {
+  status: 503,
+  statusText: 'Service Unavailable',
+  headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+};
+
 const APPLICATION_URL = new URL('./', self.registration.scope);
 const APP_SHELL_URL = new URL('index.html', APPLICATION_URL).href;
 const PRECACHE_URLS = new Set(PRECACHE_PATHS.map((path) => new URL(path, APPLICATION_URL).href));
@@ -57,7 +65,12 @@ const handleFetch = (event) => {
   if (request.method !== 'GET' || url.origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
-    event.respondWith(caches.match(APP_SHELL_URL, { cacheName: CACHE_NAME }).then((shell) => shell ?? fetch(request)));
+    event.respondWith(
+      caches
+        .match(APP_SHELL_URL, { cacheName: CACHE_NAME })
+        .then((shell) => shell ?? fetch(request))
+        .catch(() => new Response(OFFLINE_MESSAGE, OFFLINE_RESPONSE_INIT))
+    );
     return;
   }
 
