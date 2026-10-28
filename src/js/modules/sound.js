@@ -1,3 +1,5 @@
+import { MS } from './time.js';
+
 /** Notes of each signal: pitch in Hz, start offset and length in seconds. */
 const CUES = {
   tick: [{ frequency: 660, offset: 0, length: 0.12 }],
@@ -17,7 +19,6 @@ const CUES = {
 const PEAK_GAIN = 0.4;
 const ATTACK = 0.005;
 const SILENCE = 0.0001;
-const MS = 1000;
 
 /** @type {AudioContext | null} */
 let context = null;

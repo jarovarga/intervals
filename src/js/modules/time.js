@@ -1,3 +1,6 @@
+/** Milliseconds in a second. */
+export const MS = 1000;
+
 /** Longest time a field accepts: 99:59. */
 export const MAX_SECONDS = 99 * 60 + 59;
 

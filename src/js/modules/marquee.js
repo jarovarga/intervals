@@ -1,4 +1,4 @@
-const MS = 1000;
+import { MS } from './time.js';
 
 /**
  * Scroll text that is wider than its container back and forth, holding still at each end. The first child holds the

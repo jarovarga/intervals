@@ -4,12 +4,11 @@ import { count } from './plural.js';
 import * as presets from './presets.js';
 import * as router from './router.js';
 import * as sound from './sound.js';
-import { formatClock, formatField, formatTotal } from './time.js';
+import { formatClock, formatField, formatTotal, MS } from './time.js';
 import { buildCues, buildTimeline, COUNTDOWN_SECONDS, locate } from './timeline.js';
 import * as wakeLock from './wake-lock.js';
 import { buildSteps } from './workout.js';
 
-const MS = 1000;
 const PHASE_LABELS = {
   prepare: 'Get ready',
   work: 'Work',
@@ -36,8 +35,8 @@ const PHASE_LABELS = {
  */
 export const init = (
   selector = '[data-view="timer"]',
-    appTitle,
   {
+    appTitle,
     tickInterval = 200,
     lookahead = 1000,
     stale = 500,

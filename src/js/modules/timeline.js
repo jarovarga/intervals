@@ -1,4 +1,5 @@
-const MS = 1000;
+import { MS } from './time.js';
+
 /** Seconds at the end of each phase that get a tick cue and a clock pulse. */
 export const COUNTDOWN_SECONDS = 3;
 
