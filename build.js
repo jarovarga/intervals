@@ -238,7 +238,11 @@ async function watchAll() {
   let htmlSource = await readFile(paths.html.source, 'utf8');
   await writeHtml(htmlSource);
 
-  const [css, js] = await Promise.all([context(options.css), context(options.js)]);
+  // Source maps are for debugging in the browser only, so the production build does not write them.
+  const [css, js] = await Promise.all([
+    context({ ...options.css, sourcemap: 'linked' }),
+    context({ ...options.js, sourcemap: 'linked' })
+  ]);
 
   try {
     await Promise.all([css.watch(), js.watch(), copyAssets(), copyManifest()]);

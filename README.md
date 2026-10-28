@@ -37,7 +37,7 @@ The build writes the deployable site to `public/`. To try it locally, serve that
 | Command                | Description                                                       |
 | ---------------------- | ----------------------------------------------------------------- |
 | `npm run build`        | Build `public/` from `src/`                                       |
-| `npm run watch`        | Build, then rebuild on every change in `src/`                     |
+| `npm run watch`        | Build with source maps, then rebuild on every change in `src/`    |
 | `npm test`             | Run the unit tests in `tests/` with the Node.js test runner       |
 | `npm run format`       | Format the project with Prettier                                  |
 | `npm run format:check` | Check formatting with Prettier without writing changes            |
