@@ -106,7 +106,14 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
 
   const renderAll = () => {
     field('name').value = draft.name;
-    form.querySelector(`input[name="colour"][value="${draft.colour}"]`).checked = true;
+
+    // A colour without a swatch falls back to the first one, so that the form and the draft agree.
+    const swatches = [...form.querySelectorAll('input[name="colour"]')];
+    const swatch = swatches.find((input) => input.value === draft.colour) ?? swatches[0];
+
+    draft.colour = swatch.value;
+    swatch.checked = true;
+
     field('prepare').value = formatField(draft.prepare);
     field('rest').value = formatField(draft.rest);
     field('round-rest').value = formatField(draft.roundRest);
