@@ -78,7 +78,8 @@ export const init = (selector, { views }) => {
     active = view;
     view.element.hidden = false;
     document.title = view.title(params);
-    window.scrollTo(0, 0);
+    // The page sets smooth scrolling, which a new screen must not inherit.
+    window.scrollTo({ top: 0, behavior: 'instant' });
 
     // Moving focus tells screen reader users that the screen changed; on first load there is nothing to announce.
     if (!first) view.element.querySelector('[tabindex="-1"]')?.focus({ preventScroll: true });
