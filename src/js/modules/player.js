@@ -19,7 +19,9 @@ const PHASE_LABELS = {
 
 /**
  * The running timer. Position comes from Date.now(), not from counting ticks: the timer stores how much active time
- * has passed and when it last resumed, so it stays exact when ticks are late or the page was hidden.
+ * has passed and when it last resumed, so it stays exact when ticks are late or the page was hidden. The wall clock is
+ * a deliberate choice: changing the system time moves a running timer, but performance.now() stands still while iOS
+ * suspends the page, which would make the timer lose the time it ran in the background.
  *
  * @param {string} [selector] Selector of the timer view.
  * @param {object} options Settings; the timings are in milliseconds.
