@@ -7,12 +7,19 @@ const BACKUP_KEY = `${STORAGE_KEY}:backup`;
 /** @type {{ sound: boolean, workouts: import('./workout.js').Workout[] } | null} */
 let library = null;
 
+/** Set when unreadable stored data could not be backed up, so that it is never overwritten. */
+let persistLocked = false;
+
 /**
  * Write the library to localStorage. A full or blocked store only costs persistence, so the app keeps working.
  *
  * @returns {void}
  */
 const persist = () => {
+  if (persistLocked) {
+    return;
+  }
+
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: VERSION, ...library }));
   } catch (error) {
@@ -48,6 +55,8 @@ const read = () => {
     try {
       localStorage.setItem(BACKUP_KEY, raw);
     } catch (error) {
+      // Without a backup, any write would destroy the only copy, so this session stays in memory.
+      persistLocked = true;
       console.warn('The unreadable workouts could not be backed up.', error);
     }
   }
