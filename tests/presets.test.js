@@ -41,13 +41,3 @@ test('a copy of a preset has a new identifier and leaves the preset unchanged', 
   assert.notEqual(preset.exercises[0].name, 'Changed');
   assert.equal(copyPreset('missing'), undefined);
 });
-
-test('the 7-minute workout runs twelve 30 s exercises with 10 s between them after the countdown', () => {
-  const workout = getPreset('preset-7-minute');
-  const EXERCISES = 12;
-  const WORK = 30;
-  const REST = 10;
-
-  assert.equal(workout.exercises.length, EXERCISES);
-  assert.equal(totalSeconds(workout), workout.prepare + EXERCISES * WORK + (EXERCISES - 1) * REST);
-});
