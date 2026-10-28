@@ -38,14 +38,11 @@ const removeAll = async () => {
  *
  * @param {string} [path] Service worker URL relative to the document.
  * @param {object} [options] Settings.
- * @param {number} [options.checkInterval] Shortest time in milliseconds between two checks for a new version while the app stays open.
+ * @param {number} options.checkInterval Shortest time in milliseconds between two checks for a new version while the app stays open.
  * @param {string[]} [options.bypassHosts] Host names on which no service worker runs and an earlier one is removed with its caches, so that development always loads the current files.
  * @returns {Promise<ServiceWorkerRegistration | undefined>} The registration, or nothing when it is unsupported, bypassed or fails.
  */
-export const register = async (
-  path = './service-worker.js',
-  { checkInterval = 60 * 60 * 1000, bypassHosts = [] } = {}
-) => {
+export const register = async (path = './service-worker.js', { checkInterval, bypassHosts = [] } = {}) => {
   if (!('serviceWorker' in navigator)) return undefined;
 
   if (bypassHosts.includes(location.hostname)) {

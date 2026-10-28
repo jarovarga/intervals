@@ -27,9 +27,11 @@ const findProblem = (draft) => {
  * The form that edits one workout. Changes live in a draft until Save, so Cancel leaves the workout untouched.
  *
  * @param {string} [selector] Selector of the editor view.
+ * @param {object} options Settings.
+ * @param {string} options.appTitle Title of the app, which ends the page title.
  * @returns {import('./router.js').View} The view.
  */
-export const init = (selector = '[data-view="editor"]') => {
+export const init = (selector = '[data-view="editor"]', { appTitle } = {}) => {
   const element = document.querySelector(selector);
   const form = element.querySelector('[data-form]');
   const heading = element.querySelector('[data-heading]');
@@ -263,7 +265,7 @@ export const init = (selector = '[data-view="editor"]') => {
 
   return {
     element,
-    title: () => `${isNew ? 'New' : 'Edit'} workout – Interval timer for circuit workouts`,
+    title: () => `${isNew ? 'New' : 'Edit'} workout – ${appTitle}`,
     show: ([id]) => {
       const existing = library.getWorkout(id);
       // A preset stays as it is; editing it starts a new workout from a copy.

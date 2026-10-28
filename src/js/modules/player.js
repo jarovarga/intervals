@@ -23,7 +23,8 @@ const PHASE_LABELS = {
  * has passed and when it last resumed, so it stays exact when ticks are late or the page was hidden.
  *
  * @param {string} [selector] Selector of the timer view.
- * @param {object} [options] Timing in milliseconds.
+ * @param {object} options Settings; the timings are in milliseconds.
+ * @param {string} options.appTitle Title of the app, which ends the page title.
  * @param {number} [options.tickInterval] Interval between redraws.
  * @param {number} [options.lookahead] How far ahead signals are handed to the audio clock.
  * @param {number} [options.stale] A signal later than this is skipped rather than played out of time, for example after the page was hidden.
@@ -35,6 +36,7 @@ const PHASE_LABELS = {
  */
 export const init = (
   selector = '[data-view="timer"]',
+    appTitle,
   {
     tickInterval = 200,
     lookahead = 1000,
@@ -440,7 +442,7 @@ export const init = (
 
   return {
     element,
-    title: () => `${workout?.name ?? 'Workout'} – Interval timer for circuit workouts`,
+    title: () => `${workout?.name ?? 'Workout'} – ${appTitle}`,
     show: ([id]) => {
       const found = library.getWorkout(id) ?? presets.getPreset(id);
 

@@ -9,16 +9,23 @@ import * as router from './modules/router.js';
 import * as serviceWorker from './modules/service-worker.js';
 import * as update from './modules/update.js';
 
+/** Title of the app, which ends every page title. */
+const APP_TITLE = 'Interval timer for circuit workouts';
+
+/** Shortest time between two checks for a new version while the app stays open: one hour. */
+const UPDATE_CHECK_INTERVAL = 60 * 60 * 1000;
+
 dialog.init('[data-dialog]');
 marquee.init('[data-marquee]', { speed: 32, pause: 2.5 });
 install.init('[data-install]');
 update.init('[data-update]');
 router.init('[data-view]', {
   views: {
-    home: home.init('[data-view="home"]'),
-    stats: home.stats('[data-view="home"]'),
-    edit: editor.init('[data-view="editor"]'),
+    home: home.init('[data-view="home"]', { appTitle: APP_TITLE }),
+    stats: home.stats('[data-view="home"]', { appTitle: APP_TITLE }),
+    edit: editor.init('[data-view="editor"]', { appTitle: APP_TITLE }),
     timer: player.init('[data-view="timer"]', {
+      appTitle: APP_TITLE,
       tickInterval: 200,
       lookahead: 1000,
       stale: 500,
@@ -36,7 +43,7 @@ window.addEventListener(
   'load',
   () =>
     serviceWorker.register('./service-worker.js', {
-      checkInterval: 60 * 60 * 1000,
+      checkInterval: UPDATE_CHECK_INTERVAL,
       bypassHosts: ['localhost', '127.0.0.1', '[::1]']
     }),
   { once: true }

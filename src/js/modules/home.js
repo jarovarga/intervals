@@ -17,8 +17,6 @@ const describe = (workout) =>
     formatTotal(totalSeconds(workout))
   ].join(' · ');
 
-const TITLE = 'Interval timer for circuit workouts';
-
 /**
  * Show one section of the home view and mark its tab as the current page.
  *
@@ -43,14 +41,16 @@ const showSection = (element, name) => {
  * The statistics section of the home view.
  *
  * @param {string} [selector] Selector of the home view.
+ * @param {object} options Settings.
+ * @param {string} options.appTitle Title of the app, which ends every page title.
  * @returns {import('./router.js').View} The view.
  */
-export const stats = (selector = '[data-view="home"]') => {
+export const stats = (selector = '[data-view="home"]', { appTitle } = {}) => {
   const element = document.querySelector(selector);
 
   return {
     element,
-    title: () => `Statistics – ${TITLE}`,
+    title: () => `Statistics – ${appTitle}`,
     show: () => showSection(element, 'stats')
   };
 };
@@ -59,9 +59,11 @@ export const stats = (selector = '[data-view="home"]') => {
  * The presets and the saved workouts with their Start and Edit links.
  *
  * @param {string} [selector] Selector of the home view.
+ * @param {object} options Settings.
+ * @param {string} options.appTitle Title of the app, which is the page title of this view.
  * @returns {import('./router.js').View} The view.
  */
-export const init = (selector = '[data-view="home"]') => {
+export const init = (selector = '[data-view="home"]', { appTitle } = {}) => {
   const element = document.querySelector(selector);
   const list = element.querySelector('[data-workouts]');
   const presetList = element.querySelector('[data-presets]');
@@ -121,7 +123,7 @@ export const init = (selector = '[data-view="home"]') => {
 
   return {
     element,
-    title: () => TITLE,
+    title: () => appTitle,
     show: render
   };
 };
