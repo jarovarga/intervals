@@ -1,4 +1,4 @@
-const HOME = 'home';
+const INTRO = 'intro';
 
 /**
  * @typedef {{
@@ -6,7 +6,7 @@ const HOME = 'home';
  *   title: (params: string[]) => string,
  *   show: (params: string[]) => boolean | void,
  *   leave?: () => void
- * }} View
+ * }} Screen
  */
 
 /** Callback that draws the current route; set by `init`. */
@@ -14,16 +14,16 @@ let render = () => {};
 
 /**
  * @param {string} route Route such as `/edit/abc`; a leading `#` is ignored.
- * @returns {{ name: string, params: string[] }} View name and the path segments after it.
+ * @returns {{ name: string, params: string[] }} Screen name and the path segments after it.
  */
 const parse = (route) => {
   const [name, ...params] = route.replace(/^#?\/?/, '').split('/');
 
-  return { name: name || HOME, params };
+  return { name: name || INTRO, params };
 };
 
 /**
- * Go to a view. The route lives in the history state, not in the address bar, so the URL stays the same while Back
+ * Go to a screen. The route lives in the history state, not in the address bar, so the URL stays the same while Back
  * still works.
  *
  * @param {string} route Target route, such as `#/edit/abc` or `/`.
@@ -43,46 +43,46 @@ export const navigate = (route, { replace = false } = {}) => {
 };
 
 /**
- * Show the view named by the current route and keep following it. Each view hides while another shows, with a
+ * Show the screen named by the current route and keep following it. Each screen hides while another shows, with a
  * cross-fade between them where the browser supports view transitions.
  *
- * A page opened with a `#/…` address, such as a link opened in a new tab, shows that view and then drops the
- * address. A reload shows the same view again, because the history state survives it.
+ * A page opened with a `#/…` address, such as a link opened in a new tab, shows that screen and then drops the
+ * address. A reload shows the same screen again, because the history state survives it.
  *
- * @param {string} selector Selector of the view elements.
- * @param {{ views: Record<string, View> }} options Views by name; unknown names show the home view.
+ * @param {string} selector Selector of the screen elements.
+ * @param {{ screens: Record<string, Screen> }} options Screens by name; unknown names show the intro screen.
  * @returns {void}
  */
-export const init = (selector, { views }) => {
+export const init = (selector, { screens }) => {
   const elements = document.querySelectorAll(selector);
-  /** @type {View | null} */
+  /** @type {Screen | null} */
   let active = null;
   let first = true;
 
   const update = () => {
     const { name, params } = parse(history.state?.route ?? '/');
-    const view = views[name] ?? views[HOME];
+    const screen = screens[name] ?? screens[INTRO];
 
     active?.leave?.();
     elements.forEach((element) => {
       element.hidden = true;
     });
 
-    if (view.show(params) === false) {
+    if (screen.show(params) === false) {
       active = null;
-      // Replace the bad entry, so that Back does not return to it and bounce home again.
+      // Replace the bad entry, so that Back does not return to it and bounce back to the intro again.
       navigate('/', { replace: true });
       return;
     }
 
-    active = view;
-    view.element.hidden = false;
-    document.title = view.title(params);
+    active = screen;
+    screen.element.hidden = false;
+    document.title = screen.title(params);
     // The page sets smooth scrolling, which a new screen must not inherit.
     window.scrollTo({ top: 0, behavior: 'instant' });
 
     // Moving focus tells screen reader users that the screen changed; on first load there is nothing to announce.
-    if (!first) view.element.querySelector('[tabindex="-1"]')?.focus({ preventScroll: true });
+    if (!first) screen.element.querySelector('[tabindex="-1"]')?.focus({ preventScroll: true });
 
     first = false;
   };

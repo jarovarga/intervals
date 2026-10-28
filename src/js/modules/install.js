@@ -34,7 +34,7 @@ const wasDismissed = () => {
  * @param {string} [selector] Selector of the explanation.
  * @returns {void}
  */
-export const init = (selector = '[data-install]') => {
+export const init = (selector = '[data-notice="install"]') => {
   const element = document.querySelector(selector);
 
   element.hidden = !isEligible({

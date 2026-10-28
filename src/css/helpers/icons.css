@@ -40,16 +40,13 @@
  * IN THE SOFTWARE.
  */
 
-[data-icon]::after {
+[data-icon]::before {
   aspect-ratio: 1;
   background-color: var(--icon-color, var(--color-accent));
   block-size: var(--icon-size, 0.875rem);
   content: "";
   display: inline-block;
   flex-shrink: 0;
-
-  -webkit-mask: var(--icon-source, none) center / contain no-repeat;
-
   mask: var(--icon-source, none) center / contain no-repeat;
 
   @media (forced-colors: active) {

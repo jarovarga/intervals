@@ -26,17 +26,17 @@ const findProblem = (draft) => {
 /**
  * The form that edits one workout. Changes live in a draft until Save, so Cancel leaves the workout untouched.
  *
- * @param {string} [selector] Selector of the editor view.
+ * @param {string} [selector] Selector of the editor screen.
  * @param {object} options Settings.
  * @param {string} options.appTitle Title of the app, which ends the page title.
- * @returns {import('./router.js').View} The view.
+ * @returns {import('./router.js').Screen} The screen.
  */
-export const init = (selector = '[data-view="editor"]', { appTitle } = {}) => {
+export const init = (selector = '[data-screen="editor"]', { appTitle } = {}) => {
   const element = document.querySelector(selector);
-  const form = element.querySelector('[data-form]');
-  const heading = element.querySelector('[data-heading]');
-  const message = element.querySelector('[data-error]');
-  const list = element.querySelector('[data-exercises]');
+  const form = element.querySelector('[data-form="editor"]');
+  const heading = element.querySelector('[data-title="editor"]');
+  const message = element.querySelector('[data-error="editor"]');
+  const list = element.querySelector('[data-editor="exercises"]');
   const template = document.querySelector('[data-template="exercise"]');
   const field = (name) => form.querySelector(`[data-field="${name}"]`);
   const action = (name) => form.querySelector(`[data-action="${name}"]`);
@@ -51,8 +51,8 @@ export const init = (selector = '[data-view="editor"]', { appTitle } = {}) => {
   };
 
   const renderSummary = () => {
-    form.querySelector('[data-count]').textContent = String(draft.exercises.length);
-    form.querySelector('[data-total]').textContent = formatTotal(totalSeconds(draft));
+    form.querySelector('[data-count="exercises"]').textContent = String(draft.exercises.length);
+    form.querySelector('[data-total="editor"]').textContent = formatTotal(totalSeconds(draft));
     action('fewer-rounds').disabled = draft.rounds <= 1;
     action('more-rounds').disabled = draft.rounds >= MAX_ROUNDS;
   };
@@ -71,9 +71,9 @@ export const init = (selector = '[data-view="editor"]', { appTitle } = {}) => {
     const down = row.querySelector('[data-action="down"]');
 
     row.dataset.id = exercise.id;
-    row.querySelector('[data-number]').textContent = String(index + 1);
-    row.querySelector('[data-name-label]').textContent = `Exercise ${index + 1} name`;
-    row.querySelector('[data-time-label]').textContent = `, ${name}`;
+    row.querySelector('[data-number="exercise"]').textContent = String(index + 1);
+    row.querySelector('[data-label="name"]').textContent = `Exercise ${index + 1} name`;
+    row.querySelector('[data-label="time"]').textContent = `, ${name}`;
     up.setAttribute('aria-label', `Move up: ${name}`);
     up.disabled = index === 0;
     down.setAttribute('aria-label', `Move down: ${name}`);
