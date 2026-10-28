@@ -3,6 +3,7 @@
   "name": "Interval timer for circuit workouts",
   "short_name": "Intervals",
   "description": "Interval timer for circuit workouts. Build your own workouts with rounds, work and rest, then follow them on a full-screen timer.",
+  "categories": ["health", "fitness"],
   "lang": "en-GB",
   "dir": "ltr",
   "start_url": "./",
