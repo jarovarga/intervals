@@ -9,8 +9,11 @@ Open it at [jarovarga.github.io/intervals](https://jarovarga.github.io/intervals
 - Workouts with a name, a colour, any number of exercises with their own time, a get-ready countdown, rest between exercises, rounds and a cooldown between rounds
 - A total time that updates while you edit
 - A full-screen timer with a colour for every phase, the next step, progress through the exercises and the round
+- Ready-made workouts: a 30/30 circuit and the 7-minute workout
 - Sound cues for the start of an exercise, rest, a new round and the end, which can be muted
-- The screen stays on while a workout runs
+- The screen stays on while a workout runs, unless you turn that off
+- Settings for the sound and its volume, the length of the countdown and the screen lock, plus a check for updates and the app version
+- Export of your workouts to a JSON file, import of such a file and deletion of all workouts
 - Installable and available offline, because a service worker caches the whole app and offers a reload when a new version is ready
 - Workouts are stored in the browser on your device; nothing is sent anywhere
 
@@ -63,7 +66,7 @@ All linters treat warnings as errors. Prettier ignores `*.html`, `*.md` and `pub
 - `public/assets/fonts/`: copy of `src/fonts/`
 - `public/assets/img/`: copy of `src/img/`
 - `public/assets/js/app.min.js`: `src/js/app.js` with its modules bundled and minified
-- `public/index.html`: minified `src/index.html`
+- `public/index.html`: minified `src/index.html`, with the version from `package.json` in place of `__APP_VERSION__`
 - `public/app.webmanifest`: the web app manifest
 - `public/service-worker.js`: the service worker, with a content hash and the list of files to precache filled in
 
