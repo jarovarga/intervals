@@ -28,7 +28,7 @@ router.init('[data-screen]', {
     timer: player.init('[data-screen="timer"]', {
       title: APP_TITLE,
       tickInterval: 200,
-      lookahead: 1000,
+      lookahead: 30000,
       stale: 500,
       restartAfter: 2000,
       pulseDuration: 320,

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { buildCues, buildTimeline, locate } from '../src/js/modules/timeline.js';
+import { buildCues, buildTimeline, locate, stepTarget } from '../src/js/modules/timeline.js';
 import { buildSteps, createDefaultWorkout, totalSeconds } from '../src/js/modules/workout.js';
 
 const MS = 1000;
@@ -77,6 +77,45 @@ test('a step shorter than the countdown only counts down what fits', () => {
 
   assert.deepEqual(
     ticks.map((cue) => cue.at),
-    [1 * MS]
+    [MS]
   );
+});
+
+const RESTART_AFTER = 2 * MS;
+
+/** The default workout laid out on its timeline: a 10 s countdown, then 30 s exercises and rests. */
+const defaultTimeline = () => buildTimeline(buildSteps(createDefaultWorkout()));
+
+test('next leads to the start of the following step', () => {
+  const timeline = defaultTimeline();
+
+  assert.equal(stepTarget(timeline, 4 * MS, 1, RESTART_AFTER), 10 * MS);
+  assert.equal(stepTarget(timeline, 25 * MS, 1, RESTART_AFTER), 40 * MS);
+});
+
+test('previous restarts a step that is well under way, and goes back when it has only begun', () => {
+  const timeline = defaultTimeline();
+
+  assert.equal(stepTarget(timeline, 25 * MS, -1, RESTART_AFTER), 10 * MS);
+  assert.equal(stepTarget(timeline, 10 * MS + RESTART_AFTER, -1, RESTART_AFTER), 0);
+  assert.equal(stepTarget(timeline, 10 * MS + RESTART_AFTER + 1, -1, RESTART_AFTER), 10 * MS);
+});
+
+test('previous from the first step stays at the start', () => {
+  assert.equal(stepTarget(defaultTimeline(), 0, -1, RESTART_AFTER), 0);
+  assert.equal(stepTarget(defaultTimeline(), MS, -1, RESTART_AFTER), 0);
+});
+
+test('next from the last step leads to the end, and from the end nowhere', () => {
+  const timeline = defaultTimeline();
+  const lastStart = timeline.starts.at(-1);
+
+  assert.equal(stepTarget(timeline, lastStart + 5 * MS, 1, RESTART_AFTER), timeline.total);
+  assert.equal(stepTarget(timeline, timeline.total, 1, RESTART_AFTER), null);
+});
+
+test('previous from the end leads to the start of the last step', () => {
+  const timeline = defaultTimeline();
+
+  assert.equal(stepTarget(timeline, timeline.total, -1, RESTART_AFTER), timeline.starts.at(-1));
 });

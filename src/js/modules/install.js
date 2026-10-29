@@ -29,18 +29,25 @@ const wasDismissed = () => {
 };
 
 /**
+ * @returns {boolean} Whether the app was opened from the Home Screen. Safari on iOS reports that through its own
+ * `navigator.standalone`, which is not in the standard Navigator, so it is read by name.
+ */
+const isHomeScreenApp = () =>
+  Reflect.get(navigator, 'standalone') === true || matchMedia('(display-mode: standalone)').matches;
+
+/**
  * Show the installation explanation where it applies, and remember when the visitor dismisses it.
  *
  * @param {string} [selector] Selector of the explanation.
  * @returns {void}
  */
 export const init = (selector = '[data-notice="install"]') => {
-  const element = document.querySelector(selector);
+  const element = /** @type {HTMLElement} */ (document.querySelector(selector));
 
   element.hidden = !isEligible({
     userAgent: navigator.userAgent,
     maxTouchPoints: navigator.maxTouchPoints,
-    standalone: navigator.standalone === true || matchMedia('(display-mode: standalone)').matches,
+    standalone: isHomeScreenApp(),
     dismissed: wasDismissed()
   });
 

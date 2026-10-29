@@ -25,10 +25,13 @@ const describe = (workout) =>
  * @returns {void}
  */
 const showSection = (element, name) => {
-  element.querySelectorAll('[data-section]').forEach((section) => {
+  const sections = /** @type {NodeListOf<HTMLElement>} */ (element.querySelectorAll('[data-section]'));
+  const tabs = /** @type {NodeListOf<HTMLElement>} */ (element.querySelectorAll('[data-tab]'));
+
+  sections.forEach((section) => {
     section.hidden = section.dataset.section !== name;
   });
-  element.querySelectorAll('[data-tab]').forEach((tab) => {
+  tabs.forEach((tab) => {
     if (tab.dataset.tab === name) {
       tab.setAttribute('aria-current', 'page');
     } else {
@@ -38,15 +41,15 @@ const showSection = (element, name) => {
 };
 
 /**
- * The statistics section of the intro screen.
+ * The statistics section of the intro screen. It gives the router the screen to show: its element, its page title and
+ * what to do when it opens.
  *
  * @param {string} [selector] Selector of the intro screen.
- * @param {object} options Settings.
- * @param {string} options.title Title of the app, which ends every page title.
- * @returns {import('./router.js').Screen} The screen.
+ * @param {object} [options] Settings.
+ * @param {string} [options.title] Title of the app, which ends every page title.
  */
 export const stats = (selector = '[data-screen="intro"]', { title } = {}) => {
-  const element = document.querySelector(selector);
+  const element = /** @type {HTMLElement} */ (document.querySelector(selector));
 
   return {
     element,
@@ -56,27 +59,29 @@ export const stats = (selector = '[data-screen="intro"]', { title } = {}) => {
 };
 
 /**
- * The presets and the saved workouts with their Start and Edit links.
+ * The presets and the saved workouts with their Start and Edit links. It gives the router the screen to show: its
+ * element, its page title and what to do when it opens.
  *
  * @param {string} [selector] Selector of the intro screen.
- * @param {object} options Settings.
- * @param {string} options.title Title of the app, which is the page title of this screen.
- * @returns {import('./router.js').Screen} The screen.
+ * @param {object} [options] Settings.
+ * @param {string} [options.title] Title of the app, which is the page title of this screen.
  */
 export const init = (selector = '[data-screen="intro"]', { title } = {}) => {
-  const element = document.querySelector(selector);
+  const element = /** @type {HTMLElement} */ (document.querySelector(selector));
   const list = element.querySelector('[data-workouts="custom"]');
   const presetList = element.querySelector('[data-workouts="presets"]');
-  const createFirst = element.querySelector('[data-create="first"]');
-  const resume = element.querySelector('[data-notice="resume"]');
-  const template = document.querySelector('[data-template="workout"]');
+  const createFirst = /** @type {HTMLElement} */ (element.querySelector('[data-create="first"]'));
+  const resume = /** @type {HTMLElement} */ (element.querySelector('[data-notice="resume"]'));
+  const template = /** @type {HTMLTemplateElement} */ (document.querySelector('[data-template="workout"]'));
 
   // Sound and the screen lock both need a tap, and the Start link is that tap.
   element.addEventListener('click', (event) => {
-    if (!event.target.closest('[data-start="workout"]')) return;
+    const target = /** @type {Element} */ (event.target);
+
+    if (!target.closest('[data-start="workout"]')) return;
 
     sound.unlock();
-    wakeLock.acquire();
+    void wakeLock.acquire();
   });
 
   /**
@@ -84,9 +89,9 @@ export const init = (selector = '[data-screen="intro"]', { title } = {}) => {
    * @returns {HTMLElement} The list item.
    */
   const createItem = (workout) => {
-    const item = template.content.cloneNode(true).querySelector('.workout');
-    const start = item.querySelector('[data-start="workout"]');
-    const edit = item.querySelector('[data-edit="workout"]');
+    const item = /** @type {HTMLElement} */ (document.importNode(template.content, true).querySelector('.workout'));
+    const start = /** @type {HTMLAnchorElement} */ (item.querySelector('[data-start="workout"]'));
+    const edit = /** @type {HTMLAnchorElement} */ (item.querySelector('[data-edit="workout"]'));
 
     item.dataset.colour = workout.colour;
     item.querySelector('[data-name="workout"]').textContent = workout.name;
@@ -122,8 +127,10 @@ export const init = (selector = '[data-screen="intro"]', { title } = {}) => {
 
     if (resume.hidden) return;
 
+    const link = /** @type {HTMLAnchorElement} */ (resume.querySelector('[data-resume="workout"]'));
+
     resume.querySelector('[data-name="resume"]').textContent = workout.name;
-    resume.querySelector('[data-resume="workout"]').href = `#/timer/${workout.id}/resume`;
+    link.href = `#/timer/${workout.id}/resume`;
   };
 
   resume.querySelector('[data-action="discard"]').addEventListener('click', () => {

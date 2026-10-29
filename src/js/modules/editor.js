@@ -24,22 +24,28 @@ const findProblem = (draft) => {
 };
 
 /**
- * The form that edits one workout. Changes live in a draft until Save, so Cancel leaves the workout untouched.
+ * The form that edits one workout. Changes live in a draft until Save, so Cancel leaves the workout untouched. It
+ * gives the router the screen to show: its element, its page title and what to do when it opens.
  *
  * @param {string} [selector] Selector of the editor screen.
- * @param {object} options Settings.
- * @param {string} options.title Title of the app, which ends the page title.
- * @returns {import('./router.js').Screen} The screen.
+ * @param {object} [options] Settings.
+ * @param {string} [options.title] Title of the app, which ends the page title.
  */
 export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
-  const element = document.querySelector(selector);
-  const form = element.querySelector('[data-form="editor"]');
+  const element = /** @type {HTMLElement} */ (document.querySelector(selector));
+  const form = /** @type {HTMLFormElement} */ (element.querySelector('[data-form="editor"]'));
   const heading = element.querySelector('[data-title="editor"]');
-  const message = element.querySelector('[data-error="editor"]');
+  const message = /** @type {HTMLElement} */ (element.querySelector('[data-error="editor"]'));
   const list = element.querySelector('[data-editor="exercises"]');
-  const template = document.querySelector('[data-template="exercise"]');
-  const field = (name) => form.querySelector(`[data-field="${name}"]`);
-  const action = (name) => form.querySelector(`[data-action="${name}"]`);
+  const template = /** @type {HTMLTemplateElement} */ (document.querySelector('[data-template="exercise"]'));
+  const fieldIn = (root, name) => /** @type {HTMLInputElement} */ (root.querySelector(`[data-field="${name}"]`));
+  const field = (name) => fieldIn(form, name);
+  const action = (name) => /** @type {HTMLButtonElement} */ (form.querySelector(`[data-action="${name}"]`));
+  const focusOn = (selector) => {
+    const control = /** @type {HTMLElement | null} */ (form.querySelector(selector));
+
+    control?.focus();
+  };
 
   /** @type {import('./workout.js').Workout} */
   let draft;
@@ -67,8 +73,8 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
   const labelRow = (row, index) => {
     const exercise = draft.exercises[index];
     const name = exercise.name.trim() || `exercise ${index + 1}`;
-    const up = row.querySelector('[data-action="up"]');
-    const down = row.querySelector('[data-action="down"]');
+    const up = /** @type {HTMLButtonElement} */ (row.querySelector('[data-action="up"]'));
+    const down = /** @type {HTMLButtonElement} */ (row.querySelector('[data-action="down"]'));
 
     row.dataset.id = exercise.id;
     row.querySelector('[data-number="exercise"]').textContent = String(index + 1);
@@ -90,10 +96,10 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
   const renderExercises = (focus) => {
     list.replaceChildren(
       ...draft.exercises.map((exercise, index) => {
-        const row = template.content.cloneNode(true).querySelector('.exercise');
+        const row = /** @type {HTMLElement} */ (document.importNode(template.content, true).querySelector('.exercise'));
 
-        row.querySelector('[data-field="exercise-name"]').value = exercise.name;
-        row.querySelector('[data-field="exercise-time"]').value = formatField(exercise.time);
+        fieldIn(row, 'exercise-name').value = exercise.name;
+        fieldIn(row, 'exercise-time').value = formatField(exercise.time);
         labelRow(row, index);
 
         return row;
@@ -101,14 +107,14 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
     );
     renderSummary();
 
-    if (focus) form.querySelector(focus)?.focus();
+    if (focus) focusOn(focus);
   };
 
   const renderAll = () => {
     field('name').value = draft.name;
 
     // A colour without a swatch falls back to the first one, so that the form and the draft agree.
-    const swatches = [...form.querySelectorAll('input[name="colour"]')];
+    const swatches = /** @type {HTMLInputElement[]} */ ([...form.querySelectorAll('input[name="colour"]')]);
     const swatch = swatches.find((input) => input.value === draft.colour) ?? swatches[0];
 
     draft.colour = swatch.value;
@@ -146,17 +152,17 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
   };
 
   /**
-   * @param {EventTarget} target Control inside an exercise row.
+   * @param {HTMLElement} target Control inside an exercise row.
    * @returns {{ row: HTMLElement, index: number }} The row and the position of its exercise.
    */
   const rowOf = (target) => {
-    const row = target.closest('.exercise');
+    const row = /** @type {HTMLElement} */ (target.closest('.exercise'));
 
     return { row, index: draft.exercises.findIndex((exercise) => exercise.id === row.dataset.id) };
   };
 
   form.addEventListener('input', (event) => {
-    const { target } = event;
+    const target = /** @type {HTMLInputElement} */ (event.target);
 
     if (target === field('name')) {
       draft.name = target.value;
@@ -169,7 +175,7 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
   });
 
   form.addEventListener('change', (event) => {
-    const { target } = event;
+    const target = /** @type {HTMLInputElement} */ (event.target);
     const key = target.dataset.field;
 
     if (target.name === 'colour') {
@@ -227,7 +233,8 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
   };
 
   form.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-action]');
+    const target = /** @type {Element} */ (event.target);
+    const button = /** @type {HTMLElement | null} */ (target.closest('[data-action]'));
 
     if (!button) return;
 
@@ -241,7 +248,7 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
     } else if (name === 'fewer-rounds' || name === 'more-rounds') {
       setRounds(draft.rounds + (name === 'more-rounds' ? 1 : -1));
     } else if (name === 'delete') {
-      deleteWorkout();
+      deleteWorkout().catch((error) => console.warn('The workout could not be deleted.', error));
     } else {
       const { index } = rowOf(button);
 
@@ -258,7 +265,7 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
 
     if (problem) {
       say(problem.message);
-      form.querySelector(problem.focus)?.focus();
+      focusOn(problem.focus);
       return;
     }
 
@@ -273,7 +280,7 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
   return {
     element,
     title: () => `${isNew ? 'New' : 'Edit'} workout – ${title}`,
-    show: ([id]) => {
+    show: ({ id }) => {
       const existing = library.getWorkout(id);
       // A preset stays as it is; editing it starts a new workout from a copy.
       const copy = existing ? undefined : presets.copyPreset(id);
