@@ -15,22 +15,23 @@ test('every preset is a valid workout with a unique identifier', () => {
 });
 
 test('a preset is found by its identifier', () => {
-  assert.equal(getPreset('preset-tabata')?.name, 'Tabata');
+  assert.equal(getPreset('preset-7-minute')?.name, '7-minute workout');
   assert.equal(getPreset('missing'), undefined);
 });
 
-test('Tabata runs eight 20 s intervals with 10 s between them after the countdown', () => {
-  const tabata = getPreset('preset-tabata');
-  const COUNTDOWN = tabata.prepare;
-  const INTERVALS = 8;
-  const WORK = 20;
+test('the 7-minute workout runs thirteen 30 s exercises with 10 s between them after the countdown', () => {
+  const workout = getPreset('preset-7-minute');
+  const COUNTDOWN = workout.prepare;
+  const EXERCISES = 13;
+  const WORK = 30;
   const REST = 10;
 
-  assert.equal(totalSeconds(tabata), COUNTDOWN + INTERVALS * WORK + (INTERVALS - 1) * REST);
+  assert.equal(workout.exercises.length, EXERCISES);
+  assert.equal(totalSeconds(workout), COUNTDOWN + EXERCISES * WORK + (EXERCISES - 1) * REST);
 });
 
 test('a copy of a preset has a new identifier and leaves the preset unchanged', () => {
-  const preset = getPreset('preset-tabata');
+  const preset = getPreset('preset-7-minute');
   const copy = copyPreset(preset.id);
 
   assert.notEqual(copy.id, preset.id);
