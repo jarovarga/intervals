@@ -35,9 +35,3 @@
     outline: 2px solid currentColor;
   }
 }
-
-/* Anton sits low in its line box, so the icon is lowered to share the centre of the capitals. */
-.tabs__link[data-icon]::before {
-  inset-block-start: 0.125rem;
-  position: relative;
-}
