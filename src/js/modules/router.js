@@ -122,7 +122,6 @@ export const init = (selector, { screens }) => {
 
   window.addEventListener('popstate', () => render());
 
-  // An address typed or pasted into the bar while the app is open.
   window.addEventListener('hashchange', () => {
     if (location.hash.startsWith('#/')) navigate(location.hash);
   });

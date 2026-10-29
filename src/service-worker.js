@@ -1,9 +1,9 @@
-// The build replaces the placeholders with a content hash of the site and the list of files to precache.
+/** The build replaces the placeholders with a content hash of the site and the list of files to precache. */
 const CACHE_NAME = 'intervals-__BUILD_HASH__';
 const CACHE_PREFIX = 'intervals-';
 const PRECACHE_PATHS = JSON.parse('__PRECACHE_PATHS__');
 
-// Shown when a navigation finds neither the cached shell nor a network, instead of the browser's error page.
+/** Shown when a navigation finds neither the cached shell nor a network, instead of the browser's error page. */
 const OFFLINE_MESSAGE = 'Intervals is offline and the app is not cached yet. Reconnect and reload.';
 const OFFLINE_RESPONSE_INIT = {
   status: 503,

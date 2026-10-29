@@ -8,7 +8,6 @@ import { fileURLToPath } from 'node:url';
 import { build, context } from 'esbuild';
 import { minify } from 'html-minifier-terser';
 
-/** Absolute path to the project root. */
 const ROOT = dirname(fileURLToPath(import.meta.url));
 
 /**
@@ -138,12 +137,10 @@ async function buildHtml() {
   await writeHtml(source, true);
 }
 
-/** Build the CSS bundle. */
 async function buildCss() {
   await build(options.css);
 }
 
-/** Build the JavaScript bundle. */
 async function buildJs() {
   await build(options.js);
 }
@@ -160,12 +157,10 @@ async function copyDirectory({ source, output }) {
   await cp(source, output, { recursive: true, filter: (path) => basename(path) !== '.gitkeep' });
 }
 
-/** Copy the images and fonts to the public directory. */
 async function copyAssets() {
   await Promise.all(copied.map(copyDirectory));
 }
 
-/** Copy the web app manifest to the public directory. */
 async function copyManifest() {
   await mkdir(dirname(paths.manifest.output), { recursive: true });
   await copyFile(paths.manifest.source, paths.manifest.output);

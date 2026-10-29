@@ -1,4 +1,3 @@
-/** Milliseconds in a second. */
 export const MS = 1000;
 
 /** Longest time a field accepts: 99:59. */

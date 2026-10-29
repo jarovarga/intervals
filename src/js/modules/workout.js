@@ -3,7 +3,6 @@ import { MAX_SECONDS } from './time.js';
 /** Colours a workout can use; the first one is the default. */
 export const COLOURS = ['green', 'orange', 'blue', 'yellow', 'pink', 'purple'];
 
-/** Most rounds a workout can have. */
 export const MAX_ROUNDS = 99;
 
 /** Longest workout name, in characters. */
