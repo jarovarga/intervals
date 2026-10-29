@@ -1,31 +1,25 @@
 import * as dialog from './dialog.js';
 import * as library from './library.js';
-import { count } from './plural.js';
+import { describeNext, PHASE_LABELS } from './phase.js';
 import * as presets from './presets.js';
 import * as router from './router.js';
 import * as sound from './sound.js';
-import { formatClock, formatField, formatTotal, MS } from './time.js';
-import { buildCues, buildTimeline, COUNTDOWN_SECONDS, locate } from './timeline.js';
+import { formatClock, formatTotal, MS } from './time.js';
+import { buildCues, buildTimeline, COUNTDOWN_SECONDS, locate, stepTarget } from './timeline.js';
+import * as transport from './transport.js';
 import * as wakeLock from './wake-lock.js';
 import { buildSteps } from './workout.js';
-
-const PHASE_LABELS = {
-  prepare: 'Get ready',
-  work: 'Work',
-  rest: 'Rest',
-  round: 'Cooldown',
-  done: 'Done'
-};
 
 /**
  * The running timer. Position comes from Date.now(), not from counting ticks: the timer stores how much active time
  * has passed and when it last resumed, so it stays exact when ticks are late or the page was hidden. The wall clock is
  * a deliberate choice: changing the system time moves a running timer, but performance.now() stands still while iOS
- * suspends the page, which would make the timer lose the time it ran in the background.
+ * suspends the page, which would make the timer lose the time it ran in the background. It gives the router the
+ * screen to show: its element, its page title and what to do when it opens and closes.
  *
  * @param {string} [selector] Selector of the timer screen.
- * @param {object} options Settings; the timings are in milliseconds.
- * @param {string} options.title Title of the app, which ends the page title.
+ * @param {object} [options] Settings; the timings are in milliseconds.
+ * @param {string} [options.title] Title of the app, which ends the page title.
  * @param {number} [options.tickInterval] Interval between redraws.
  * @param {number} [options.lookahead] How far ahead signals are handed to the audio clock.
  * @param {number} [options.stale] A signal later than this is skipped rather than played out of time, for example after the page was hidden.
@@ -33,7 +27,6 @@ const PHASE_LABELS = {
  * @param {number} [options.pulseDuration] Duration of the clock pulse in the final countdown.
  * @param {number} [options.segmentDuration] Duration of one finished segment lighting up.
  * @param {number} [options.segmentStagger] Delay between the segments lighting up.
- * @returns {import('./router.js').Screen} The screen.
  */
 export const init = (
   selector = '[data-screen="timer"]',
@@ -48,14 +41,16 @@ export const init = (
     segmentStagger = 90
   } = {}
 ) => {
-  const element = document.querySelector(selector);
-  const part = (name, context = 'timer') => element.querySelector(`[data-${name}="${context}"]`);
+  const element = /** @type {HTMLElement} */ (document.querySelector(selector));
+  const part = (name, context = 'timer') =>
+    /** @type {HTMLElement} */ (element.querySelector(`[data-${name}="${context}"]`));
   const heading = element.querySelector('[data-title="timer"]');
   const clock = part('clock');
   const label = part('label');
   const segments = part('segments');
-  const toggle = element.querySelector('[data-action="toggle"]');
-  const soundButton = element.querySelector('[data-action="sound"]');
+  const progressBar = part('progress');
+  const toggle = /** @type {HTMLButtonElement} */ (element.querySelector('[data-action="toggle"]'));
+  const soundButton = /** @type {HTMLButtonElement} */ (element.querySelector('[data-action="sound"]'));
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
   /** @type {import('./workout.js').Workout} */
@@ -67,10 +62,8 @@ export const init = (
   /** @type {import('./timeline.js').Cue[]} */
   let cues;
   let nextCue = 0;
-  /** Active milliseconds before the last resume. */
-  let elapsedBefore = 0;
-  /** Date.now() of the last resume, or null while paused or finished. */
-  let resumedAt = null;
+  /** How far the workout has got and whether the clock runs; every change goes through the transport functions. */
+  let playback = transport.create();
   let timerId = 0;
   let frameId = 0;
   /** What is on screen, to redraw only what changed. */
@@ -78,8 +71,8 @@ export const init = (
   let shownSeconds = -1;
   let shownTotal = -1;
 
-  const isRunning = () => resumedAt !== null;
-  const elapsed = () => elapsedBefore + (isRunning() ? Date.now() - resumedAt : 0);
+  const isRunning = () => transport.isRunning(playback);
+  const elapsed = () => transport.elapsed(playback, Date.now());
 
   /**
    * @param {string} name CSS custom property that holds an easing curve.
@@ -89,9 +82,10 @@ export const init = (
   const easing = (name, fallback) => getComputedStyle(element).getPropertyValue(name).trim() || fallback;
 
   const animate = (target, keyframes, options) => {
-    if (reducedMotion.matches || typeof target.animate !== 'function') return;
+    if (reducedMotion.matches) return;
 
-    target.animate(keyframes, options);
+    // A browser without the Web Animations API has no `animate`, and the redraw then simply has no motion.
+    target.animate?.(keyframes, options);
   };
 
   const seekCues = (at) => {
@@ -140,51 +134,17 @@ export const init = (
    */
   const renderNext = (index, finished) => {
     const names = workout.exercises.map((exercise) => exercise.name);
-    const after = steps[index + 1];
-    const band = element.querySelector('.timer__next');
-    let phase = 'done';
-    let title = 'End of workout';
-    let sub = 'Final interval';
-    let then = '';
-    let heading = 'Up next';
-
-    if (finished) {
-      phase = 'work';
-      heading = 'Workout complete';
-      title = 'Well done';
-      sub = `${count(names.length, 'exercise', 'exercises')} · ${formatTotal(timeline.total / MS)}`;
-    } else if (after?.type === 'work') {
-      phase = 'work';
-      title = names[after.exercise];
-      sub = `Exercise ${after.exercise + 1} of ${names.length}`;
-    } else if (after) {
-      // A rest is counted; only a cooldown says which exercise starts the next round.
-      const work =
-        after.type === 'round'
-          ? steps.find((step, position) => position > index + 1 && step.type === 'work')
-          : undefined;
-
-      phase = after.type;
-      title = `${PHASE_LABELS[after.type]} ${formatField(after.duration)}`;
-      sub = '';
-
-      if (after.type === 'rest') {
-        // A rest follows exercise number `after.exercise`, so it is that rest of the round.
-        sub = `Rest ${after.exercise} of ${names.length - 1}`;
-      } else if (work) {
-        sub = 'Then ';
-        then = names[work.exercise];
-      }
-    }
-
-    band.dataset.phase = phase;
-    part('label', 'next').textContent = heading;
-    part('title', 'next').textContent = title;
+    const next = describeNext({ steps, names, index, finished, total: timeline.total });
     const name = document.createElement('span');
 
     name.classList.add('timer__name');
-    name.textContent = then;
-    part('sub', 'next').replaceChildren(sub, name);
+    name.textContent = next.then;
+    const band = /** @type {HTMLElement} */ (element.querySelector('.timer__next'));
+
+    band.dataset.phase = next.phase;
+    part('label', 'next').textContent = next.heading;
+    part('title', 'next').textContent = next.title;
+    part('sub', 'next').replaceChildren(next.sub, name);
   };
 
   /**
@@ -249,7 +209,7 @@ export const init = (
     const { index, remaining, finished } = locate(timeline, at);
     const progress = finished ? 1 : 1 - remaining / (steps[index].duration * MS);
 
-    part('progress').style.setProperty('--progress', String(progress));
+    progressBar.style.setProperty('--progress', String(progress));
   };
 
   /** Redraw the bar on every frame while running, so that it moves smoothly between the clock's ticks. */
@@ -333,9 +293,8 @@ export const init = (
   const halt = () => {
     clearInterval(timerId);
     cancelAnimationFrame(frameId);
-    elapsedBefore = elapsed();
-    resumedAt = null;
-    wakeLock.release();
+    playback = transport.pause(playback, Date.now());
+    void wakeLock.release();
   };
 
   const tick = () => {
@@ -344,7 +303,7 @@ export const init = (
     scheduleCues(at);
 
     if (at >= timeline.total) {
-      elapsedBefore = timeline.total;
+      playback = transport.create(timeline.total);
       halt();
       render(timeline.total);
       renderControls();
@@ -356,8 +315,8 @@ export const init = (
 
   const start = () => {
     sound.unlock();
-    wakeLock.acquire();
-    resumedAt = Date.now();
+    void wakeLock.acquire();
+    playback = transport.start(playback, Date.now());
     clearInterval(timerId);
     timerId = setInterval(tick, tickInterval);
     cancelAnimationFrame(frameId);
@@ -369,17 +328,16 @@ export const init = (
   const pause = () => {
     halt();
     sound.cancel();
-    seekCues(elapsedBefore);
+    seekCues(elapsed());
     renderControls();
   };
 
   const jumpTo = (at) => {
-    elapsedBefore = at;
+    playback = transport.jumpTo(playback, at, Date.now());
     sound.cancel();
     seekCues(at);
 
     if (isRunning()) {
-      resumedAt = Date.now();
       tick();
     } else {
       render(at);
@@ -388,21 +346,9 @@ export const init = (
   };
 
   const go = (delta) => {
-    const { index, finished } = locate(timeline, elapsed());
-    const last = steps.length - 1;
+    const target = stepTarget(timeline, elapsed(), delta, restartAfter);
 
-    if (finished && delta > 0) return;
-
-    if (!finished && delta > 0 && index === last) {
-      jumpTo(timeline.total);
-      return;
-    }
-
-    // Going back restarts the current step first, unless it has only just begun.
-    const restart = !finished && delta < 0 && elapsed() - timeline.starts[index] > restartAfter;
-    const target = finished ? last : Math.min(last, Math.max(0, index + (restart ? 0 : delta)));
-
-    jumpTo(timeline.starts[target]);
+    if (target !== null) jumpTo(target);
   };
 
   const end = async () => {
@@ -432,12 +378,13 @@ export const init = (
   };
 
   element.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-action]');
+    const target = /** @type {Element} */ (event.target);
+    const button = /** @type {HTMLElement | null} */ (target.closest('[data-action]'));
 
     switch (button?.dataset.action) {
       case 'toggle':
         if (locate(timeline, elapsed()).finished) {
-          elapsedBefore = 0;
+          playback = transport.create();
           seekCues(0);
           shown = null;
           start();
@@ -454,11 +401,13 @@ export const init = (
         go(1);
         break;
       case 'end':
-        end();
+        end().catch((error) => console.warn('The workout could not be ended.', error));
         break;
       case 'sound':
         library.setSoundOn(!library.isSoundOn());
         renderSound();
+        // Signals that fell due while the sound was off must not be dropped from a long lookahead.
+        seekCues(elapsed());
         break;
       default:
     }
@@ -469,6 +418,10 @@ export const init = (
     if (document.visibilityState === 'hidden') {
       rememberProgress();
     } else if (isRunning()) {
+      // The signals handed to the audio clock far ahead can be out of step if iOS held the clock while the page was
+      // away, so they are scheduled again from the time the workout has really reached.
+      sound.cancel();
+      seekCues(elapsed());
       tick();
     }
   });
@@ -480,7 +433,7 @@ export const init = (
     title: () => `${workout?.name ?? 'Workout'} – ${title}`,
     // A page that has just loaded on this screen, as after a reload, and the Resume link pick a workout up where it
     // stopped; opening it from the list always starts it afresh.
-    show: ([id, mode], { initial }) => {
+    show: ({ id, mode }, { initial }) => {
       const found = library.getWorkout(id) ?? presets.getPreset(id);
 
       if (!found || found.exercises.length === 0) return false;
@@ -491,13 +444,12 @@ export const init = (
       cues = buildCues(timeline);
       const resumeAt = initial || mode === 'resume' ? savedProgress() : null;
 
-      elapsedBefore = resumeAt ?? 0;
-      resumedAt = null;
-      seekCues(elapsedBefore);
+      playback = transport.create(resumeAt ?? 0);
+      seekCues(elapsed());
       shown = null;
       heading.textContent = workout.name;
       renderSound();
-      render(elapsedBefore);
+      render(elapsed());
 
       // Without a tap, the browser would keep the signals silent, so a reloaded workout waits for the Resume button.
       if (resumeAt === null && sound.isReady()) {

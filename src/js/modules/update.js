@@ -8,7 +8,7 @@
 export const init = (selector = '[data-notice="update"]') => {
   if (!('serviceWorker' in navigator)) return;
 
-  const element = document.querySelector(selector);
+  const element = /** @type {HTMLElement} */ (document.querySelector(selector));
   // The first install also takes control of the page, which is not an update.
   const hadController = navigator.serviceWorker.controller !== null;
 

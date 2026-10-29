@@ -5,7 +5,7 @@ let requesting = false;
 
 /**
  * Keep the screen on while a workout runs. The browser drops the lock when the page is hidden, so it is requested
- * again once the page is visible.
+ * again once the page is visible. A refused request is reported, not thrown, so the promise never rejects.
  *
  * @returns {Promise<void>}
  */
@@ -41,7 +41,7 @@ export const acquire = async () => {
 };
 
 /**
- * Let the screen sleep again.
+ * Let the screen sleep again. A lock that cannot be released is reported, not thrown, so the promise never rejects.
  *
  * @returns {Promise<void>}
  */
@@ -53,7 +53,12 @@ export const release = async () => {
   const held = sentinel;
 
   sentinel = null;
-  await held.release();
+
+  try {
+    await held.release();
+  } catch (error) {
+    console.warn('The screen lock could not be released.', error);
+  }
 };
 
 /**
@@ -63,6 +68,6 @@ export const release = async () => {
  */
 export const init = () => {
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && wanted) acquire();
+    if (document.visibilityState === 'visible' && wanted) void acquire();
   });
 };

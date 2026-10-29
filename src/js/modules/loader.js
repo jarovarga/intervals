@@ -2,7 +2,7 @@
  * @returns {Promise<void>} Resolves after the next two animation frames, once the first screen has been laid out and
  * the browser has requested the fonts it uses.
  */
-const afterLayout = () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+const afterLayout = () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
 
 /**
  * Hide the loader once the first screen is drawn and its fonts are ready, or after the timeout when a font is slow.
@@ -12,7 +12,7 @@ const afterLayout = () => new Promise((resolve) => requestAnimationFrame(() => r
  * @returns {void}
  */
 export const init = (selector, { timeout = 3000 } = {}) => {
-  const element = document.querySelector(selector);
+  const element = /** @type {HTMLElement | null} */ (document.querySelector(selector));
 
   if (!element) return;
 

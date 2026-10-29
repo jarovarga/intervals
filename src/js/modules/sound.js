@@ -98,7 +98,7 @@ export const setMuted = (value) => {
 /**
  * Schedule a signal on the audio clock, which keeps its timing steady however busy the page is.
  *
- * @param {keyof typeof CUES} kind Signal to play.
+ * @param {import('./timeline.js').CueKind} kind Signal to play.
  * @param {number} [delay] Milliseconds from now.
  * @returns {void}
  */

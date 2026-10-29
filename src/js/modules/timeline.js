@@ -6,7 +6,8 @@ export const COUNTDOWN_SECONDS = 3;
 /**
  * @typedef {import('./workout.js').Step} Step
  * @typedef {{ steps: Step[], starts: number[], total: number }} Timeline
- * @typedef {{ at: number, kind: 'tick' | 'work' | 'rest' | 'round' | 'done' }} Cue
+ * @typedef {'tick' | 'work' | 'rest' | 'round' | 'done'} CueKind
+ * @typedef {{ at: number, kind: CueKind }} Cue
  */
 
 /**
@@ -43,6 +44,30 @@ export const locate = ({ steps, starts, total }, elapsed) => {
   while (starts[index] > position) index -= 1;
 
   return { index, remaining: starts[index] + steps[index].duration * MS - position, finished: false };
+};
+
+/**
+ * Work out where a jump to the next or the previous step leads. Going back restarts the current step first, unless it
+ * has only just begun.
+ *
+ * @param {Timeline} timeline Timeline to move along.
+ * @param {number} at Active milliseconds the workout has reached.
+ * @param {number} delta Steps to move: 1 for the next and -1 for the previous.
+ * @param {number} restartAfter Milliseconds into a step after which going back only restarts that step.
+ * @returns {number | null} Active milliseconds to jump to, or null when there is nowhere further to go.
+ */
+export const stepTarget = (timeline, at, delta, restartAfter) => {
+  const { index, finished } = locate(timeline, at);
+  const last = timeline.steps.length - 1;
+
+  if (finished && delta > 0) return null;
+
+  if (!finished && delta > 0 && index === last) return timeline.total;
+
+  const restart = !finished && delta < 0 && at - timeline.starts[index] > restartAfter;
+  const target = finished ? last : Math.min(last, Math.max(0, index + (restart ? 0 : delta)));
+
+  return timeline.starts[target];
 };
 
 /**

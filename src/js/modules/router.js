@@ -1,10 +1,16 @@
 const INTRO = 'intro';
 
 /**
+ * What follows the screen name in a route such as `/timer/abc/resume`: the workout identifier and a mode.
+ *
+ * @typedef {{ id: string | undefined, mode: string | undefined }} Route
+ */
+
+/**
  * @typedef {{
  *   element: HTMLElement,
- *   title: (params: string[]) => string,
- *   show: (params: string[], options: { initial: boolean }) => boolean | void,
+ *   title: (route: Route) => string,
+ *   show: (route: Route, options: { initial: boolean }) => boolean | void,
  *   leave?: () => void
  * }} Screen
  */
@@ -14,12 +20,12 @@ let render = () => {};
 
 /**
  * @param {string} route Route such as `/edit/abc`; a leading `#` is ignored.
- * @returns {{ name: string, params: string[] }} Screen name and the path segments after it.
+ * @returns {{ name: string, route: Route }} Screen name and what follows it.
  */
 const parse = (route) => {
-  const [name, ...params] = route.replace(/^#?\/?/, '').split('/');
+  const [name, id, mode] = route.replace(/^#?\/?/, '').split('/');
 
-  return { name: name || INTRO, params };
+  return { name: name || INTRO, route: { id, mode } };
 };
 
 /**
@@ -54,13 +60,13 @@ export const navigate = (route, { replace = false } = {}) => {
  * @returns {void}
  */
 export const init = (selector, { screens }) => {
-  const elements = document.querySelectorAll(selector);
+  const elements = /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll(selector));
   /** @type {Screen | null} */
   let active = null;
   let first = true;
 
   const update = () => {
-    const { name, params } = parse(history.state?.route ?? '/');
+    const { name, route } = parse(history.state?.route ?? '/');
     const screen = screens[name] ?? screens[INTRO];
 
     active?.leave?.();
@@ -68,7 +74,7 @@ export const init = (selector, { screens }) => {
       element.hidden = true;
     });
 
-    if (screen.show(params, { initial: first }) === false) {
+    if (screen.show(route, { initial: first }) === false) {
       active = null;
       // Replace the bad entry, so that Back does not return to it and bounce back to the intro again.
       navigate('#/', { replace: true });
@@ -77,12 +83,16 @@ export const init = (selector, { screens }) => {
 
     active = screen;
     screen.element.hidden = false;
-    document.title = screen.title(params);
+    document.title = screen.title(route);
     // The page sets smooth scrolling, which a new screen must not inherit.
     window.scrollTo({ top: 0, behavior: 'instant' });
 
     // Moving focus tells screen reader users that the screen changed; on first load there is nothing to announce.
-    if (!first) screen.element.querySelector('[tabindex="-1"]')?.focus({ preventScroll: true });
+    if (!first) {
+      const heading = /** @type {HTMLElement | null} */ (screen.element.querySelector('[tabindex="-1"]'));
+
+      heading?.focus({ preventScroll: true });
+    }
 
     first = false;
   };
@@ -99,7 +109,8 @@ export const init = (selector, { screens }) => {
 
   // The route links are plain anchors, so that they stay links; the router follows them without changing the address.
   document.addEventListener('click', (event) => {
-    const link = event.target.closest('a[href^="#/"]');
+    const target = /** @type {Element} */ (event.target);
+    const link = target.closest('a[href^="#/"]');
 
     const plainClick = event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey;
 

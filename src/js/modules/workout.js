@@ -85,7 +85,7 @@ const readName = (value, fallback) => {
 /**
  * Validate an exercise read from storage.
  *
- * @param {unknown} raw Stored value.
+ * @param {*} raw Stored value of any shape, which is checked here.
  * @returns {Exercise | null} The exercise, or null when it is unusable.
  */
 const readExercise = (raw) => {
@@ -101,7 +101,7 @@ const readExercise = (raw) => {
 /**
  * Validate a workout read from storage, repairing out-of-range values.
  *
- * @param {unknown} raw Stored value.
+ * @param {*} raw Stored value of any shape, which is checked here.
  * @returns {Workout | null} The workout, or null when it is unusable.
  */
 export const readWorkout = (raw) => {
