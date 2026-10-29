@@ -35,6 +35,32 @@ const wasDismissed = () => {
 const isHomeScreenApp = () =>
   Reflect.get(navigator, 'standalone') === true || matchMedia('(display-mode: standalone)').matches;
 
+/** @returns {{ userAgent: string, maxTouchPoints: number, standalone: boolean }} What the browser says about itself. */
+const readEnvironment = () => ({
+  userAgent: navigator.userAgent,
+  maxTouchPoints: navigator.maxTouchPoints,
+  standalone: isHomeScreenApp()
+});
+
+/** @returns {boolean} Whether the explanation applies to this browser, dismissed or not. */
+export const isAvailable = () => isEligible({ ...readEnvironment(), dismissed: false });
+
+/**
+ * Show the explanation again after it was dismissed.
+ *
+ * @param {string} [selector] Selector of the explanation.
+ * @returns {void}
+ */
+export const restore = (selector = '[data-notice="install"]') => {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch (error) {
+    console.warn('The install hint could not be restored for good.', error);
+  }
+
+  /** @type {HTMLElement} */ (document.querySelector(selector)).hidden = false;
+};
+
 /**
  * Show the installation explanation where it applies, and remember when the visitor dismisses it.
  *
@@ -44,12 +70,7 @@ const isHomeScreenApp = () =>
 export const init = (selector = '[data-notice="install"]') => {
   const element = /** @type {HTMLElement} */ (document.querySelector(selector));
 
-  element.hidden = !isEligible({
-    userAgent: navigator.userAgent,
-    maxTouchPoints: navigator.maxTouchPoints,
-    standalone: isHomeScreenApp(),
-    dismissed: wasDismissed()
-  });
+  element.hidden = !isEligible({ ...readEnvironment(), dismissed: wasDismissed() });
 
   element.querySelector('[data-action="dismiss-install"]').addEventListener('click', () => {
     element.hidden = true;

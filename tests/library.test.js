@@ -210,3 +210,79 @@ test('progress that cannot be stored costs only the resume', async () => {
 
   assert.equal(library.loadSession(1), null);
 });
+
+test('settings default to sound on, full volume, a three second countdown and the screen kept on', async () => {
+  fakeStorage();
+
+  const library = await loadLibrary();
+
+  assert.deepEqual(library.getSettings(), { sound: true, volume: 1, countdown: 3, keepAwake: true });
+});
+
+test('changed settings are stored, and a value out of range is ignored', async () => {
+  const map = fakeStorage();
+  const library = await loadLibrary();
+
+  library.updateSettings({ volume: 0.4, countdown: 5, keepAwake: false });
+  library.updateSettings({ volume: 4, countdown: 9 });
+
+  const reloaded = await loadLibrary();
+
+  assert.deepEqual(reloaded.getSettings(), { sound: true, volume: 0.4, countdown: 5, keepAwake: false });
+  assert.equal(JSON.parse(map.get(KEY)).countdown, 5);
+});
+
+test('a library saved before the settings existed gets their defaults', async () => {
+  fakeStorage({ [KEY]: JSON.stringify({ version: 1, sound: false, workouts: [] }) });
+
+  const library = await loadLibrary();
+
+  assert.deepEqual(library.getSettings(), { sound: false, volume: 1, countdown: 3, keepAwake: true });
+});
+
+test('an export is taken back by an import, which replaces a workout with the same identifier', async () => {
+  fakeStorage();
+
+  const library = await loadLibrary();
+  const workout = createDefaultWorkout();
+
+  library.saveWorkout(workout);
+
+  const exported = JSON.stringify(library.exportWorkouts());
+
+  library.saveWorkout({ ...workout, name: 'Changed' });
+  fakeStorage();
+
+  const other = await loadLibrary();
+
+  assert.equal(other.importWorkouts(exported), 1);
+  assert.equal(other.importWorkouts(exported), 1);
+  assert.deepEqual(other.getWorkouts(), [workout]);
+});
+
+test('a file that is not an export is refused and nothing is imported', async () => {
+  fakeStorage();
+
+  const library = await loadLibrary();
+
+  assert.equal(library.importWorkouts('{not json'), null);
+  assert.equal(library.importWorkouts(JSON.stringify({ version: 2, workouts: [] })), null);
+  assert.equal(library.importWorkouts(JSON.stringify({ version: 1, workouts: 'x' })), null);
+  assert.deepEqual(library.getWorkouts(), []);
+});
+
+test('deleting the workouts also drops the saved progress and keeps the settings', async () => {
+  fakeStorage();
+
+  const library = await loadLibrary();
+  const workout = createDefaultWorkout();
+
+  library.saveWorkout(workout);
+  library.saveSession({ id: workout.id, elapsed: 5, savedAt: Date.now() });
+  library.updateSettings({ countdown: 1 });
+  library.clearWorkouts();
+
+  assert.deepEqual(library.getWorkouts(), []);
+  assert.equal(library.loadSession(), null);
+  assert.equal(library.getSettings().countdown, 1);
+});

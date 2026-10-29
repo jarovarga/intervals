@@ -33,6 +33,27 @@ const removeAll = async () => {
   }
 };
 
+/** @type {ServiceWorkerRegistration | undefined} */
+let current;
+
+/**
+ * Look for a new version now. A new version takes over by itself, and the update notice then offers the reload.
+ *
+ * @returns {Promise<boolean | null>} Whether a new version was found, or null when no service worker runs or the check failed.
+ */
+export const checkNow = async () => {
+  if (!current) return null;
+
+  try {
+    await current.update();
+
+    return Boolean(current.installing || current.waiting);
+  } catch (error) {
+    console.warn('The update check failed.', error);
+    return null;
+  }
+};
+
 /**
  * Registers the service worker that makes the app installable and available offline.
  *
@@ -55,6 +76,7 @@ export const register = async (path = './service-worker.js', { checkInterval, by
       updateViaCache: 'none'
     });
 
+    current = registration;
     checkOnReturn(registration, checkInterval);
 
     return registration;

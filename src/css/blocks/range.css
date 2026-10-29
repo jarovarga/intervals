@@ -1,0 +1,5 @@
+.range {
+  accent-color: var(--color-accent);
+  inline-size: 9rem;
+  min-block-size: 1.5rem;
+}

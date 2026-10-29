@@ -1,4 +1,5 @@
 import { MS } from './time.js';
+import { COUNTDOWN_SECONDS, MAX_COUNTDOWN } from './timeline.js';
 import { readWorkout } from './workout.js';
 
 const STORAGE_KEY = 'intervals:v1';
@@ -9,7 +10,12 @@ const SESSION_KEY = `${STORAGE_KEY}:session`;
 /** How long after it was saved the progress of a workout can still be picked up again: one hour. */
 const SESSION_MAX_AGE = 60 * 60 * MS;
 
-/** @type {{ sound: boolean, workouts: import('./workout.js').Workout[] } | null} */
+/**
+ * @typedef {{ sound: boolean, volume: number, countdown: number, keepAwake: boolean }} Settings
+ * @typedef {Settings & { workouts: import('./workout.js').Workout[] }} Library
+ */
+
+/** @type {Library | null} */
 let library = null;
 
 /** Set when unreadable stored data could not be backed up, so that it is never overwritten. */
@@ -52,10 +58,30 @@ const persist = () => {
   }
 };
 
+/** @type {Settings} */
+const DEFAULT_SETTINGS = { sound: true, volume: 1, countdown: COUNTDOWN_SECONDS, keepAwake: true };
+
+/**
+ * @param {Record<string, unknown>} stored Stored library, which may come from an earlier version without every setting.
+ * @param {Settings} [fallback] Settings to take where one is missing or out of range.
+ * @returns {Settings} The settings.
+ */
+const readSettings = (stored, fallback = DEFAULT_SETTINGS) => {
+  const { volume, countdown } = stored;
+
+  return {
+    sound: typeof stored.sound === 'boolean' ? stored.sound : fallback.sound,
+    volume: typeof volume === 'number' && volume >= 0 && volume <= 1 ? volume : fallback.volume,
+    countdown:
+      Number.isInteger(countdown) && countdown >= 0 && countdown <= MAX_COUNTDOWN ? countdown : fallback.countdown,
+    keepAwake: typeof stored.keepAwake === 'boolean' ? stored.keepAwake : fallback.keepAwake
+  };
+};
+
 /**
  * Read and validate the stored library, falling back to an empty library when nothing usable is stored.
  *
- * @returns {{ sound: boolean, workouts: import('./workout.js').Workout[] }} Library to work with.
+ * @returns {Library} Library to work with.
  */
 const read = () => {
   let raw = null;
@@ -67,7 +93,7 @@ const read = () => {
 
     if (stored && stored.version === VERSION && Array.isArray(stored.workouts)) {
       return {
-        sound: stored.sound !== false,
+        ...readSettings(stored),
         workouts: stored.workouts.map(readWorkout).filter(Boolean)
       };
     }
@@ -86,7 +112,7 @@ const read = () => {
     }
   }
 
-  const fresh = { sound: true, workouts: [] };
+  const fresh = { ...readSettings({}), workouts: [] };
 
   library = fresh;
   persist();
@@ -95,7 +121,7 @@ const read = () => {
 };
 
 /**
- * @returns {{ sound: boolean, workouts: import('./workout.js').Workout[] }} The loaded library.
+ * @returns {Library} The loaded library.
  */
 const current = () => {
   library ??= read();
@@ -153,6 +179,66 @@ export const isSoundOn = () => current().sound;
 export const setSoundOn = (on) => {
   current().sound = on;
   persist();
+};
+
+/** @returns {Settings} A copy of the settings. */
+export const getSettings = () => {
+  const { sound, volume, countdown, keepAwake } = current();
+
+  return { sound, volume, countdown, keepAwake };
+};
+
+/**
+ * @param {Partial<Settings>} changes Settings to change; a value out of range is ignored.
+ * @returns {void}
+ */
+export const updateSettings = (changes) => {
+  const settings = getSettings();
+
+  Object.assign(current(), readSettings({ ...settings, ...changes }, settings));
+  persist();
+};
+
+/**
+ * @returns {{ version: number, workouts: import('./workout.js').Workout[] }} The saved workouts, in the form that `importWorkouts` takes back.
+ */
+export const exportWorkouts = () => ({ version: VERSION, workouts: current().workouts });
+
+/**
+ * Add the workouts of an export to the library. A workout with the same identifier as one already saved replaces it.
+ *
+ * @param {string} text Contents of an export file.
+ * @returns {number | null} How many workouts were added, or null when the text is not an export.
+ */
+export const importWorkouts = (text) => {
+  let stored;
+
+  try {
+    stored = JSON.parse(text);
+  } catch {
+    return null;
+  }
+
+  if (stored?.version !== VERSION || !Array.isArray(stored.workouts)) {
+    return null;
+  }
+
+  const workouts = stored.workouts.map(readWorkout).filter(Boolean);
+
+  workouts.forEach(saveWorkout);
+
+  return workouts.length;
+};
+
+/**
+ * Delete every saved workout and the progress of an unfinished one. The settings stay.
+ *
+ * @returns {void}
+ */
+export const clearWorkouts = () => {
+  current().workouts = [];
+  persist();
+  clearSession();
 };
 
 /**

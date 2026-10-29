@@ -1,7 +1,10 @@
 import { MS } from './time.js';
 
-/** Seconds at the end of each phase that get a tick cue and a clock pulse. */
+/** Seconds at the end of each phase that get a tick cue and a clock pulse, unless the settings say otherwise. */
 export const COUNTDOWN_SECONDS = 3;
+
+/** Most seconds the countdown setting allows. */
+export const MAX_COUNTDOWN = 5;
 
 /**
  * @typedef {import('./workout.js').Step} Step
@@ -71,13 +74,14 @@ export const stepTarget = (timeline, at, delta, restartAfter) => {
 };
 
 /**
- * List the sounds to play: a countdown for the last three seconds of every step, a signal when work, rest or round
- * rest begins and a finish signal.
+ * List the sounds to play: a countdown for the last seconds of every step, a signal when work, rest or round rest
+ * begins and a finish signal.
  *
  * @param {Timeline} timeline Timeline to scan.
+ * @param {number} [countdown] Seconds at the end of every step that get a tick.
  * @returns {Cue[]} Cues in time order.
  */
-export const buildCues = ({ steps, starts, total }) => {
+export const buildCues = ({ steps, starts, total }, countdown = COUNTDOWN_SECONDS) => {
   /** @type {Cue[]} */
   const cues = [];
 
@@ -87,7 +91,7 @@ export const buildCues = ({ steps, starts, total }) => {
 
     if (step.type !== 'prepare') cues.push({ at: start, kind: step.type });
 
-    for (let left = COUNTDOWN_SECONDS; left >= 1; left -= 1) {
+    for (let left = countdown; left >= 1; left -= 1) {
       if (step.duration > left) cues.push({ at: end - left * MS, kind: 'tick' });
     }
   });

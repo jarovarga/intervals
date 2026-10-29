@@ -6,6 +6,7 @@ import * as loader from './modules/loader.js';
 import * as marquee from './modules/marquee.js';
 import * as player from './modules/player.js';
 import * as router from './modules/router.js';
+import * as settings from './modules/settings.js';
 import * as sw from './modules/service-worker.js';
 import * as sound from './modules/sound.js';
 import * as update from './modules/update.js';
@@ -23,7 +24,7 @@ wake.init();
 router.init('[data-screen]', {
   screens: {
     intro: intro.init('[data-screen="intro"]', { title: APP_TITLE }),
-    settings: intro.settings('[data-screen="intro"]', { title: APP_TITLE }),
+    settings: settings.init('[data-screen="intro"]', { title: APP_TITLE }),
     edit: editor.init('[data-screen="editor"]', { title: APP_TITLE }),
     timer: player.init('[data-screen="timer"]', {
       title: APP_TITLE,

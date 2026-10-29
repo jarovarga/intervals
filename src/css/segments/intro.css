@@ -33,3 +33,9 @@
   flex-direction: column;
   gap: calc(var(--spacing) * 3);
 }
+
+.intro__status {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  min-block-size: 1lh;
+}

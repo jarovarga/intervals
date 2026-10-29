@@ -68,6 +68,25 @@ test('the screen lock is requested once however often it is asked for', async ()
   assert.deepEqual(browser.requests, ['screen']);
 });
 
+test('a forbidden screen lock is not requested, and forbidding it lets go of a held one', async () => {
+  const browser = fakeBrowser();
+  const wakeLock = await loadWakeLock();
+
+  await wakeLock.acquire();
+  await wakeLock.setEnabled(false);
+
+  assert.equal(browser.locks[0].released, true);
+
+  await wakeLock.acquire();
+
+  assert.equal(browser.requests.length, 1);
+
+  await wakeLock.setEnabled(true);
+  await wakeLock.acquire();
+
+  assert.equal(browser.requests.length, 2);
+});
+
 test('without wake lock support asking for it does nothing', async () => {
   setGlobal('navigator', {});
 

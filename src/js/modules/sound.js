@@ -16,6 +16,7 @@ const CUES = {
   ]
 };
 
+/** Gain of a signal at full volume. */
 const PEAK_GAIN = 0.4;
 const ATTACK = 0.005;
 const SILENCE = 0.0001;
@@ -23,6 +24,7 @@ const SILENCE = 0.0001;
 /** @type {AudioContext | null} */
 let context = null;
 let muted = false;
+let volume = 1;
 let unlocked = false;
 /** @type {Set<GainNode>} */
 const playing = new Set();
@@ -96,6 +98,14 @@ export const setMuted = (value) => {
 };
 
 /**
+ * @param {number} value Volume of the signals from 0 to 1; it applies to the signals scheduled afterwards.
+ * @returns {void}
+ */
+export const setVolume = (value) => {
+  volume = Math.min(1, Math.max(0, value));
+};
+
+/**
  * Schedule a signal on the audio clock, which keeps its timing steady however busy the page is.
  *
  * @param {import('./timeline.js').CueKind} kind Signal to play.
@@ -114,7 +124,7 @@ export const play = (kind, delay = 0) => {
 
     oscillator.frequency.value = frequency;
     gain.gain.setValueAtTime(SILENCE, start);
-    gain.gain.exponentialRampToValueAtTime(PEAK_GAIN, start + ATTACK);
+    gain.gain.exponentialRampToValueAtTime(Math.max(SILENCE, PEAK_GAIN * volume), start + ATTACK);
     gain.gain.exponentialRampToValueAtTime(SILENCE, start + length);
     oscillator.connect(gain).connect(context.destination);
     oscillator.addEventListener('ended', () => playing.delete(gain), { once: true });

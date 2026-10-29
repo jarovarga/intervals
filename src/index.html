@@ -77,7 +77,64 @@
                 </div>
 
                 <div data-section="settings" class="intro__section" hidden>
-                    <p class="screen__title">Soon</p>
+                    <section class="intro__group" aria-labelledby="sound-title">
+                        <h2 id="sound-title" class="screen__title">Sound</h2>
+                        <div class="panel">
+                            <label class="panel__block">
+                                <span class="panel__text">
+                                    <span class="panel__title">Signals</span>
+                                    <span class="panel__note">Beeps when a step begins and ends</span>
+                                </span>
+                                <input type="checkbox" data-setting="sound" class="checkbox">
+                            </label>
+                            <label class="panel__block panel__block--divided">
+                                <span class="panel__text">
+                                    <span class="panel__title">Volume</span>
+                                </span>
+                                <input type="range" min="0" max="100" step="5" data-setting="volume" class="range">
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="intro__group" aria-labelledby="workout-title">
+                        <h2 id="workout-title" class="screen__title">Workout</h2>
+                        <div class="panel">
+                            <div class="panel__block">
+                                <div class="panel__text">
+                                    <label for="countdown" class="panel__title">Countdown</label>
+                                    <span id="countdown-hint" class="panel__note">Seconds ticked before a step ends</span>
+                                </div>
+                                <div class="stepper">
+                                    <button type="button" data-action="fewer-countdown" data-icon="minus" class="button button--square" aria-controls="countdown" aria-label="Shorter countdown"></button>
+                                    <input type="number" min="0" max="5" inputmode="numeric" data-setting="countdown" id="countdown" class="input input--rounds" aria-describedby="countdown-hint">
+                                    <button type="button" data-action="more-countdown" data-icon="plus" class="button button--square" aria-controls="countdown" aria-label="Longer countdown"></button>
+                                </div>
+                            </div>
+                            <label class="panel__block panel__block--divided">
+                                <span class="panel__text">
+                                    <span class="panel__title">Keep screen on</span>
+                                    <span class="panel__note">While a workout runs</span>
+                                </span>
+                                <input type="checkbox" data-setting="keep-awake" class="checkbox">
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="intro__group" aria-labelledby="data-title">
+                        <h2 id="data-title" class="screen__title">Your data</h2>
+                        <button type="button" data-action="export" class="button">Export workouts</button>
+                        <button type="button" data-action="import" class="button">Import workouts</button>
+                        <input type="file" accept="application/json,.json" data-field="import" tabindex="-1" hidden>
+                        <button type="button" data-action="delete-workouts" class="button button--outline button--danger">Delete all workouts</button>
+                    </section>
+
+                    <section class="intro__group" aria-labelledby="app-title">
+                        <h2 id="app-title" class="screen__title">App</h2>
+                        <button type="button" data-action="check-update" data-icon="refresh" class="button">Check for updates</button>
+                        <button type="button" data-action="install" class="button" hidden>Show install guide</button>
+                    </section>
+
+                    <p data-status="settings" class="intro__status" role="status"></p>
                 </div>
             </div>
 

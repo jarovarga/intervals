@@ -13,6 +13,8 @@
 @import "./blocks/button.css" layer(block);
 @import "./blocks/input.css" layer(block);
 @import "./blocks/stepper.css" layer(block);
+@import "./blocks/checkbox.css" layer(block);
+@import "./blocks/range.css" layer(block);
 @import "./blocks/swatch.css" layer(block);
 @import "./blocks/panel.css" layer(block);
 @import "./blocks/workout.css" layer(block);

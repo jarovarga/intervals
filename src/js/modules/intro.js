@@ -24,7 +24,7 @@ const describe = (workout) =>
  * @param {string} name Section to show.
  * @returns {void}
  */
-const showSection = (element, name) => {
+export const showSection = (element, name) => {
   const sections = /** @type {NodeListOf<HTMLElement>} */ (element.querySelectorAll('[data-section]'));
   const tabs = /** @type {NodeListOf<HTMLElement>} */ (element.querySelectorAll('[data-tab]'));
 
@@ -38,24 +38,6 @@ const showSection = (element, name) => {
       tab.removeAttribute('aria-current');
     }
   });
-};
-
-/**
- * The settings section of the intro screen. It gives the router the screen to show: its element, its page title and
- * what to do when it opens.
- *
- * @param {string} [selector] Selector of the intro screen.
- * @param {object} [options] Settings.
- * @param {string} [options.title] Title of the app, which ends every page title.
- */
-export const settings = (selector = '[data-screen="intro"]', { title } = {}) => {
-  const element = /** @type {HTMLElement} */ (document.querySelector(selector));
-
-  return {
-    element,
-    title: () => `Settings – ${title}`,
-    show: () => showSection(element, 'settings')
-  };
 };
 
 /**

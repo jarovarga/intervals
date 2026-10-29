@@ -5,7 +5,7 @@ import * as presets from './presets.js';
 import * as router from './router.js';
 import * as sound from './sound.js';
 import { formatClock, formatTotal, MS } from './time.js';
-import { buildCues, buildTimeline, COUNTDOWN_SECONDS, locate, stepTarget } from './timeline.js';
+import { buildCues, buildTimeline, locate, stepTarget } from './timeline.js';
 import * as transport from './transport.js';
 import * as wakeLock from './wake-lock.js';
 import { buildSteps } from './workout.js';
@@ -62,6 +62,8 @@ export const init = (
   /** @type {import('./timeline.js').Cue[]} */
   let cues;
   let nextCue = 0;
+  /** Seconds at the end of a step that get a tick and a clock pulse; the settings may change it between workouts. */
+  let countdown = 0;
   /** How far the workout has got and whether the clock runs; every change goes through the transport functions. */
   let playback = transport.create();
   let timerId = 0;
@@ -238,7 +240,7 @@ export const init = (
 
     clock.textContent = formatClock(seconds);
 
-    if (!stepChanged && isRunning() && seconds >= 1 && seconds <= COUNTDOWN_SECONDS) {
+    if (!stepChanged && isRunning() && seconds >= 1 && seconds <= countdown) {
       animate(clock, [{ transform: 'scale(1)' }, { transform: 'scale(1.08)' }, { transform: 'scale(1)' }], {
         duration: pulseDuration,
         easing: easing('--ease-out', 'ease-out')
@@ -441,7 +443,8 @@ export const init = (
       workout = found;
       steps = buildSteps(workout);
       timeline = buildTimeline(steps);
-      cues = buildCues(timeline);
+      countdown = library.getSettings().countdown;
+      cues = buildCues(timeline, countdown);
       const resumeAt = initial || mode === 'resume' ? savedProgress() : null;
 
       playback = transport.create(resumeAt ?? 0);

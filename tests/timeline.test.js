@@ -71,6 +71,14 @@ test('cues: a countdown per step, a signal per work, rest or round rest, and one
   assert.ok(cues.every((cue, index) => index === 0 || cue.at >= cues[index - 1].at));
 });
 
+test('the countdown setting decides how many ticks every step gets', () => {
+  const timeline = buildTimeline(buildSteps(createDefaultWorkout()));
+  const ticks = (countdown) => buildCues(timeline, countdown).filter((cue) => cue.kind === 'tick').length;
+
+  assert.equal(ticks(0), 0);
+  assert.equal(ticks(5), timeline.steps.length * 5);
+});
+
 test('a step shorter than the countdown only counts down what fits', () => {
   const timeline = buildTimeline([{ type: 'work', duration: 2, exercise: 0, round: 0 }]);
   const ticks = buildCues(timeline).filter((cue) => cue.kind === 'tick');

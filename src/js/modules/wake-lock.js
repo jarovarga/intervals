@@ -2,6 +2,21 @@
 let sentinel = null;
 let wanted = false;
 let requesting = false;
+let enabled = true;
+
+/**
+ * Allow or forbid the lock from now on; forbidding it also lets go of a lock that is held.
+ *
+ * @param {boolean} value Whether the screen may be kept on.
+ * @returns {Promise<void>}
+ */
+export const setEnabled = async (value) => {
+  enabled = value;
+
+  if (!enabled) {
+    await release();
+  }
+};
 
 /**
  * Keep the screen on while a workout runs. The browser drops the lock when the page is hidden, so it is requested
@@ -12,7 +27,7 @@ let requesting = false;
 export const acquire = async () => {
   wanted = true;
 
-  if (!('wakeLock' in navigator) || sentinel || requesting) return;
+  if (!enabled || !('wakeLock' in navigator) || sentinel || requesting) return;
 
   requesting = true;
 

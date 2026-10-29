@@ -74,7 +74,8 @@ const fakeAudio = ({ resumeFails = false } = {}) => {
 
     createGain() {
       const gain = {
-        gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} },
+        ramps: [],
+        gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: (value) => gain.ramps.push(value) },
         disconnected: false,
         connect: () => {},
         disconnect: () => (gain.disconnected = true)
@@ -146,6 +147,22 @@ test('a signal is scheduled on the audio clock after its delay', async () => {
   assert.equal(oscillator.frequency.value, 660);
   assert.equal(oscillator.startedAt, 10.5);
   assert.ok(Math.abs(oscillator.stoppedAt - (10.5 + 0.12 + 0.005)) < 1e-9);
+});
+
+test('the volume scales the loudness of the signals scheduled afterwards', async () => {
+  const audio = fakeAudio();
+  const sound = await loadSound();
+
+  sound.unlock();
+  sound.play('tick');
+  sound.setVolume(0.5);
+  sound.play('tick');
+  sound.setVolume(7);
+  sound.play('tick');
+
+  const peaks = audio.contexts[0].gains.map((gain) => gain.ramps[0]);
+
+  assert.deepEqual(peaks, [0.4, 0.2, 0.4]);
 });
 
 test('a signal of several notes schedules every note at its offset', async () => {
