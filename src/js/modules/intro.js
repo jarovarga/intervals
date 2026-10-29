@@ -41,20 +41,20 @@ const showSection = (element, name) => {
 };
 
 /**
- * The statistics section of the intro screen. It gives the router the screen to show: its element, its page title and
+ * The settings section of the intro screen. It gives the router the screen to show: its element, its page title and
  * what to do when it opens.
  *
  * @param {string} [selector] Selector of the intro screen.
  * @param {object} [options] Settings.
  * @param {string} [options.title] Title of the app, which ends every page title.
  */
-export const stats = (selector = '[data-screen="intro"]', { title } = {}) => {
+export const settings = (selector = '[data-screen="intro"]', { title } = {}) => {
   const element = /** @type {HTMLElement} */ (document.querySelector(selector));
 
   return {
     element,
-    title: () => `Statistics – ${title}`,
-    show: () => showSection(element, 'stats')
+    title: () => `Settings – ${title}`,
+    show: () => showSection(element, 'settings')
   };
 };
 

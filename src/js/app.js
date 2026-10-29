@@ -23,7 +23,7 @@ wake.init();
 router.init('[data-screen]', {
   screens: {
     intro: intro.init('[data-screen="intro"]', { title: APP_TITLE }),
-    stats: intro.stats('[data-screen="intro"]', { title: APP_TITLE }),
+    settings: intro.settings('[data-screen="intro"]', { title: APP_TITLE }),
     edit: editor.init('[data-screen="editor"]', { title: APP_TITLE }),
     timer: player.init('[data-screen="timer"]', {
       title: APP_TITLE,
