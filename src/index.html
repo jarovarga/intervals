@@ -102,7 +102,7 @@
                             <div class="panel__block">
                                 <div class="panel__text">
                                     <label for="countdown" class="panel__title">Countdown</label>
-                                    <span id="countdown-hint" class="panel__note">Seconds ticked before a step ends</span>
+                                    <span id="countdown-hint" class="panel__note">Seconds of ticks</span>
                                 </div>
                                 <div class="stepper">
                                     <button type="button" data-action="fewer-countdown" data-icon="minus" class="button button--square" aria-controls="countdown" aria-label="Shorter countdown"></button>
@@ -121,7 +121,7 @@
                     </section>
 
                     <section class="intro__group" aria-labelledby="data-title">
-                        <h2 id="data-title" class="screen__title">Your data</h2>
+                        <h2 id="data-title" class="screen__title">My data</h2>
                         <button type="button" data-action="export" class="button">Export workouts</button>
                         <button type="button" data-action="import" class="button">Import workouts</button>
                         <input type="file" accept="application/json,.json" data-field="import" tabindex="-1" hidden>
@@ -135,6 +135,8 @@
                     </section>
 
                     <p data-status="settings" class="intro__status" role="status"></p>
+
+                    <p class="intro__version">Version __APP_VERSION__</p>
                 </div>
             </div>
 

@@ -33,6 +33,7 @@ const reportWatch = (message) => {
 
 /** Source and output paths used by the build pipeline. */
 const paths = {
+  package: resolve(ROOT, 'package.json'),
   html: {
     source: resolve(ROOT, 'src/index.html'),
     output: resolve(ROOT, 'public/index.html')
@@ -114,14 +115,16 @@ async function versionAssets(source) {
 }
 
 /**
- * Minify HTML and write it to the public output directory.
+ * Minify HTML and write it to the public output directory, with the version of `package.json` in place of the
+ * `__APP_VERSION__` placeholder.
  *
  * @param {string} source HTML source to minify.
  * @param {boolean} [version] Whether to version the bundle URLs.
  * @returns {Promise<void>}
  */
 async function writeHtml(source, version = false) {
-  const html = version ? await versionAssets(source) : source;
+  const { version: appVersion } = JSON.parse(await readFile(paths.package, 'utf8'));
+  const html = (version ? await versionAssets(source) : source).replace('__APP_VERSION__', appVersion);
   const output = await minify(html, {
     collapseWhitespace: true,
     removeComments: true
