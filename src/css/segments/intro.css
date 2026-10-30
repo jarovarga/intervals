@@ -6,7 +6,6 @@
   gap: calc(var(--spacing) * 3);
   letter-spacing: var(--tracking-wide);
   line-height: var(--leading-none);
-  margin-block-start: calc(var(--spacing) * 3);
   text-transform: uppercase;
 }
 

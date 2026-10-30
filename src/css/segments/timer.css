@@ -7,8 +7,7 @@ body:has(.timer:not([hidden])) {
   background-color: var(--color-surface-deep);
   color: var(--color-text);
   gap: calc(var(--spacing) * 2);
-  /* The bar starts clear of the soft fade that iOS draws under the status bar. */
-  padding-block-start: calc(env(safe-area-inset-top) + var(--spacing) * 7);
+  padding-block-start: calc(env(safe-area-inset-top) + var(--spacing) * 8);
   padding-inline: calc(env(safe-area-inset-left) + var(--spacing) * 2)
     calc(env(safe-area-inset-right) + var(--spacing) * 2);
 
