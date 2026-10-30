@@ -9,7 +9,7 @@ Open it at [jarovarga.github.io/intervals](https://jarovarga.github.io/intervals
 - Workouts with a name, a colour, any number of exercises with their own time, a get-ready countdown, rest between exercises, rounds and a cooldown between rounds
 - A total time that updates while you edit
 - A full-screen timer with a colour for every phase, the next step, progress through the exercises and the round
-- Ready-made workouts: a 30/30 circuit and the 7-minute workout
+- Ready-made workouts: a 30/30 circuit and Tabata
 - Sound cues for the start of an exercise, rest, a new round and the end, which can be muted
 - The screen stays on while a workout runs, unless you turn that off
 - Settings for the sound and its volume, the length of the countdown and the screen lock, plus a check for updates and the app version
