@@ -200,9 +200,10 @@ export const updateSettings = (changes) => {
 };
 
 /**
- * @returns {{ version: number, workouts: import('./workout.js').Workout[] }} The saved workouts, in the form that `importWorkouts` takes back.
+ * @param {import('./workout.js').Workout[]} [workouts] Workouts to export; all saved workouts by default.
+ * @returns {{ version: number, workouts: import('./workout.js').Workout[] }} The workouts, in the form that `importWorkouts` takes back.
  */
-export const exportWorkouts = () => ({ version: VERSION, workouts: current().workouts });
+export const exportWorkouts = (workouts = current().workouts) => ({ version: VERSION, workouts });
 
 /**
  * Add the workouts of an export to the library. A workout with the same identifier as one already saved replaces it.

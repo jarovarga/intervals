@@ -286,3 +286,23 @@ test('deleting the workouts also drops the saved progress and keeps the settings
   assert.equal(library.loadSession(), null);
   assert.equal(library.getSettings().countdown, 1);
 });
+
+test('an export of chosen workouts holds only those, and an import takes them back', async () => {
+  fakeStorage();
+
+  const library = await loadLibrary();
+  const workout = createDefaultWorkout();
+
+  library.saveWorkout(createDefaultWorkout());
+
+  const exported = library.exportWorkouts([workout]);
+
+  assert.deepEqual(exported.workouts, [workout]);
+
+  fakeStorage();
+
+  const other = await loadLibrary();
+
+  assert.equal(other.importWorkouts(JSON.stringify(exported)), 1);
+  assert.deepEqual(other.getWorkouts(), [workout]);
+});

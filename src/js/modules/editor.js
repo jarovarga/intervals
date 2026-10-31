@@ -1,4 +1,5 @@
 import * as dialog from './dialog.js';
+import { saveJson } from './download.js';
 import * as library from './library.js';
 import * as presets from './presets.js';
 import * as router from './router.js';
@@ -7,6 +8,18 @@ import { MAX_ROUNDS, createBlankWorkout, createExercise, totalSeconds } from './
 
 /** Fields that hold one time of the workout, by `data-field` value. */
 const TIME_FIELDS = { 'prepare': 'prepare', 'rest': 'rest', 'round-rest': 'roundRest' };
+
+/**
+ * @param {string} name Name of a workout.
+ * @returns {string} The name as a part of a file name: lowercase letters and digits of any script, split by hyphens.
+ */
+const fileSlug = (name) =>
+  name
+    .normalize('NFKD')
+    .replaceAll(/\p{M}/gu, '')
+    .toLowerCase()
+    .replaceAll(/[^\p{L}\p{N}]+/gu, '-')
+    .replaceAll(/^-|-$/g, '') || 'workout';
 
 /**
  * Check a draft before it is saved.
@@ -232,6 +245,26 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
     router.navigate('#/');
   };
 
+  const exportWorkout = () => {
+    const problem = findProblem(draft);
+
+    if (problem) {
+      say(problem.message);
+      focusOn(problem.focus);
+      return;
+    }
+
+    say();
+
+    const workout = structuredClone(draft);
+
+    workout.name = workout.name.trim();
+    workout.exercises.forEach((exercise) => {
+      exercise.name = exercise.name.trim();
+    });
+    saveJson(library.exportWorkouts([workout]), `intervals-${fileSlug(workout.name)}.json`);
+  };
+
   form.addEventListener('click', (event) => {
     const target = /** @type {Element} */ (event.target);
     const button = /** @type {HTMLElement | null} */ (target.closest('[data-action]'));
@@ -247,6 +280,8 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
       renderExercises(`[data-id="${exercise.id}"] [data-field="exercise-name"]`);
     } else if (name === 'fewer-rounds' || name === 'more-rounds') {
       setRounds(draft.rounds + (name === 'more-rounds' ? 1 : -1));
+    } else if (name === 'export') {
+      exportWorkout();
     } else if (name === 'delete') {
       deleteWorkout().catch((error) => console.warn('The workout could not be deleted.', error));
     } else {
@@ -290,6 +325,7 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
       isNew = !existing;
       draft = structuredClone(existing ?? copy ?? createBlankWorkout());
       heading.textContent = isNew ? 'New workout' : 'Edit workout';
+      action('export').hidden = isNew;
       action('delete').hidden = isNew;
       say();
       renderAll();

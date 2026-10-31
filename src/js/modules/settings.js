@@ -1,4 +1,5 @@
 import * as dialog from './dialog.js';
+import { saveJson } from './download.js';
 import { showSection } from './intro.js';
 import * as library from './library.js';
 import * as install from './install.js';
@@ -32,13 +33,7 @@ const applySettings = () => {
  * @returns {void}
  */
 const downloadWorkouts = () => {
-  const blob = new Blob([JSON.stringify(library.exportWorkouts(), null, 2)], { type: 'application/json' });
-  const link = document.createElement('a');
-
-  link.href = URL.createObjectURL(blob);
-  link.download = `intervals-${new Date().toISOString().slice(0, 10)}.json`;
-  link.click();
-  URL.revokeObjectURL(link.href);
+  saveJson(library.exportWorkouts(), `intervals-${new Date().toISOString().slice(0, 10)}.json`);
 };
 
 /**

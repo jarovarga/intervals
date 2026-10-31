@@ -13,7 +13,7 @@ Open it at [jarovarga.github.io/intervals](https://jarovarga.github.io/intervals
 - Sound cues for the start of an exercise, rest, a new round and the end, which can be muted
 - The screen stays on while a workout runs, unless you turn that off
 - Settings for the sound and its volume, the length of the countdown and the screen lock, plus a check for updates and the app version
-- Export of your workouts to a JSON file, import of such a file and deletion of all workouts
+- Export of one workout or all of your workouts to a JSON file, import of such a file and deletion of all workouts
 - Installable and available offline, because a service worker caches the whole app and offers a reload when a new version is ready
 - Workouts are stored in the browser on your device; nothing is sent anywhere
 - A link to [Ko-fi](https://ko-fi.com/jarovarga/tip) at the bottom of the settings, for anyone who wants to support the app
