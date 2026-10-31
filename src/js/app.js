@@ -7,6 +7,7 @@ import * as marquee from './modules/marquee.js';
 import * as player from './modules/player.js';
 import * as router from './modules/router.js';
 import * as settings from './modules/settings.js';
+import * as share from './modules/share.js';
 import * as sw from './modules/service-worker.js';
 import * as sound from './modules/sound.js';
 import * as update from './modules/update.js';
@@ -21,6 +22,8 @@ const UPDATE_CHECK_INTERVAL = 60 * 60 * 1000;
 dialog.init('[data-dialog="confirm"]');
 sound.init();
 wake.init();
+// Before the router, which drops the hash that carries a shared workout.
+share.init();
 router.init('[data-screen]', {
   screens: {
     intro: intro.init('[data-screen="intro"]', { title: APP_TITLE }),
