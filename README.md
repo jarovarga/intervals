@@ -16,7 +16,7 @@ Open it at [jarovarga.github.io/intervals](https://jarovarga.github.io/intervals
 - Export of your workouts to a JSON file, import of such a file and deletion of all workouts
 - Installable and available offline, because a service worker caches the whole app and offers a reload when a new version is ready
 - Workouts are stored in the browser on your device; nothing is sent anywhere
-- A link to [Ko-fi](https://ko-fi.com/jarovarga) at the bottom of the settings, for anyone who wants to support the app
+- A link to [Ko-fi](https://ko-fi.com/jarovarga/tip) at the bottom of the settings, for anyone who wants to support the app
 
 Plain HTML, layered CSS and ES modules, built with esbuild and checked with Stylelint, ESLint, HTML-validate and Prettier.
 
