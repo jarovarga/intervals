@@ -40,7 +40,7 @@ router.init('[data-screen]', {
 });
 install.init('[data-notice="install"]');
 update.init('[data-notice="update"]');
-marquee.init('[data-marquee]', { speed: 32, pause: 2.5 });
+marquee.init('[data-marquee]', { speed: 32, pause: 1 });
 loader.init('[data-loader="app"]', { timeout: 3000 });
 
 window.addEventListener(

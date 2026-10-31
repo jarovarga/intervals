@@ -171,7 +171,7 @@ export const init = (
 
     element.dataset.phase = phase;
     label.textContent = PHASE_LABELS[phase];
-    part('focus').textContent = focus;
+    part('title', 'focus').textContent = focus;
     part('focus').classList.toggle('timer__focus--name', !finished && step.type === 'work');
     part('round').textContent = `Round ${finished ? workout.rounds : step.round + 1}/${workout.rounds}`;
     segments.setAttribute('aria-label', `${done} of ${total} exercises done`);

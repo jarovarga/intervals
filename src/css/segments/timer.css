@@ -139,10 +139,10 @@ body:has(.timer:not([hidden])) {
 .timer__focus {
   font-size: var(--text-xl);
   font-weight: var(--font-weight-bold);
+  inline-size: 20rem;
   line-height: var(--leading-snug);
   margin-block-start: calc(var(--spacing) * 1);
-  max-inline-size: 20rem;
-  text-wrap: balance;
+  max-inline-size: 100%;
 }
 
 .timer__focus--name,
