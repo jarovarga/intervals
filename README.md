@@ -14,7 +14,6 @@ Open it at [jarovarga.github.io/intervals](https://jarovarga.github.io/intervals
 - The screen stays on while a workout runs, unless you turn that off
 - Settings for the sound and its volume, the length of the countdown and the screen lock, plus a check for updates and the app version
 - Export of your workouts to a JSON file, import of such a file and deletion of all workouts
-- Sharing of a saved workout as a link, through the share sheet of the device or, without one, copied to the clipboard; the workout travels in the hash of the link, so it never reaches a server, and whoever opens the link is asked before it is added
 - Installable and available offline, because a service worker caches the whole app and offers a reload when a new version is ready
 - Workouts are stored in the browser on your device; nothing is sent anywhere
 - A link to [Ko-fi](https://ko-fi.com/jarovarga/tip) at the bottom of the settings, for anyone who wants to support the app

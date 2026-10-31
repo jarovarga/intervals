@@ -2,21 +2,11 @@ import * as dialog from './dialog.js';
 import * as library from './library.js';
 import * as presets from './presets.js';
 import * as router from './router.js';
-import * as share from './share.js';
 import { formatField, formatTotal, parse } from './time.js';
 import { MAX_ROUNDS, createBlankWorkout, createExercise, totalSeconds } from './workout.js';
 
 /** Fields that hold one time of the workout, by `data-field` value. */
 const TIME_FIELDS = { 'prepare': 'prepare', 'rest': 'rest', 'round-rest': 'roundRest' };
-
-/** What to tell about the outcome of sharing; the share sheet confirms itself, so it needs no message. */
-const SHARE_MESSAGES = {
-  'shared': '',
-  'cancelled': '',
-  'copied': 'The link was copied.',
-  'too-large': 'This workout is too large to share.',
-  'failed': 'The workout could not be shared.'
-};
 
 /**
  * Check a draft before it is saved.
@@ -46,7 +36,6 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
   const form = /** @type {HTMLFormElement} */ (element.querySelector('[data-form="editor"]'));
   const heading = element.querySelector('[data-title="editor"]');
   const message = /** @type {HTMLElement} */ (element.querySelector('[data-error="editor"]'));
-  const status = element.querySelector('[data-status="editor"]');
   const list = element.querySelector('[data-editor="exercises"]');
   const template = /** @type {HTMLTemplateElement} */ (document.querySelector('[data-template="exercise"]'));
   const fieldIn = (root, name) => /** @type {HTMLInputElement} */ (root.querySelector(`[data-field="${name}"]`));
@@ -243,20 +232,6 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
     router.navigate('#/');
   };
 
-  const shareWorkout = async () => {
-    const problem = findProblem(draft);
-
-    if (problem) {
-      say(problem.message);
-      focusOn(problem.focus);
-      return;
-    }
-
-    say();
-    status.textContent = '';
-    status.textContent = SHARE_MESSAGES[await share.send(draft)];
-  };
-
   form.addEventListener('click', (event) => {
     const target = /** @type {Element} */ (event.target);
     const button = /** @type {HTMLElement | null} */ (target.closest('[data-action]'));
@@ -272,8 +247,6 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
       renderExercises(`[data-id="${exercise.id}"] [data-field="exercise-name"]`);
     } else if (name === 'fewer-rounds' || name === 'more-rounds') {
       setRounds(draft.rounds + (name === 'more-rounds' ? 1 : -1));
-    } else if (name === 'share') {
-      shareWorkout().catch((error) => console.warn('The workout could not be shared.', error));
     } else if (name === 'delete') {
       deleteWorkout().catch((error) => console.warn('The workout could not be deleted.', error));
     } else {
@@ -317,9 +290,7 @@ export const init = (selector = '[data-screen="editor"]', { title } = {}) => {
       isNew = !existing;
       draft = structuredClone(existing ?? copy ?? createBlankWorkout());
       heading.textContent = isNew ? 'New workout' : 'Edit workout';
-      action('share').hidden = isNew;
       action('delete').hidden = isNew;
-      status.textContent = '';
       say();
       renderAll();
 

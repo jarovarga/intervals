@@ -12,18 +12,14 @@ export const init = (selector = '[data-dialog="confirm"]') => {
 /**
  * Ask the user to confirm an action in the modal dialog. Escape and Cancel both answer no.
  *
- * @param {{ title: string, text: string, confirmLabel: string, danger?: boolean }} question What to ask; `danger`, on by
- *   default, styles the confirmation as a destructive action.
+ * @param {{ title: string, text: string, confirmLabel: string }} question What to ask.
  * @returns {Promise<boolean>} True when the user confirmed.
  */
-export const ask = ({ title, text, confirmLabel, danger = true }) =>
+export const ask = ({ title, text, confirmLabel }) =>
   new Promise((resolve) => {
-    const confirm = dialog.querySelector('[data-confirm="dialog"]');
-
     dialog.querySelector('[data-title="dialog"]').textContent = title;
     dialog.querySelector('[data-text="dialog"]').textContent = text;
-    confirm.textContent = confirmLabel;
-    confirm.classList.toggle('button--danger', danger);
+    dialog.querySelector('[data-confirm="dialog"]').textContent = confirmLabel;
     dialog.returnValue = '';
     // Going back while the dialog is open leaves its screen, so it answers no.
     const dismiss = () => dialog.close();

@@ -40,16 +40,6 @@
   font-weight: var(--font-weight-bold);
 }
 
-.editor__status {
-  color: var(--color-text-muted);
-  font-size: var(--text-sm);
-
-  /* An empty live region has to stay in the accessibility tree, so it leaves the layout instead of using display: none. */
-  &:empty {
-    position: absolute;
-  }
-}
-
 .editor__swatches {
   display: flex;
   flex-wrap: wrap;
