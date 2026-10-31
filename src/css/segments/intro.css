@@ -36,6 +36,7 @@
 .intro__status {
   color: var(--color-text-muted);
   font-size: var(--text-sm);
+  text-align: center;
 
   /* An empty live region has to stay in the accessibility tree, so it leaves the layout instead of using display: none. */
   &:empty {
