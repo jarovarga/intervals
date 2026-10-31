@@ -206,7 +206,8 @@ export const updateSettings = (changes) => {
 export const exportWorkouts = (workouts = current().workouts) => ({ version: VERSION, workouts });
 
 /**
- * Add the workouts of an export to the library. A workout with the same identifier as one already saved replaces it.
+ * Add the workouts of an export to the library. A workout whose identifier is already saved is added as a copy with a
+ * new identifier, so an import never replaces a workout.
  *
  * @param {string} text Contents of an export file.
  * @returns {number | null} How many workouts were added, or null when the text is not an export.
@@ -226,7 +227,9 @@ export const importWorkouts = (text) => {
 
   const workouts = stored.workouts.map(readWorkout).filter(Boolean);
 
-  workouts.forEach(saveWorkout);
+  workouts.forEach((workout) =>
+    saveWorkout(getWorkout(workout.id) ? { ...workout, id: crypto.randomUUID() } : workout)
+  );
 
   return workouts.length;
 };

@@ -240,7 +240,7 @@ test('a library saved before the settings existed gets their defaults', async ()
   assert.deepEqual(library.getSettings(), { sound: false, volume: 1, countdown: 3, keepAwake: true });
 });
 
-test('an export is taken back by an import, which replaces a workout with the same identifier', async () => {
+test('an import adds a workout that is already saved as a copy with a new identifier', async () => {
   fakeStorage();
 
   const library = await loadLibrary();
@@ -257,7 +257,12 @@ test('an export is taken back by an import, which replaces a workout with the sa
 
   assert.equal(other.importWorkouts(exported), 1);
   assert.equal(other.importWorkouts(exported), 1);
-  assert.deepEqual(other.getWorkouts(), [workout]);
+
+  const [first, second] = other.getWorkouts();
+
+  assert.equal(first.id, workout.id);
+  assert.notEqual(second.id, workout.id);
+  assert.deepEqual({ ...second, id: workout.id }, workout);
 });
 
 test('a file that is not an export is refused and nothing is imported', async () => {
