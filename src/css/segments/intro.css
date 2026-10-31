@@ -43,6 +43,14 @@
   }
 }
 
+.intro__support {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  padding-block: calc(var(--spacing) * 2);
+  text-align: center;
+  text-decoration: underline;
+}
+
 .intro__version {
   color: var(--color-text-muted);
   font-size: var(--text-sm);
