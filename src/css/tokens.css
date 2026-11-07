@@ -4,13 +4,7 @@
   --font-display: Anton, sans-serif;
   --font-mono: ui-monospace, monospace;
 
-  --color-phase-prepare: oklch(0.86 0.13 80);
-  --color-phase-work: oklch(0.914 0.203 126.7);
-  --color-phase-rest: oklch(0.74 0.14 290);
-  --color-phase-round: oklch(0.77 0.14 350);
-  --color-phase-done: oklch(0.68 0.23 18);
-
-  --color-accent: var(--color-phase-work);
+  --color-accent: oklch(0.914 0.203 126.7);
   --color-accent-dim: oklch(0.814 0.203 126.7);
   --color-accent-muted: oklch(0.914 0.203 126.7 / 0.1);
   --color-accent-overlay: oklch(0.914 0.203 126.7 / 0.16);
@@ -33,6 +27,12 @@
   --color-border-muted: oklch(0.205 0 0);
 
   --color-outline-variant: oklch(0.439 0 0);
+
+  --color-phase-prepare: oklch(0.86 0.13 80);
+  --color-phase-work: var(--color-accent);
+  --color-phase-rest: oklch(0.74 0.14 290);
+  --color-phase-round: oklch(0.77 0.14 350);
+  --color-phase-done: oklch(0.68 0.23 18);
 
   --color-danger: oklch(0.72 0.16 25);
   --color-track: oklch(1 0 0 / 0.1);
