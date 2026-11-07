@@ -1,14 +1,13 @@
-import * as install from './install.js';
+import * as i18n from './i18n.js';
 import * as sw from './service-worker.js';
 
 /**
- * The settings section: a button that looks for a new version, a button that shows the install explanation again
- * where it applies, and a status message for both.
+ * The settings section: a button that looks for a new version and a status message that reports the result.
  *
  * @param {string} [selector] Selector of the settings section.
  * @returns {void}
  */
-export const init = (selector = '[data-section="settings"]') => {
+export const init = (selector = '[data-screen="settings"]') => {
   const section = /** @type {HTMLElement} */ (document.querySelector(selector));
   const action = (name) => /** @type {HTMLButtonElement} */ (section.querySelector(`[data-action="${name}"]`));
   const status = section.querySelector('[data-status="settings"]');
@@ -18,21 +17,16 @@ export const init = (selector = '[data-section="settings"]') => {
   };
 
   const checkForUpdate = async () => {
-    say('Checking for updates…');
+    say(i18n.t('settings.checking'));
 
     const found = await sw.checkNow();
 
     if (found === null) {
-      say('The check for updates failed or is not available here.');
+      say(i18n.t('settings.cannotCheck'));
     } else {
-      say(found ? 'A new version was found.' : 'The app is up to date.');
+      say(i18n.t(found ? 'settings.installing' : 'settings.latest'));
     }
   };
 
-  action('install').hidden = !install.isAvailable();
-  action('install').addEventListener('click', () => {
-    install.restore();
-    say('');
-  });
   action('check-update').addEventListener('click', checkForUpdate);
 };

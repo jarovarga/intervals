@@ -1,21 +1,32 @@
 .button {
   align-items: center;
   background-color: var(--color-surface-variant);
-  border-radius: var(--radius-2xl);
+  border-radius: var(--radius-4xl);
   color: var(--color-text);
   display: flex;
   font-size: var(--text-lg);
   font-weight: var(--font-weight-semibold);
-  gap: calc(var(--spacing) * 2.5);
+  gap: calc(var(--spacing) * 2);
   justify-content: center;
-  min-block-size: 3rem;
-  padding-inline: calc(var(--spacing) * 5);
+  min-block-size: 3.25rem;
+  padding-inline: calc(var(--spacing) * 6);
 }
 
 .button--accent {
   background-color: var(--color-accent);
   color: var(--color-on-accent);
   font-weight: var(--font-weight-bold);
+}
+
+.button--primary {
+  background-color: var(--color-text);
+  color: var(--color-on-accent);
+}
+
+/* A text-only action, such as the way back in a toolbar. */
+.button--quiet {
+  background-color: transparent;
+  min-block-size: 2.75rem;
 }
 
 .button--compact {

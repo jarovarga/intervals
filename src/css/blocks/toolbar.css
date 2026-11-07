@@ -1,0 +1,25 @@
+/* The bar at the top of a full-screen view: a way back, the title in the middle and the main action. */
+.toolbar {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  min-block-size: 3.5rem;
+}
+
+.toolbar__start {
+  justify-self: start;
+  padding-inline: 0;
+}
+
+.toolbar__title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  grid-column: 2;
+}
+
+.toolbar__end {
+  grid-column: 3;
+  justify-self: end;
+  min-block-size: 2.75rem;
+  padding-inline: calc(var(--spacing) * 5);
+}

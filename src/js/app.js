@@ -1,3 +1,4 @@
+import * as i18n from './modules/i18n.js';
 import * as install from './modules/install.js';
 import * as router from './modules/router.js';
 import * as settings from './modules/settings.js';
@@ -7,9 +8,15 @@ import * as update from './modules/update.js';
 /** Shortest time between two checks for a new version while the app stays open: one hour. */
 const UPDATE_CHECK_INTERVAL = 60 * 60 * 1000;
 
-router.init('[data-screen]', { home: 'workouts', navigation: '[data-navigation]' });
-install.init('[data-notice="install"]');
-settings.init('[data-section="settings"]');
+// Until the settings store a chosen language, the browser's preferred one applies.
+i18n.useLanguage(i18n.resolve());
+router.init('[data-screen]', { home: 'workouts', navigation: '[data-navigation="tabs"]' });
+install.init({
+  banner: '[data-notice="install"]',
+  guide: '[data-screen="install"]',
+  trigger: '[data-action="show-install"]'
+});
+settings.init('[data-screen="settings"]');
 
 window.addEventListener(
   'load',

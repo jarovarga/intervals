@@ -17,7 +17,7 @@ export const resolve = (hash, screens, home) => {
  * screen stay plain fragment links; the router follows them itself, so that the page does not jump to the section,
  * and cross-fades the screens where the browser supports view transitions and motion is not reduced.
  *
- * A screen marked `data-screen="full"` covers the whole page, so the navigation hides while it shows.
+ * A screen marked `data-layout="full"` covers the whole page, so the navigation hides while it shows.
  *
  * @param {string} selector Selector of the screen sections, each with an `id`.
  * @param {{ home: string, navigation: string }} options Identifier of the home screen and selector of the navigation.
@@ -42,7 +42,7 @@ export const init = (selector, { home, navigation }) => {
     sections.forEach((section) => {
       section.hidden = section !== screen;
     });
-    header.hidden = screen.dataset.screen === 'full';
+    header.hidden = screen.dataset.layout === 'full';
     links.forEach((link) => {
       if (link.hash === `#${id}`) {
         link.setAttribute('aria-current', 'page');

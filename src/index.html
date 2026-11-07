@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en-GB">
     <head>
-        <title>Interval timer for circuit workouts</title>
+        <title data-i18n="app.title">Interval timer for circuit workouts</title>
         <meta charset="utf-8">
         <meta http-equiv="content-security-policy" content="default-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
-        <meta name="description" content="Interval timer for circuit workouts. Build your own workouts with rounds, work and rest, then follow them on a full-screen timer.">
+        <meta name="description" content="Interval timer for circuit workouts: exercises, rest and rounds on a full-screen timer that works offline." data-i18n-attr="content:meta.description">
         <meta name="viewport" content="width=device-width, viewport-fit=cover">
         <meta name="color-scheme" content="dark">
         <meta name="theme-color" content="#080a0e">
@@ -20,15 +20,15 @@
         <link href="./app.webmanifest" rel="manifest">
     </head>
     <body id="app">
-        <header data-navigation class="navigation">
+        <header data-navigation="tabs" class="navigation">
             <div class="container">
                 <h1 class="navigation__brand"><img src="./assets/img/logo.svg" width="40" height="40" alt="" class="navigation__logo">Intervals</h1>
-                <nav class="navigation__bar" aria-label="Sections">
+                <nav data-i18n-attr="aria-label:tabs.label" class="navigation__bar" aria-label="Sections">
                     <ul class="navigation__menu">
-                        <li><a href="#workouts" data-icon="timer" class="navigation__link"><span class="navigation__text">Workouts</span></a></li>
-                        <li><a href="#health" data-icon="heart" class="navigation__link"><span class="navigation__text">Health</span></a></li>
-                        <li><a href="#log" data-icon="chart-no-axes-column" class="navigation__link"><span class="navigation__text">Log</span></a></li>
-                        <li><a href="#settings" data-icon="settings" class="navigation__link"><span class="navigation__text">Settings</span></a></li>
+                        <li><a href="#workouts" data-icon="timer" class="navigation__link"><span data-i18n="tabs.workouts" class="navigation__text">Workouts</span></a></li>
+                        <li><a href="#health" data-icon="heart" class="navigation__link"><span data-i18n="tabs.health" class="navigation__text">Health</span></a></li>
+                        <li><a href="#log" data-icon="chart-no-axes-column" class="navigation__link"><span data-i18n="tabs.log" class="navigation__text">Log</span></a></li>
+                        <li><a href="#settings" data-icon="settings" class="navigation__link"><span data-i18n="tabs.settings" class="navigation__text">Settings</span></a></li>
                     </ul>
                 </nav>
             </div>
@@ -39,67 +39,102 @@
                 <div class="container">
                     <div data-notice="update" class="panel" hidden>
                         <div class="panel__block">
-                            <p class="panel__title">A new version is ready.</p>
-                            <button type="button" data-action="reload" class="button button--accent button--compact">Reload</button>
+                            <p data-i18n="update.text" class="panel__title">A new version is ready.</p>
+                            <button type="button" data-action="reload" data-i18n="update.reload" class="button button--accent button--compact">Reload</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <aside data-notice="install" class="container" aria-labelledby="install-title" hidden>
-                <div class="panel">
-                    <p id="install-title" class="panel__title">Install</p>
-                    <p class="panel__note">Tap Share, then Add to Home Screen to open the app full screen like an app.</p>
-                    <button type="button" data-action="dismiss-install" class="button button--compact">Not now</button>
-                </div>
-            </aside>
-
-            <section data-screen id="workouts" class="section" aria-labelledby="workouts-title">
+            <section data-screen="workouts" id="workouts" class="section" aria-labelledby="workouts-title">
                 <div class="container">
-                    <h2 tabindex="-1" id="workouts-title" class="visually-hidden">Workouts</h2>
-                </div>
-            </section>
+                    <h2 tabindex="-1" data-i18n="tabs.workouts" id="workouts-title" class="visually-hidden">Workouts</h2>
 
-            <section data-screen id="health" class="section" aria-labelledby="health-title" hidden>
-                <div class="container">
-                    <h2 tabindex="-1" id="health-title" class="visually-hidden">Health</h2>
+                    <aside data-notice="install" class="banner" aria-labelledby="install-banner-title" hidden>
+                        <a href="#install" class="banner__link">
+                            <span data-icon="smartphone" class="banner__icon" aria-hidden="true"></span>
+                            <span data-i18n="install.banner" id="install-banner-title" class="banner__title">Install Intervals</span>
+                            <span data-i18n="install.bannerNote" class="banner__note">Full screen, works offline</span>
+                        </a>
+                        <button type="button" data-action="dismiss-install" data-icon="x" data-i18n-attr="aria-label:install.dismiss" class="banner__dismiss" aria-label="Don’t show again"></button>
+                    </aside>
                 </div>
             </section>
 
-            <section data-screen id="log" class="section" aria-labelledby="log-title" hidden>
+            <section data-screen="health" id="health" class="section" aria-labelledby="health-title" hidden>
                 <div class="container">
-                    <h2 tabindex="-1" id="log-title" class="visually-hidden">Log</h2>
+                    <h2 tabindex="-1" data-i18n="tabs.health" id="health-title" class="visually-hidden">Health</h2>
                 </div>
             </section>
 
-            <section data-screen data-section="settings" id="settings" class="section settings" aria-labelledby="settings-title" hidden>
+            <section data-screen="log" id="log" class="section" aria-labelledby="log-title" hidden>
                 <div class="container">
-                    <h2 tabindex="-1" id="settings-title" class="visually-hidden">Settings</h2>
+                    <h2 tabindex="-1" data-i18n="tabs.log" id="log-title" class="visually-hidden">Log</h2>
+                </div>
+            </section>
+
+            <section data-screen="settings" id="settings" class="section settings" aria-labelledby="settings-title" hidden>
+                <div class="container">
+                    <h2 tabindex="-1" data-i18n="tabs.settings" id="settings-title" class="visually-hidden">Settings</h2>
 
                     <div class="settings__actions">
-                        <button type="button" data-action="check-update" class="button">Check for updates</button>
-                        <button type="button" data-action="install" class="button" hidden>Show install guide</button>
+                        <button type="button" data-action="show-install" data-i18n="settings.showInstall" data-icon="smartphone" class="button" hidden>Show install guide</button>
+                        <button type="button" data-action="check-update" data-i18n="settings.checkUpdate" data-icon="refresh-cw" class="button">Check for updates</button>
                     </div>
 
                     <p data-status="settings" class="settings__status" role="status"></p>
 
                     <a href="https://ko-fi.com/jarovarga/tip" rel="noopener" class="settings__support">Buy me a coffee</a>
 
-                    <p class="settings__version">Version __APP_VERSION__</p>
+                    <p class="settings__version"><span data-i18n="settings.version">Version</span> __APP_VERSION__</p>
                 </div>
             </section>
 
-            <section data-screen="full" id="editor" class="section" aria-labelledby="editor-title" hidden>
+            <section data-screen="install" data-layout="full" id="install" class="section section--full install" aria-labelledby="install-title" hidden>
                 <div class="container">
-                    <h2 tabindex="-1" id="editor-title" class="section__title">Edit workout</h2>
-                    <a href="#workouts" class="button">Cancel</a>
+                    <div class="toolbar">
+                        <a href="#workouts" data-i18n="install.notNow" class="button button--quiet toolbar__start">Not now</a>
+                        <h2 tabindex="-1" data-i18n="install.title" id="install-title" class="toolbar__title">Add to home</h2>
+                        <button type="button" data-action="prompt-install" data-i18n="install.install" class="button button--primary toolbar__end" hidden>Install</button>
+                    </div>
+
+                    <div class="install__hero">
+                        <img src="./assets/img/logo.svg" width="80" height="80" alt="" class="install__logo">
+                        <p class="install__name">Intervals</p>
+                        <p data-i18n="install.intro" class="install__intro">Add it to the home screen and it opens like any other app.</p>
+                    </div>
+
+                    <section class="group" aria-labelledby="install-why-title">
+                        <h3 data-i18n="install.why" id="install-why-title" class="group__title">Why install</h3>
+                        <ul class="list">
+                            <li class="list__item"><span class="list__label"><span data-i18n="install.fullScreen">Full screen</span><span data-i18n="install.fullScreenNote" class="list__note">No browser bars</span></span></li>
+                            <li class="list__item"><span class="list__label"><span data-i18n="install.offline">Works offline</span><span data-i18n="install.offlineNote" class="list__note">Workouts stay on this device</span></span></li>
+                            <li class="list__item"><span class="list__label"><span data-i18n="install.oneTap">One tap to start</span><span data-i18n="install.oneTapNote" class="list__note">An icon on the home screen</span></span></li>
+                        </ul>
+                    </section>
+
+                    <section data-install="ios" class="group" aria-labelledby="install-ios-title" hidden>
+                        <h3 data-i18n="install.ios" id="install-ios-title" class="group__title">On iPhone</h3>
+                        <ol class="list install__steps">
+                            <li class="list__item"><span class="list__label"><span data-i18n="install.share">Tap Share</span><span data-i18n="install.shareNote" class="list__note">The square with an arrow, in Safari</span></span></li>
+                            <li class="list__item"><span class="list__label"><span data-i18n="install.add">Choose Add to Home Screen</span></span></li>
+                            <li class="list__item"><span class="list__label"><span data-i18n="install.confirm">Tap Add</span></span></li>
+                        </ol>
+                    </section>
                 </div>
             </section>
 
-            <section data-screen="full" id="timer" class="section" aria-labelledby="timer-title" hidden>
+            <section data-screen="editor" data-layout="full" id="editor" class="section section--full" aria-labelledby="editor-title" hidden>
                 <div class="container">
-                    <h2 tabindex="-1" id="timer-title" class="section__title">Workout</h2>
-                    <a href="#workouts" class="button">End</a>
+                    <h2 tabindex="-1" data-i18n="editor.titleEdit" id="editor-title" class="section__title">Edit workout</h2>
+                    <a href="#workouts" data-i18n="editor.cancel" class="button">Cancel</a>
+                </div>
+            </section>
+
+            <section data-screen="timer" data-layout="full" id="timer" class="section section--full" aria-labelledby="timer-title" hidden>
+                <div class="container">
+                    <h2 tabindex="-1" data-i18n="workout.workout" id="timer-title" class="section__title">Workout</h2>
+                    <a href="#workouts" data-i18n="timer.end" class="button">End workout</a>
                 </div>
             </section>
         </main>

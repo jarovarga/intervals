@@ -1,5 +1,15 @@
 .section {
   padding-block: calc(var(--spacing) * 7);
+
+  & > .container {
+    display: grid;
+    gap: calc(var(--spacing) * 7);
+  }
+}
+
+/* A full-screen view has no navigation above it, so it keeps clear of the status bar itself. */
+.section--full {
+  padding-block-start: calc(env(safe-area-inset-top) + var(--spacing) * 3);
 }
 
 .section__title {
