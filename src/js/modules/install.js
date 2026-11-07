@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'pwa-kit:install-dismissed';
+const STORAGE_KEY = 'intervals:install-dismissed';
 const IOS_PATTERN = /iPhone|iPad|iPod/;
 const MAC_PATTERN = /Macintosh/;
 

@@ -1,6 +1,6 @@
-# PWA kit
+# Intervals
 
-Starter kit for installable, offline-capable web apps: a web app manifest, a service worker that precaches the build, update and install offers, and a settings section, in plain HTML, layered CSS and ES modules. It is built with esbuild and checked with Stylelint, ESLint, HTML-validate and Prettier.
+PWA interval timer for circuit workouts: build your own routines, then train with a full-screen timer, even offline. It is written in plain HTML, layered CSS and ES modules, built with esbuild and checked with Stylelint, ESLint, HTML-validate and Prettier.
 
 ## Features
 

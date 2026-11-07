@@ -1,13 +1,13 @@
 /** The build replaces the placeholders with a content hash of the site and the list of files to precache. */
-const CACHE_NAME = 'pwa-kit-__BUILD_HASH__';
-const CACHE_PREFIX = 'pwa-kit-';
+const CACHE_NAME = 'intervals-__BUILD_HASH__';
+const CACHE_PREFIX = 'intervals-';
 const PRECACHE_PATHS = JSON.parse('__PRECACHE_PATHS__');
 
 /** Message from the page that lets a waiting worker take over once the visitor accepted the update. */
 const SKIP_WAITING_MESSAGE = 'skip-waiting';
 
 /** Shown when a navigation finds neither the cached shell nor a network, instead of the browser's error page. */
-const OFFLINE_MESSAGE = 'The app is offline and not cached yet. Reconnect and reload.';
+const OFFLINE_MESSAGE = 'Intervals is offline and the app is not cached yet. Reconnect and reload.';
 const OFFLINE_RESPONSE_INIT = {
   status: 503,
   statusText: 'Service Unavailable',
