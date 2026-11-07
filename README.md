@@ -107,3 +107,7 @@ tests/                      Unit tests
 ```
 
 The cascade layers are ordered by ascending priority: `reset`, `base`, `helper`, `block`, `module`, `segment`, `util`. The root files start the cascade and `utils/` ends it.
+
+## Licence
+
+ISC, see `LICENSE`.

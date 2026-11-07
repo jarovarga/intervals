@@ -1,8 +1,10 @@
 {
+  "name": "intervals",
   "version": "1.0.0",
+  "description": "PWA interval timer for circuit workouts",
   "private": true,
   "author": "Jaro Varga (https://github.com/jarovarga)",
-  "license": "UNLICENSED",
+  "license": "ISC",
   "type": "module",
   "engines": {
     "node": "^22.22.0 || >=24.8.0"
