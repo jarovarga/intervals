@@ -9,7 +9,7 @@
 
 .stepper__value {
   background-color: var(--color-surface-raised);
-  border: 1px solid var(--color-border);
+  border: 0.0625rem solid var(--color-border);
   border-radius: var(--radius-2xl);
   font-size: var(--text-lg);
   font-variant-numeric: tabular-nums;

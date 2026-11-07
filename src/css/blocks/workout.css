@@ -109,7 +109,7 @@
 /* The tile that creates a workout: a dashed outline instead of a surface. */
 .workout--new {
   background-color: transparent;
-  border: 1.5px dashed oklch(1 0 0 / 0.22);
+  border: 0.0625rem dashed oklch(1 0 0 / 0.22);
 }
 
 .workout__create {

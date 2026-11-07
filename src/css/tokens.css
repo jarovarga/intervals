@@ -88,13 +88,13 @@
   --radius-3xl: 1.5rem;
   --radius-4xl: 2rem;
 
-  --blur-xs: 4px;
-  --blur-sm: 8px;
-  --blur-md: 12px;
-  --blur-lg: 16px;
-  --blur-xl: 24px;
-  --blur-2xl: 40px;
-  --blur-3xl: 64px;
+  --blur-xs: 0.25rem;
+  --blur-sm: 0.5rem;
+  --blur-md: 0.75rem;
+  --blur-lg: 1rem;
+  --blur-xl: 1.5rem;
+  --blur-2xl: 2.5rem;
+  --blur-3xl: 4rem;
 
   --duration-fast: 0.15s;
   --duration-base: 0.25s;

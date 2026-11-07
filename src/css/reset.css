@@ -43,7 +43,7 @@
   text-align: inherit;
 
   @media (forced-colors: active) {
-    border: 1px solid;
+    border: 0.0625rem solid;
   }
 }
 

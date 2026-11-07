@@ -7,7 +7,7 @@
   background-position: right 1rem center;
   background-repeat: no-repeat;
   background-size: 1rem;
-  border: 1px solid var(--color-border);
+  border: 0.0625rem solid var(--color-border);
   border-radius: var(--radius-2xl);
   cursor: pointer;
   font-size: var(--text-lg);
