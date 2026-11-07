@@ -1,0 +1,14 @@
+.section {
+  padding-block: calc(var(--spacing) * 10);
+}
+
+.section__title {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-tight);
+}
+
+.section__text {
+  color: var(--color-text-muted);
+  margin-block-start: calc(var(--spacing) * 3);
+}

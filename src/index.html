@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-GB">
+    <head>
+        <title>PWA kit</title>
+        <meta charset="utf-8">
+        <meta http-equiv="content-security-policy" content="default-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+        <meta name="description" content="Starter kit for installable, offline-capable web apps.">
+        <meta name="viewport" content="width=device-width, viewport-fit=cover">
+        <meta name="color-scheme" content="dark">
+        <meta name="theme-color" content="#101010">
+        <meta name="apple-mobile-web-app-title" content="PWA kit">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link href="https://jarovarga.github.io/pwa-kit/" rel="canonical">
+        <link href="./assets/img/icon.svg" rel="icon" type="image/svg+xml">
+        <link href="./assets/img/icon-96x96.png" rel="icon" type="image/png" sizes="96x96">
+        <link href="./assets/img/icon-180x180.png" rel="apple-touch-icon" sizes="180x180">
+        <link href="./assets/css/app.min.css" rel="stylesheet">
+        <link href="./app.webmanifest" rel="manifest">
+    </head>
+    <body id="app">
+        <noscript>This app requires JavaScript to run.</noscript>
+
+        <header class="navigation">
+            <div class="container">
+                <nav class="navigation__menu" aria-label="Sections">
+                    <a href="#home" class="navigation__link">Home</a>
+                    <a href="#settings" class="navigation__link">Settings</a>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <div role="status">
+                <div class="container">
+                    <div data-notice="update" class="panel" hidden>
+                        <div class="panel__block">
+                            <p class="panel__title">A new version is ready.</p>
+                            <button type="button" data-action="reload" class="button button--accent button--compact">Reload</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside data-notice="install" class="container" aria-labelledby="install-title" hidden>
+                <div class="panel">
+                    <p id="install-title" class="panel__title">Install</p>
+                    <p class="panel__note">Tap Share, then Add to Home Screen to open the app full screen like an app.</p>
+                    <button type="button" data-action="dismiss-install" class="button button--compact">Not now</button>
+                </div>
+            </aside>
+
+            <section id="home" class="section">
+                <div class="container">
+                    <h1 class="section__title">PWA kit</h1>
+                    <p class="section__text">Replace this section with the app.</p>
+                </div>
+            </section>
+
+            <section id="settings" data-section="settings" class="section settings" aria-labelledby="settings-title">
+                <div class="container">
+                    <h2 id="settings-title" class="section__title">Settings</h2>
+
+                    <div class="settings__actions">
+                        <button type="button" data-action="check-update" class="button">Check for updates</button>
+                        <button type="button" data-action="install" class="button" hidden>Show install guide</button>
+                    </div>
+
+                    <p data-status="settings" class="settings__status" role="status"></p>
+
+                    <a href="https://ko-fi.com/jarovarga/tip" rel="noopener" class="settings__support">Buy me a coffee</a>
+
+                    <p class="settings__version">Version __APP_VERSION__</p>
+                </div>
+            </section>
+        </main>
+
+        <script src="./assets/js/app.min.js" type="module"></script>
+    </body>
+</html>

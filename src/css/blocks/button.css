@@ -1,0 +1,25 @@
+.button {
+  align-items: center;
+  background-color: var(--color-surface-variant);
+  border-radius: var(--radius-2xl);
+  color: var(--color-text);
+  display: flex;
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  gap: calc(var(--spacing) * 2.5);
+  justify-content: center;
+  min-block-size: 3rem;
+  padding-inline: calc(var(--spacing) * 5);
+}
+
+.button--accent {
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+  font-weight: var(--font-weight-bold);
+}
+
+.button--compact {
+  border-radius: var(--radius-xl);
+  min-block-size: 2.75rem;
+  padding-inline: calc(var(--spacing) * 4.5);
+}

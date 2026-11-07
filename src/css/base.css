@@ -1,0 +1,70 @@
+:root {
+  color-scheme: dark;
+}
+
+html {
+  overscroll-behavior-block: none;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+
+  /* Stops the double-tap zoom on iOS but keeps pinch zoom. */
+  touch-action: manipulation;
+
+  /* A touch screen needs no scrollbar or its gutter. */
+  @media (pointer: coarse) {
+    scrollbar-gutter: auto;
+    scrollbar-width: none;
+  }
+}
+
+body {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--tracking-normal);
+  line-height: var(--leading-relaxed);
+  min-block-size: 100svh;
+
+  /* The viewport covers the notch and the home indicator, so content keeps clear of every safe area. */
+  padding-block-end: env(safe-area-inset-bottom);
+  padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+  position: relative;
+}
+
+main {
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+.container {
+  margin-inline: auto;
+  max-inline-size: 88rem;
+  padding-inline: calc(var(--spacing) * 6);
+  position: relative;
+
+  @media (width >= 64rem) {
+    padding-inline: calc(var(--spacing) * 16);
+  }
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+}

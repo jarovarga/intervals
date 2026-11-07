@@ -1,0 +1,3 @@
+:where([hidden]:not([hidden="until-found"])) {
+  display: none;
+}

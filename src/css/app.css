@@ -1,0 +1,45 @@
+@layer reset, base, helper, block, module, segment, util;
+
+@import "./tokens.css";
+
+@import "./reset.css" layer(reset);
+
+@import "./base.css" layer(base);
+
+@import "./helpers/icons.css" layer(helper);
+
+@import "./blocks/button.css" layer(block);
+@import "./blocks/panel.css" layer(block);
+
+@import "./segments/section.css" layer(segment);
+@import "./segments/navigation.css" layer(segment);
+@import "./segments/settings.css" layer(segment);
+
+@import "./utils/a11y.css" layer(util);
+@import "./utils/states.css" layer(util);
+
+/*
+@font-face {
+  font-display: swap;
+  font-family: ;
+  font-style: normal;
+  font-weight: ;
+  src: url("../fonts/") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: ;
+  font-style: normal;
+  font-weight: ;
+  src: url("../fonts/") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: ;
+  font-style: normal;
+  font-weight: ;
+  src: url("../fonts/") format("woff2");
+}
+*/

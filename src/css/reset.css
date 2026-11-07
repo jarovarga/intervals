@@ -1,0 +1,48 @@
+:where(*, *::before, *::after) {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:where(html) {
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+
+  text-size-adjust: 100%;
+}
+
+:where(ul, ol) {
+  list-style: none;
+}
+
+:where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+
+:where(address) {
+  font-style: normal;
+}
+
+:where(img, svg) {
+  display: block;
+  max-inline-size: 100%;
+}
+
+:where(button) {
+  appearance: none;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: inherit;
+
+  @media (forced-colors: active) {
+    border: 1px solid;
+  }
+}
+
+:where(button:disabled) {
+  cursor: default;
+}
