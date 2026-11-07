@@ -28,18 +28,6 @@ npm run build
 
 The build writes the deployable site to `public/`. The app needs a secure context: `localhost` and HTTPS work, but a plain `http://` address on the local network does not. The service worker does not register on `localhost`, `127.0.0.1` and `[::1]`, and removes an earlier one with its caches, so that development always loads the current files. To test it, serve the production build over HTTPS, for example from a staging site or a tunnel.
 
-## Start a new project
-
-Replace the placeholders before the first deployment:
-
-- `src/index.html`: `<title>`, `description`, `theme-color`, the canonical URL, the `apple-mobile-web-app-title` and the content of the `home` section
-- `src/app.webmanifest`: `name`, `short_name`, `description`, `theme_color` and `background_color`; keep `id` unchanged after the first release
-- `src/service-worker.js`: the cache prefix `pwa-kit-` in two places, and the offline message
-- `src/js/modules/install.js`: the storage key `pwa-kit:install-dismissed`
-- `src/css/tokens.css`: the design values
-- `src/img/`: `logo.svg` and the icons `icon.svg`, `icon-96x96.png`, `icon-180x180.png` with an opaque background, `icon-192x192.png`, `icon-512x512.png` and `icon-maskable-512x512.png`, whose content stays inside the central safe zone. The icons in the kit are blank placeholders.
-- the Ko-fi link in the settings, or remove it
-
 ## Commands
 
 | Command                | Description                                                    |
@@ -72,7 +60,6 @@ All linters treat warnings as errors. Prettier ignores `*.html`, `*.md` and `pub
 The generated files are ignored by Git; never edit them directly. `public/robots.txt` is a tracked source file that the build does not overwrite. Raise `version` in `package.json` only for a new feature or another significant change.
 
 ## Deployment
-licences/                   Licences of the bundled fonts
 
 `.github/workflows/pages.yml` audits, lints, tests and builds the site on every push to `main` and publishes `public/` through GitHub Pages. In the repository settings, set Pages to build and deploy from **GitHub Actions**. The site is then served from `https://<user>.github.io/<repository>/`. `.github/workflows/ci.yml` runs the same checks on pushes to `dev` and on pull requests to `main`. Both pin their actions to commit hashes and install without running package scripts. `.github/dependabot.yml` proposes weekly updates of npm packages and GitHub Actions after a seven-day cooldown.
 
@@ -85,6 +72,7 @@ On iOS, the app may flash white for a moment when opened from the Home Screen. i
 ```text
 .claude/                    Claude Code instructions, rules and settings
 .github/workflows/          CI and deployment to GitHub Pages
+licences/                   Licences of the bundled fonts
 src/
 ├── css/
 │   ├── blocks/             Reusable BEM blocks (layer block)
