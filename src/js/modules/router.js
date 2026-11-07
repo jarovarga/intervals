@@ -72,11 +72,6 @@ export const init = (selector, { home, navigation, appTitle }) => {
 
   // Every screen starts at the top, so the browser must not restore the scroll position of a reload over it.
   history.scrollRestoration = 'manual';
-  // A page opened with a fragment is scrolled to the section of that name, below the header, once it has loaded; the
-  // next frame comes after that scroll.
-  window.addEventListener('load', () => requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' })), {
-    once: true
-  });
 
   const update = () => {
     const id = resolve(location.hash, screens, home);

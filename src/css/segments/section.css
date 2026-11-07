@@ -1,6 +1,10 @@
 .section {
   padding-block: calc(var(--spacing) * 7);
 
+  /* A page opened with the fragment of a screen would scroll to its section, below the header; a margin taller than
+     the header turns that scroll into one to the top, where every screen starts. */
+  scroll-margin-block-start: 100rem;
+
   & > .container {
     display: grid;
     gap: calc(var(--spacing) * 7);
