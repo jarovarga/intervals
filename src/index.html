@@ -103,10 +103,10 @@
                         <h3 data-i18n="settings.workout" id="settings-workout-title" class="group__title">Workout</h3>
                         <div class="list">
                             <div class="list__item">
-                                <span class="list__label"><span data-i18n="settings.weeklyGoal" id="weekly-goal-label">Weekly goal</span><span data-i18n="settings.weeklyGoalNote" class="list__note">Workouts per week</span></span>
+                                <span class="list__label"><label for="weekly-goal" data-i18n="settings.weeklyGoal">Weekly goal</label><span data-i18n="settings.weeklyGoalNote" class="list__note">Workouts per week</span></span>
                                 <div class="stepper">
                                     <button type="button" data-step="weeklyGoal" data-icon="minus" data-i18n-attr="aria-label:settings.lowerGoal" value="-1" class="icon-button" aria-label="Lower weekly goal"></button>
-                                    <input type="text" maxlength="1" inputmode="numeric" autocomplete="off" data-preference="weeklyGoal" class="stepper__value" aria-labelledby="weekly-goal-label">
+                                    <input type="text" maxlength="1" inputmode="numeric" autocomplete="off" data-preference="weeklyGoal" id="weekly-goal" class="stepper__value">
                                     <button type="button" data-step="weeklyGoal" data-icon="plus" data-i18n-attr="aria-label:settings.raiseGoal" value="1" class="icon-button" aria-label="Raise weekly goal"></button>
                                 </div>
                             </div>
@@ -120,10 +120,10 @@
                             <div class="list__item"><label for="volume" data-i18n="settings.volume" class="list__label">Volume</label><input type="range" min="0" max="100" step="5" data-preference="volume" id="volume" class="range"></div>
                             <label class="list__item"><span class="list__label"><span data-i18n="settings.playback">Play in silent mode</span><span data-i18n="settings.playbackNote" class="list__note">Interrupts music from other apps</span></span><input type="checkbox" data-preference="playback" class="check"></label>
                             <div class="list__item">
-                                <span class="list__label"><span data-i18n="settings.countdown" id="countdown-label">Countdown</span><span data-i18n="settings.countdownNote" class="list__note">Ticking seconds</span></span>
+                                <span class="list__label"><label for="countdown" data-i18n="settings.countdown">Countdown</label><span data-i18n="settings.countdownNote" class="list__note">Ticking seconds</span></span>
                                 <div class="stepper">
                                     <button type="button" data-step="countdown" data-icon="minus" data-i18n-attr="aria-label:settings.shorterCountdown" value="-1" class="icon-button" aria-label="Shorter countdown"></button>
-                                    <input type="text" maxlength="1" inputmode="numeric" autocomplete="off" data-preference="countdown" class="stepper__value" aria-labelledby="countdown-label">
+                                    <input type="text" maxlength="1" inputmode="numeric" autocomplete="off" data-preference="countdown" id="countdown" class="stepper__value">
                                     <button type="button" data-step="countdown" data-icon="plus" data-i18n-attr="aria-label:settings.longerCountdown" value="1" class="icon-button" aria-label="Longer countdown"></button>
                                 </div>
                             </div>

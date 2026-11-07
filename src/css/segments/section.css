@@ -17,8 +17,3 @@
   font-weight: var(--font-weight-bold);
   line-height: var(--leading-tight);
 }
-
-.section__text {
-  color: var(--color-text-muted);
-  margin-block-start: calc(var(--spacing) * 3);
-}
