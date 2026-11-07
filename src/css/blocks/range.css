@@ -1,0 +1,34 @@
+.range {
+  --range-value: 100%;
+
+  appearance: none;
+  background: linear-gradient(
+    to right,
+    var(--color-accent) var(--range-value),
+    var(--color-surface-variant) var(--range-value)
+  );
+  block-size: 0.5rem;
+  border-radius: var(--radius-4xl);
+  cursor: pointer;
+  inline-size: 8.5rem;
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    background-color: var(--color-text);
+    block-size: 1.25rem;
+    border-radius: 50%;
+    inline-size: 1.25rem;
+  }
+
+  &::-moz-range-thumb {
+    background-color: var(--color-text);
+    block-size: 1.25rem;
+    border: 0;
+    border-radius: 50%;
+    inline-size: 1.25rem;
+  }
+
+  @media (forced-colors: active) {
+    appearance: auto;
+  }
+}

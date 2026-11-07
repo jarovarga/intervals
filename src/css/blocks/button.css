@@ -23,6 +23,13 @@
   color: var(--color-on-accent);
 }
 
+/* A full-width action on a tile, such as those in the settings. */
+.button--tile {
+  background-color: var(--color-surface-raised);
+  inline-size: 100%;
+  min-block-size: 3rem;
+}
+
 /* A text-only action, such as the way back in a toolbar. */
 .button--quiet {
   background-color: transparent;

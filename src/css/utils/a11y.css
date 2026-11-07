@@ -8,8 +8,8 @@
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 0.25rem;
+  outline: 2px solid var(--color-text);
+  outline-offset: 0.125rem;
 }
 
 /* A screen moves focus to its heading only to announce itself; the heading is no control, so it shows no ring. */

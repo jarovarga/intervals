@@ -47,6 +47,11 @@
   }
 }
 
+:where(input, select, textarea) {
+  color: inherit;
+  font: inherit;
+}
+
 :where(button:disabled) {
   cursor: default;
 }

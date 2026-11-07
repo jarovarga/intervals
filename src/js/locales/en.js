@@ -39,6 +39,26 @@ export const en = {
   'tabs.log': 'Log',
   'tabs.settings': 'Settings',
 
+  'settings.workout': 'Workout',
+  'settings.weeklyGoal': 'Weekly goal',
+  'settings.weeklyGoalNote': 'Workouts per week',
+  'settings.lowerGoal': 'Lower weekly goal',
+  'settings.raiseGoal': 'Raise weekly goal',
+  'settings.sound': 'Sound',
+  'settings.cues': 'Cues',
+  'settings.cuesNote': 'Beep at the start and end of a step',
+  'settings.volume': 'Volume',
+  'settings.playback': 'Play in silent mode',
+  'settings.playbackNote': 'Interrupts music from other apps',
+  'settings.countdown': 'Countdown',
+  'settings.countdownNote': 'Ticking seconds',
+  'settings.shorterCountdown': 'Shorter countdown',
+  'settings.longerCountdown': 'Longer countdown',
+  'settings.app': 'App',
+  'settings.keepAwake': 'Keep screen on',
+  'settings.keepAwakeNote': 'During a workout',
+  'settings.language': 'Language',
+  'settings.languageNote': 'Language of the app',
   'settings.showInstall': 'Show install guide',
   'settings.checkUpdate': 'Check for updates',
   'settings.checking': 'Checking for updates…',
@@ -50,8 +70,7 @@ export const en = {
   'editor.titleEdit': 'Edit workout',
   'editor.cancel': 'Cancel',
 
+  'timer.title': 'Timer',
   'timer.end': 'End workout',
-  'timer.round': 'Round {n} of {total}',
-
-  'workout.workout': 'Workout'
+  'timer.round': 'Round {n} of {total}'
 };

@@ -12,6 +12,16 @@ export const resolve = (hash, screens, home) => {
   return screens.includes(id) ? id : home;
 };
 
+/** Writes the page title of the screen in view; set by `init`. */
+let writeTitle = () => {};
+
+/**
+ * Write the page title again, for example after the language changed.
+ *
+ * @returns {void}
+ */
+export const refreshTitle = () => writeTitle();
+
 /**
  * Show one screen at a time: the section that the fragment of the address names, or the home screen. Links to a
  * screen stay plain fragment links; the router follows them itself, so that the page does not jump to the section,
@@ -20,10 +30,10 @@ export const resolve = (hash, screens, home) => {
  * A screen marked `data-layout="full"` covers the whole page, so the navigation hides while it shows.
  *
  * @param {string} selector Selector of the screen sections, each with an `id`.
- * @param {{ home: string, navigation: string }} options Identifier of the home screen and selector of the navigation.
+ * @param {{ home: string, navigation: string, appTitle: () => string }} options Identifier of the home screen, selector of the navigation and the name of the app for the page title.
  * @returns {void}
  */
-export const init = (selector, { home, navigation }) => {
+export const init = (selector, { home, navigation, appTitle }) => {
   const sections = /** @type {HTMLElement[]} */ ([...document.querySelectorAll(selector)]);
   const screens = sections.map((section) => section.id);
   const header = /** @type {HTMLElement | null} */ (document.querySelector(navigation));
@@ -31,14 +41,19 @@ export const init = (selector, { home, navigation }) => {
   if (!header || !screens.includes(home)) return;
 
   const links = /** @type {HTMLAnchorElement[]} */ ([...header.querySelectorAll('a[href^="#"]')]);
-  const appTitle = document.title;
   let first = true;
+
+  // Every screen starts at the top, so the browser must not restore the scroll position of a reload over it.
+  history.scrollRestoration = 'manual';
 
   const update = () => {
     const id = resolve(location.hash, screens, home);
     const screen = sections.find((section) => section.id === id);
     const heading = /** @type {HTMLElement | null} */ (screen.querySelector('[tabindex="-1"]'));
 
+    writeTitle = () => {
+      document.title = id === home || !heading ? appTitle() : `${heading.textContent} – ${appTitle()}`;
+    };
     sections.forEach((section) => {
       section.hidden = section !== screen;
     });
@@ -50,7 +65,7 @@ export const init = (selector, { home, navigation }) => {
         link.removeAttribute('aria-current');
       }
     });
-    document.title = id === home || !heading ? appTitle : `${heading.textContent} – ${appTitle}`;
+    writeTitle();
     // The page scrolls smoothly, which a new screen must not inherit.
     window.scrollTo({ top: 0, behavior: 'instant' });
 

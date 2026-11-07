@@ -39,6 +39,26 @@ export const sk = {
   'tabs.log': 'Záznam',
   'tabs.settings': 'Nastavenia',
 
+  'settings.workout': 'Tréning',
+  'settings.weeklyGoal': 'Týždenný cieľ',
+  'settings.weeklyGoalNote': 'Tréningy za týždeň',
+  'settings.lowerGoal': 'Znížiť týždenný cieľ',
+  'settings.raiseGoal': 'Zvýšiť týždenný cieľ',
+  'settings.sound': 'Zvuk',
+  'settings.cues': 'Signály',
+  'settings.cuesNote': 'Pípnutie na začiatku a na konci kroku',
+  'settings.volume': 'Hlasitosť',
+  'settings.playback': 'Prehrávať v tichom režime',
+  'settings.playbackNote': 'Preruší hudbu z iných aplikácií',
+  'settings.countdown': 'Odpočítavanie',
+  'settings.countdownNote': 'Tikajúce sekundy',
+  'settings.shorterCountdown': 'Kratšie odpočítavanie',
+  'settings.longerCountdown': 'Dlhšie odpočítavanie',
+  'settings.app': 'Aplikácia',
+  'settings.keepAwake': 'Nechať obrazovku zapnutú',
+  'settings.keepAwakeNote': 'Počas tréningu',
+  'settings.language': 'Jazyk',
+  'settings.languageNote': 'Jazyk aplikácie',
   'settings.showInstall': 'Zobraziť návod na inštaláciu',
   'settings.checkUpdate': 'Skontrolovať aktualizácie',
   'settings.checking': 'Kontrolujú sa aktualizácie…',
@@ -50,8 +70,7 @@ export const sk = {
   'editor.titleEdit': 'Upraviť tréning',
   'editor.cancel': 'Zrušiť',
 
+  'timer.title': 'Časovač',
   'timer.end': 'Ukončiť tréning',
-  'timer.round': 'Kolo {n} z {total}',
-
-  'workout.workout': 'Tréning'
+  'timer.round': 'Kolo {n} z {total}'
 };

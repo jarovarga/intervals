@@ -1,0 +1,22 @@
+.select {
+  appearance: none;
+  background-color: var(--color-surface-raised);
+
+  /* The chevron-down icon of Lucide, in the colour of --color-text-muted, because a select has no ::before for a mask. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23bebebe' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-position: right 1rem center;
+  background-repeat: no-repeat;
+  background-size: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  cursor: pointer;
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  min-block-size: 2.75rem;
+  padding-inline: calc(var(--spacing) * 4) calc(var(--spacing) * 12);
+
+  @media (forced-colors: active) {
+    appearance: auto;
+    background-image: none;
+  }
+}

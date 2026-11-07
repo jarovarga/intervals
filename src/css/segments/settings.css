@@ -1,14 +1,11 @@
 .settings__actions {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: calc(var(--spacing) * 3);
-  margin-block-start: calc(var(--spacing) * 6);
 }
 
 .settings__status {
   color: var(--color-text-muted);
   font-size: var(--text-sm);
-  margin-block-start: calc(var(--spacing) * 4);
   text-align: center;
 
   /* An empty live region has to stay in the accessibility tree, so it leaves the layout instead of using display: none. */
@@ -17,18 +14,15 @@
   }
 }
 
-.settings__support {
+.settings__footer {
   color: var(--color-text-muted);
-  display: block;
+  display: grid;
   font-size: var(--text-sm);
-  margin-block-start: calc(var(--spacing) * 6);
-  text-align: center;
-  text-decoration: underline;
-}
+  gap: calc(var(--spacing) * 4);
+  justify-items: center;
+  padding-block: calc(var(--spacing) * 2) calc(var(--spacing) * 6);
 
-.settings__version {
-  color: var(--color-text-muted);
-  font-size: var(--text-sm);
-  margin-block-start: calc(var(--spacing) * 2);
-  text-align: center;
+  & a {
+    text-decoration: underline;
+  }
 }

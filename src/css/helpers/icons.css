@@ -1,7 +1,9 @@
 /*!
  * The icons below come from Lucide 1.70.0 (https://lucide.dev); menu was merged into
  * a single path, and trash, volume and settings are the Lucide icons trash-2,
- * volume-2 and settings-2. Lucide is distributed under the ISC License:
+ * volume-2 and settings-2. The check and chevron-down icons are also drawn as
+ * backgrounds in blocks/check.css and blocks/select.css. Lucide is distributed
+ * under the ISC License:
  *
  * Copyright (c) 2026 Lucide Icons and Contributors
  *
@@ -17,7 +19,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *
- * The arrow-down, arrow-up, chevron-down, chevrons-left, chevrons-right,
+ * The arrow-down, arrow-up, check, chevron-down, chevrons-left, chevrons-right,
  * download, ellipsis (more-horizontal), minus, plus, smartphone, trash (trash-2),
  * upload and x icons are derived from the Feather project and fall under the
  * MIT License:
@@ -46,7 +48,7 @@
 [data-icon]::before {
   aspect-ratio: 1;
   background-color: var(--icon-color, currentColor);
-  block-size: var(--icon-size, 0.875rem);
+  block-size: var(--icon-size, 1.25rem);
   content: "";
   display: inline-block;
   flex-shrink: 0;

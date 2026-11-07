@@ -1,0 +1,20 @@
+/* A number with buttons to lower and raise it. */
+.stepper {
+  --icon-size: 1rem;
+
+  align-items: center;
+  display: flex;
+  gap: calc(var(--spacing) * 1.5);
+}
+
+.stepper__value {
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  font-size: var(--text-lg);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-semibold);
+  inline-size: 3.5rem;
+  min-block-size: 2.75rem;
+  text-align: center;
+}

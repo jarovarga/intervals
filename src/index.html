@@ -14,8 +14,8 @@
         <link href="./assets/img/icon.svg" rel="icon" type="image/svg+xml">
         <link href="./assets/img/icon-96x96.png" rel="icon" type="image/png" sizes="96x96">
         <link href="./assets/img/icon-180x180.png" rel="apple-touch-icon" sizes="180x180">
-        <link href="./assets/fonts/inter-latin.woff2" rel="preload" as="font" type="font/woff2" crossorigin>
         <link href="./assets/fonts/anton-latin.woff2" rel="preload" as="font" type="font/woff2" crossorigin>
+        <link href="./assets/fonts/inter-latin.woff2" rel="preload" as="font" type="font/woff2" crossorigin>
         <link href="./assets/css/app.min.css" rel="stylesheet">
         <link href="./app.webmanifest" rel="manifest">
     </head>
@@ -77,16 +77,60 @@
                 <div class="container">
                     <h2 tabindex="-1" data-i18n="tabs.settings" id="settings-title" class="visually-hidden">Settings</h2>
 
-                    <div class="settings__actions">
-                        <button type="button" data-action="show-install" data-i18n="settings.showInstall" data-icon="smartphone" class="button" hidden>Show install guide</button>
-                        <button type="button" data-action="check-update" data-i18n="settings.checkUpdate" data-icon="refresh-cw" class="button">Check for updates</button>
-                    </div>
+                    <section class="group" aria-labelledby="settings-workout-title">
+                        <h3 data-i18n="settings.workout" id="settings-workout-title" class="group__title">Workout</h3>
+                        <div class="list">
+                            <div class="list__item">
+                                <span class="list__label"><span data-i18n="settings.weeklyGoal" id="weekly-goal-label">Weekly goal</span><span data-i18n="settings.weeklyGoalNote" class="list__note">Workouts per week</span></span>
+                                <div class="stepper">
+                                    <button type="button" data-step="weeklyGoal" data-icon="minus" data-i18n-attr="aria-label:settings.lowerGoal" value="-1" class="icon-button" aria-label="Lower weekly goal"></button>
+                                    <input type="text" maxlength="1" inputmode="numeric" autocomplete="off" data-preference="weeklyGoal" class="stepper__value" aria-labelledby="weekly-goal-label">
+                                    <button type="button" data-step="weeklyGoal" data-icon="plus" data-i18n-attr="aria-label:settings.raiseGoal" value="1" class="icon-button" aria-label="Raise weekly goal"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-                    <p data-status="settings" class="settings__status" role="status"></p>
+                    <section class="group" aria-labelledby="settings-sound-title">
+                        <h3 data-i18n="settings.sound" id="settings-sound-title" class="group__title">Sound</h3>
+                        <div class="list">
+                            <label class="list__item"><span class="list__label"><span data-i18n="settings.cues">Cues</span><span data-i18n="settings.cuesNote" class="list__note">Beep at the start and end of a step</span></span><input type="checkbox" data-preference="sound" class="check"></label>
+                            <div class="list__item"><label for="volume" data-i18n="settings.volume" class="list__label">Volume</label><input type="range" min="0" max="100" step="5" data-preference="volume" id="volume" class="range"></div>
+                            <label class="list__item"><span class="list__label"><span data-i18n="settings.playback">Play in silent mode</span><span data-i18n="settings.playbackNote" class="list__note">Interrupts music from other apps</span></span><input type="checkbox" data-preference="playback" class="check"></label>
+                            <div class="list__item">
+                                <span class="list__label"><span data-i18n="settings.countdown" id="countdown-label">Countdown</span><span data-i18n="settings.countdownNote" class="list__note">Ticking seconds</span></span>
+                                <div class="stepper">
+                                    <button type="button" data-step="countdown" data-icon="minus" data-i18n-attr="aria-label:settings.shorterCountdown" value="-1" class="icon-button" aria-label="Shorter countdown"></button>
+                                    <input type="text" maxlength="1" inputmode="numeric" autocomplete="off" data-preference="countdown" class="stepper__value" aria-labelledby="countdown-label">
+                                    <button type="button" data-step="countdown" data-icon="plus" data-i18n-attr="aria-label:settings.longerCountdown" value="1" class="icon-button" aria-label="Longer countdown"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-                    <a href="https://ko-fi.com/jarovarga/tip" rel="noopener" class="settings__support">Buy me a coffee</a>
+                    <section class="group" aria-labelledby="settings-app-title">
+                        <h3 data-i18n="settings.app" id="settings-app-title" class="group__title">App</h3>
+                        <div class="list">
+                            <label class="list__item"><span class="list__label"><span data-i18n="settings.keepAwake">Keep screen on</span><span data-i18n="settings.keepAwakeNote" class="list__note">During a workout</span></span><input type="checkbox" data-preference="keepAwake" class="check"></label>
+                            <div class="list__item">
+                                <label for="language" class="list__label"><span data-i18n="settings.language">Language</span><span data-i18n="settings.languageNote" class="list__note">Language of the app</span></label>
+                                <select data-preference="language" id="language" class="select">
+                                    <option lang="en-GB" value="en">English</option>
+                                    <option lang="sk" value="sk">Slovenčina</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="settings__actions">
+                            <button type="button" data-action="show-install" data-icon="smartphone" data-i18n="settings.showInstall" class="button button--tile" hidden>Show install guide</button>
+                            <button type="button" data-action="check-update" data-icon="refresh-cw" data-i18n="settings.checkUpdate" class="button button--tile">Check for updates</button>
+                        </div>
+                        <p data-status="settings" class="settings__status" role="status"></p>
+                    </section>
 
-                    <p class="settings__version"><span data-i18n="settings.version">Version</span> __APP_VERSION__</p>
+                    <footer class="settings__footer">
+                        <a href="https://ko-fi.com/jarovarga/tip" rel="noopener">Buy me a coffee</a>
+                        <p><span data-i18n="settings.version">Version</span> __APP_VERSION__</p>
+                    </footer>
                 </div>
             </section>
 
@@ -133,7 +177,7 @@
 
             <section data-screen="timer" data-layout="full" id="timer" class="section section--full" aria-labelledby="timer-title" hidden>
                 <div class="container">
-                    <h2 tabindex="-1" data-i18n="workout.workout" id="timer-title" class="section__title">Workout</h2>
+                    <h2 tabindex="-1" data-i18n="timer.title" id="timer-title" class="section__title">Timer</h2>
                     <a href="#workouts" data-i18n="timer.end" class="button">End workout</a>
                 </div>
             </section>
