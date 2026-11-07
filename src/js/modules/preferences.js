@@ -1,8 +1,5 @@
 import { isLanguage } from './i18n.js';
-
-const STORAGE_KEY = 'intervals:preferences';
-const BACKUP_KEY = `${STORAGE_KEY}:backup`;
-const VERSION = 1;
+import { createStore } from './store.js';
 
 /** Most seconds of ticking before the end of a step. */
 export const MAX_COUNTDOWN = 5;
@@ -59,53 +56,15 @@ export const readPreferences = (stored, fallback = DEFAULTS) => {
   };
 };
 
-/** @type {Preferences | null} */
-let preferences = null;
-
-/** Set when unreadable stored preferences could not be backed up, so that they are never overwritten. */
-let locked = false;
-
-/**
- * Read the stored preferences. What has an unknown version or cannot be read is backed up before the defaults apply,
- * and when even the backup fails, nothing is written for the rest of the session.
- *
- * @returns {Preferences} The preferences.
- */
-const read = () => {
-  let raw = null;
-
-  try {
-    raw = localStorage.getItem(STORAGE_KEY);
-
-    const stored = raw === null ? null : JSON.parse(raw);
-
-    if (raw === null) return { ...DEFAULTS };
-    if (stored?.version === VERSION) return readPreferences(stored);
-  } catch (error) {
-    console.warn('The stored preferences could not be read.', error);
-  }
-
-  if (raw !== null) {
-    try {
-      localStorage.setItem(BACKUP_KEY, raw);
-    } catch (error) {
-      locked = true;
-      console.warn('The unreadable preferences could not be backed up.', error);
-    }
-  }
-
-  return { ...DEFAULTS };
-};
-
-/** @returns {Preferences} The preferences in use, read from storage on first use. */
-const current = () => {
-  preferences ??= read();
-
-  return preferences;
-};
+const store = createStore('intervals:preferences', {
+  version: 1,
+  read: (data) =>
+    readPreferences(data !== null && typeof data === 'object' ? /** @type {Record<string, unknown>} */ (data) : {}),
+  empty: () => ({ ...DEFAULTS })
+});
 
 /** @returns {Preferences} A copy of the preferences. */
-export const get = () => ({ ...current() });
+export const get = () => ({ ...store.get() });
 
 /**
  * Change preferences and store them. A value out of range is ignored.
@@ -113,30 +72,19 @@ export const get = () => ({ ...current() });
  * @param {Partial<Preferences>} changes Preferences to change.
  * @returns {boolean} Whether the change reached storage; when it did not, it lasts until the app closes.
  */
-export const update = (changes) => {
-  preferences = readPreferences({ ...current(), ...changes }, current());
-
-  if (locked) return false;
-
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: VERSION, ...preferences }));
-    return true;
-  } catch (error) {
-    console.warn('The preferences could not be saved.', error);
-    return false;
-  }
-};
+export const update = (changes) => store.set(readPreferences({ ...store.get(), ...changes }, store.get()));
 
 /**
- * Read the preferences again when another window of the app, such as the installed app next to a browser tab, changes
- * them, so that the next change here does not overwrite that one.
+ * Return every preference to its default.
+ *
+ * @returns {boolean} Whether the reset reached storage.
+ */
+export const reset = () => store.set({ ...DEFAULTS });
+
+/**
+ * Follow changes that another window of the app makes to the preferences.
  *
  * @param {EventTarget} [target] Where `storage` events arrive: the window.
  * @returns {void}
  */
-export const init = (target = window) => {
-  target.addEventListener('storage', (/** @type {StorageEvent} */ event) => {
-    // The key is null when the whole store was cleared.
-    if (event.key === null || event.key === STORAGE_KEY) preferences = null;
-  });
-};
+export const init = (target = window) => store.watch(target);
