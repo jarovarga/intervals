@@ -2,12 +2,12 @@ import { t } from './i18n.js';
 import { MAX_SECONDS } from './time.js';
 
 /** How hard a workout is: low, moderate or high intensity; the second one is the default. */
-export const INTENSITIES = ['low', 'moderate', 'high'];
+const INTENSITIES = ['low', 'moderate', 'high'];
 
 export const MAX_ROUNDS = 99;
 
 /** Longest workout or exercise name, in characters. */
-export const MAX_NAME_LENGTH = 50;
+const MAX_NAME_LENGTH = 50;
 
 const DEFAULT_INTENSITY = 'moderate';
 const DEFAULT_EXERCISE_SECONDS = 30;

@@ -61,17 +61,6 @@ test('saved workouts survive a reload', () => {
   assert.deepEqual(library.getWorkouts(), [workout]);
 });
 
-test('deleting all workouts keeps the log', () => {
-  const workout = sample('Leg day');
-
-  library.saveWorkout(workout);
-  library.recordCompletion(workout, 1000);
-
-  assert.equal(library.clearWorkouts(), true);
-  assert.deepEqual(library.getWorkouts(), []);
-  assert.equal(library.getCompletions().length, 1);
-});
-
 test('deleting all data removes the workouts, the log and the progress', () => {
   const workout = sample('Leg day');
 

@@ -21,7 +21,7 @@ const PHASE_KEYS = {
  * @param {string} phase Phase of a step or `done`.
  * @returns {string} What the timer calls it in the language in use.
  */
-export const phaseName = (phase) => t(PHASE_KEYS[phase]);
+const phaseName = (phase) => t(PHASE_KEYS[phase]);
 
 /**
  * @param {Step} step A work step.

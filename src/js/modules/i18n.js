@@ -2,7 +2,7 @@ import { en } from '../locales/en.js';
 import { sk } from '../locales/sk.js';
 
 /** Languages the app is written in; the first one is the fallback. */
-export const LANGUAGES = ['en', 'sk'];
+const LANGUAGES = ['en', 'sk'];
 
 const DEFAULT_LANGUAGE = LANGUAGES[0];
 const NO_BREAK_SPACE = ' ';
@@ -77,7 +77,7 @@ export const list = (items) => new Intl.ListFormat(getLocale(), { style: 'long',
  * @param {ParentNode} [root] Part of the page to write.
  * @returns {void}
  */
-export const localise = (root = document) => {
+const localise = (root = document) => {
   root.querySelectorAll('[data-i18n]').forEach((element) => {
     element.textContent = t(/** @type {HTMLElement} */ (element).dataset.i18n);
   });

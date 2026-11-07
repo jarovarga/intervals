@@ -129,25 +129,15 @@ export const loadSession = (now = Date.now()) => {
 export const clearSession = () => session.set(null);
 
 /**
- * Delete every workout and the progress of an unfinished one. The finished workouts stay in the log.
- *
- * @returns {boolean} Whether the deletion reached storage.
- */
-export const clearWorkouts = () => {
-  const progressCleared = clearSession();
-
-  return workouts.set([]) && progressCleared;
-};
-
-/**
  * Delete the workouts, the log of finished workouts and the progress of an unfinished one.
  *
  * @returns {boolean} Whether the deletion reached storage.
  */
 export const clearAll = () => {
-  const workoutsCleared = clearWorkouts();
+  const progressCleared = clearSession();
+  const workoutsCleared = workouts.set([]);
 
-  return log.set([]) && workoutsCleared;
+  return log.set([]) && workoutsCleared && progressCleared;
 };
 
 /** @returns {Completion[]} Every finished workout, oldest first. */
