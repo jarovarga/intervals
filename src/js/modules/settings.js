@@ -8,7 +8,7 @@ const VOLUME_SCALE = 100;
 /** Preferences that the steppers change, with their largest value; the smallest is 0. */
 const COUNTS = { weeklyGoal: preferences.MAX_WEEKLY_GOAL, countdown: preferences.MAX_COUNTDOWN };
 
-/** Preferences that the check boxes switch. */
+/** Preferences that the checkboxes switch. */
 const SWITCHES = ['sound', 'playback', 'keepAwake'];
 
 /** Shows the stored preferences in the controls; set by `init`. */

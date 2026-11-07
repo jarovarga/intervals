@@ -11,17 +11,17 @@ export const isIos = ({ userAgent, maxTouchPoints }) =>
 
 /**
  * Decide whether the app can be installed from here: Safari on iOS through Add to Home Screen, which it does not
- * offer by itself, and Chromium browsers once they have offered their install prompt.
+ * offer by itself, and Chromium browsers once they have offered their installation prompt.
  *
  * @param {{ userAgent: string, maxTouchPoints: number, standalone: boolean, promptable: boolean }} environment Browser.
- * @returns {boolean} True when the install guide applies.
+ * @returns {boolean} True when the installation guide applies.
  */
 export const isAvailable = ({ userAgent, maxTouchPoints, standalone, promptable }) =>
   !standalone && (promptable || isIos({ userAgent, maxTouchPoints }));
 
 /**
  * @param {{ userAgent: string, maxTouchPoints: number, standalone: boolean, promptable: boolean, dismissed: boolean }} environment Browser.
- * @returns {boolean} Whether the banner that leads to the install guide shows.
+ * @returns {boolean} Whether the banner that leads to the installation guide shows.
  */
 export const isEligible = ({ dismissed, ...environment }) => !dismissed && isAvailable(environment);
 
@@ -59,9 +59,9 @@ const isHomeScreenApp = () =>
   Reflect.get(navigator, 'standalone') === true || matchMedia('(display-mode: standalone)').matches;
 
 /**
- * Offer the installation: a banner on the home screen that leads to the install guide and can be dismissed for good,
- * the guide with an Install button where the browser has its own prompt and the steps for iOS where it has not, and
- * a button in the settings that brings the banner back and opens the guide.
+ * Offer the installation: a banner on the home screen that leads to the installation guide and can be dismissed for
+ * good, the guide with an Install button where the browser has its own prompt and the steps for iOS where it has not,
+ * and a button in the settings that brings the banner back and opens the guide.
  *
  * @param {{ banner: string, guide: string, trigger: string }} selectors The banner, the guide screen and the settings button.
  * @returns {void}
