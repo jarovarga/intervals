@@ -8,7 +8,7 @@ import * as update from './modules/update.js';
 /** Shortest time between two checks for a new version while the app stays open: one hour. */
 const UPDATE_CHECK_INTERVAL = 60 * 60 * 1000;
 
-// Until the settings store a chosen language, the browser's preferred one applies.
+// Until the settings store a chosen language, the app speaks English.
 i18n.useLanguage(i18n.resolve());
 router.init('[data-screen]', { home: 'workouts', navigation: '[data-navigation="tabs"]' });
 install.init({

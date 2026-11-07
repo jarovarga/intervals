@@ -21,22 +21,10 @@ let rules = new Intl.PluralRules(LOCALES[language]);
 export const isLanguage = (value) => LANGUAGES.includes(/** @type {string} */ (value));
 
 /**
- * Pick the language of the app from the languages the browser prefers.
- *
- * @param {readonly string[]} [preferred] Preferred languages, most wanted first, such as `navigator.languages`.
- * @returns {string} The first language of the app among them, or English.
- */
-export const detect = (preferred = []) => {
-  const found = preferred.map((tag) => String(tag).toLowerCase().split('-')[0]).find((code) => isLanguage(code));
-
-  return found ?? DEFAULT_LANGUAGE;
-};
-
-/**
  * @param {unknown} chosen The language the user chose, if any.
- * @returns {string} The chosen language, or the one the browser prefers when none was chosen.
+ * @returns {string} The chosen language, or English when none was chosen.
  */
-export const resolve = (chosen) => (isLanguage(chosen) ? /** @type {string} */ (chosen) : detect(navigator.languages));
+export const resolve = (chosen) => (isLanguage(chosen) ? /** @type {string} */ (chosen) : DEFAULT_LANGUAGE);
 
 /** @returns {string} Code of the language in use. */
 export const getLanguage = () => language;

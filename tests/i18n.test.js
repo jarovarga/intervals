@@ -3,20 +3,18 @@ import { afterEach, test } from 'node:test';
 
 import { en } from '../src/js/locales/en.js';
 import { sk } from '../src/js/locales/sk.js';
-import { count, detect, getLocale, list, setLanguage, t } from '../src/js/modules/i18n.js';
+import { count, getLocale, list, resolve, setLanguage, t } from '../src/js/modules/i18n.js';
 
 const NO_BREAK_SPACE = ' ';
 const PLACEHOLDER = /\{\w+\}/g;
 
 afterEach(() => setLanguage('en'));
 
-test('the first language of the browser that the app speaks is chosen, and English is the fallback', () => {
-  assert.equal(detect(['sk-SK', 'en-GB']), 'sk');
-  assert.equal(detect(['cs', 'SK', 'en']), 'sk');
-  assert.equal(detect(['de-AT', 'en-US']), 'en');
-  assert.equal(detect(['de']), 'en');
-  assert.equal(detect([]), 'en');
-  assert.equal(detect(), 'en');
+test('the chosen language applies, and English when none or an unknown one was chosen', () => {
+  assert.equal(resolve('sk'), 'sk');
+  assert.equal(resolve('en'), 'en');
+  assert.equal(resolve(undefined), 'en');
+  assert.equal(resolve('de'), 'en');
 });
 
 test('English uses the British locale, which starts the week on Monday', () => {
