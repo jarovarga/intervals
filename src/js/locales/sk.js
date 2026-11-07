@@ -106,5 +106,21 @@ export const sk = {
   'phase.work': 'Cvičenie',
   'phase.rest': 'Oddych',
   'phase.round': 'Pauza',
-  'phase.done': 'Hotovo'
+  'phase.done': 'Hotovo',
+
+  'exercise.slowMountainClimber': 'Pomalý horolezec',
+  'exercise.airSquat': 'Drep s vlastnou váhou',
+  'exercise.pushUp': 'Kľuk',
+  'exercise.forwardLunge': 'Striedavý výpad vpred',
+  'exercise.reverseCrunch': 'Reverzný brušák (zdvih bedier)',
+  'exercise.wallSit': 'Sed pri stene (izometrický drep)',
+  'exercise.forearmPlank': 'Výdrž v planku na predlaktiach',
+  'exercise.sidePlankLeft': 'Výdrž v bočnom planku na predlaktí (ľavá strana)',
+  'exercise.sidePlankRight': 'Výdrž v bočnom planku na predlaktí (pravá strana)',
+  'exercise.jumpingJacks': 'Panáčik (jumping jacks)',
+  'exercise.bicycleCrunch': 'Bicykel (lakeť k opačnému kolenu)',
+  'exercise.reverseLunge': 'Striedavý výpad vzad',
+  'exercise.shoulderTap': 'Dotyk ramena v planku (vysoký plank)',
+  'exercise.highKnees': 'Beh na mieste s vysokými kolenami',
+  'exercise.mountainClimber': 'Horolezec'
 };

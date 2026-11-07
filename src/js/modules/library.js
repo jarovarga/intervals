@@ -62,6 +62,17 @@ const requestPersistence = () => {
   });
 };
 
+/**
+ * Give a new device its first workouts. A device that has stored workouts before, even none after a deletion, keeps
+ * what it has.
+ *
+ * @param {Workout[]} starters Workouts to begin with.
+ * @returns {void}
+ */
+export const seed = (starters) => {
+  if (!workouts.has()) workouts.set(starters);
+};
+
 /** @returns {Workout[]} All workouts in display order. */
 export const getWorkouts = () => workouts.get();
 

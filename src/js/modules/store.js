@@ -2,6 +2,7 @@
  * @template T
  * @typedef {{
  *   get: () => T,
+ *   has: () => boolean,
  *   set: (value: T) => boolean,
  *   watch: (target?: EventTarget) => void
  * }} Store
@@ -53,6 +54,16 @@ export const createStore = (key, { version, read, empty }) => {
       value ??= load();
 
       return value;
+    },
+
+    /** @returns {boolean} Whether storage holds a value under the key, readable or not. */
+    has() {
+      try {
+        return localStorage.getItem(key) !== null;
+      } catch (error) {
+        console.warn(`The stored ${key} could not be read.`, error);
+        return false;
+      }
     },
 
     /**

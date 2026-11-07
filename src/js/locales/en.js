@@ -106,5 +106,21 @@ export const en = {
   'phase.work': 'Work',
   'phase.rest': 'Rest',
   'phase.round': 'Cooldown',
-  'phase.done': 'Done'
+  'phase.done': 'Done',
+
+  'exercise.slowMountainClimber': 'Slow mountain climber',
+  'exercise.airSquat': 'Bodyweight squat (air squat)',
+  'exercise.pushUp': 'Push-up',
+  'exercise.forwardLunge': 'Alternating forward lunge',
+  'exercise.reverseCrunch': 'Reverse crunch (hip lift)',
+  'exercise.wallSit': 'Wall sit (isometric squat hold)',
+  'exercise.forearmPlank': 'Forearm plank hold',
+  'exercise.sidePlankLeft': 'Side forearm plank hold (left)',
+  'exercise.sidePlankRight': 'Side forearm plank hold (right)',
+  'exercise.jumpingJacks': 'Jumping jacks',
+  'exercise.bicycleCrunch': 'Bicycle crunch (elbow to opposite knee)',
+  'exercise.reverseLunge': 'Alternating reverse lunge',
+  'exercise.shoulderTap': 'Plank shoulder tap (high plank)',
+  'exercise.highKnees': 'High knees (running in place)',
+  'exercise.mountainClimber': 'Mountain climber'
 };

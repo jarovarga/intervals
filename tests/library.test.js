@@ -85,6 +85,24 @@ test('deleting all data removes the workouts, the log and the progress', () => {
   assert.equal(library.loadSession(1000), null);
 });
 
+test('a new device gets its first workouts once, and a device that deleted them stays empty', () => {
+  const storage = useStorage();
+
+  library.seed([sample('Starter')]);
+  library.seed([sample('Again')]);
+
+  assert.deepEqual(
+    library.getWorkouts().map(({ name }) => name),
+    ['Starter']
+  );
+
+  library.clearAll();
+  useStorage(storage);
+  library.seed([sample('Starter')]);
+
+  assert.deepEqual(library.getWorkouts(), []);
+});
+
 test('a finished workout is logged with its name and length as they were', () => {
   const workout = sample('Leg day');
 
