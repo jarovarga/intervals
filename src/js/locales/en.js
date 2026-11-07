@@ -70,7 +70,24 @@ export const en = {
   'editor.titleEdit': 'Edit workout',
   'editor.cancel': 'Cancel',
 
+  'workout.workout': 'Workout',
+  'workout.new': 'New workout',
+  'workout.exercise': 'Exercise',
+  'workout.newExercise': 'New exercise',
+  'workout.exerciseNumbered': 'Exercise {n}',
+
   'timer.title': 'Timer',
   'timer.end': 'End workout',
-  'timer.round': 'Round {n} of {total}'
+  'timer.upNext': 'Up next',
+  'timer.next': 'Next',
+  'timer.then': 'Then',
+  'timer.thenNamed': '{phase}, then {name}',
+  'timer.exerciseOf': 'Exercise {n} of {total}',
+  'timer.round': 'Round {n} of {total}',
+
+  'phase.prepare': 'Get ready',
+  'phase.work': 'Work',
+  'phase.rest': 'Rest',
+  'phase.round': 'Cooldown',
+  'phase.done': 'Done'
 };

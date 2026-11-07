@@ -70,7 +70,24 @@ export const sk = {
   'editor.titleEdit': 'Upraviť tréning',
   'editor.cancel': 'Zrušiť',
 
+  'workout.workout': 'Tréning',
+  'workout.new': 'Nový tréning',
+  'workout.exercise': 'Cvik',
+  'workout.newExercise': 'Nový cvik',
+  'workout.exerciseNumbered': 'Cvik {n}',
+
   'timer.title': 'Časovač',
   'timer.end': 'Ukončiť tréning',
-  'timer.round': 'Kolo {n} z {total}'
+  'timer.upNext': 'Nasleduje',
+  'timer.next': 'Ďalej',
+  'timer.then': 'Potom',
+  'timer.thenNamed': '{phase}, potom {name}',
+  'timer.exerciseOf': 'Cvik {n} z {total}',
+  'timer.round': 'Kolo {n} z {total}',
+
+  'phase.prepare': 'Pripravte sa',
+  'phase.work': 'Cvičenie',
+  'phase.rest': 'Oddych',
+  'phase.round': 'Pauza',
+  'phase.done': 'Hotovo'
 };

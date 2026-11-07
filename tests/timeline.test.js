@@ -1,0 +1,111 @@
+import assert from 'node:assert/strict';
+import { test } from 'node:test';
+
+import { buildCues, buildTimeline, locate, stepTarget } from '../src/js/modules/timeline.js';
+import { buildSteps, createExercise, createWorkout } from '../src/js/modules/workout.js';
+
+const MS = 1000;
+const COUNTDOWN = 3;
+
+/**
+ * @param {Partial<import('../src/js/modules/workout.js').Workout>} [changes] What differs from the circuit.
+ * @returns {import('../src/js/modules/workout.js').Workout} A 10 s get ready, nine 30 s exercises and 30 s rests.
+ */
+const circuit = (changes = {}) => ({
+  ...createWorkout(
+    'Circuit',
+    Array.from({ length: 9 }, (_, index) => createExercise(`Exercise ${index + 1}`, 30))
+  ),
+  prepare: 10,
+  rest: 30,
+  roundRest: 60,
+  ...changes
+});
+
+test('locate maps elapsed time to a step and the time left in it', () => {
+  const timeline = buildTimeline(buildSteps(circuit()));
+
+  assert.deepEqual(locate(timeline, 0), { index: 0, remaining: 10 * MS, finished: false });
+  assert.deepEqual(locate(timeline, 10 * MS - 1), { index: 0, remaining: 1, finished: false });
+  assert.deepEqual(locate(timeline, 10 * MS), { index: 1, remaining: 30 * MS, finished: false });
+  assert.deepEqual(locate(timeline, 40 * MS), { index: 2, remaining: 30 * MS, finished: false });
+  assert.equal(locate(timeline, timeline.total - 1).finished, false);
+  assert.deepEqual(locate(timeline, timeline.total), { index: 17, remaining: 0, finished: true });
+  assert.equal(locate(timeline, timeline.total + 5 * MS).finished, true);
+});
+
+test('cues: a countdown per step, a signal per work, rest or round rest, and one finish', () => {
+  const workout = circuit({ rounds: 2 });
+  const timeline = buildTimeline(buildSteps(workout));
+  const cues = buildCues(timeline, COUNTDOWN);
+  const count = (kind) => cues.filter((cue) => cue.kind === kind).length;
+
+  assert.equal(count('work'), 18);
+  assert.equal(count('rest'), 16);
+  assert.equal(count('round'), 1);
+  assert.equal(count('done'), 1);
+  assert.equal(count('tick'), timeline.steps.length * COUNTDOWN);
+  assert.deepEqual(
+    cues.slice(0, 3).map((cue) => cue.at),
+    [7 * MS, 8 * MS, 9 * MS]
+  );
+  assert.equal(cues.at(-1).at, timeline.total);
+  assert.ok(cues.every((cue, index) => index === 0 || cue.at >= cues[index - 1].at));
+});
+
+test('the countdown setting decides how many ticks every step gets', () => {
+  const timeline = buildTimeline(buildSteps(circuit()));
+  const ticks = (countdown) => buildCues(timeline, countdown).filter((cue) => cue.kind === 'tick').length;
+
+  assert.equal(ticks(0), 0);
+  assert.equal(ticks(5), timeline.steps.length * 5);
+});
+
+test('a step shorter than the countdown only counts down what fits', () => {
+  const timeline = buildTimeline([{ type: 'work', duration: 2, exercise: 0, round: 0 }]);
+  const ticks = buildCues(timeline, COUNTDOWN).filter((cue) => cue.kind === 'tick');
+
+  assert.deepEqual(
+    ticks.map((cue) => cue.at),
+    [MS]
+  );
+});
+
+const RESTART_AFTER = 2 * MS;
+
+/** The circuit laid out on its timeline: a 10 s get ready, then 30 s exercises and rests. */
+const defaultTimeline = () => buildTimeline(buildSteps(circuit()));
+
+test('next leads to the start of the following step', () => {
+  const timeline = defaultTimeline();
+
+  assert.equal(stepTarget(timeline, 4 * MS, 1, RESTART_AFTER), 10 * MS);
+  assert.equal(stepTarget(timeline, 25 * MS, 1, RESTART_AFTER), 40 * MS);
+});
+
+test('previous restarts a step that is well under way, and goes back when it has only begun', () => {
+  const timeline = defaultTimeline();
+
+  assert.equal(stepTarget(timeline, 25 * MS, -1, RESTART_AFTER), 10 * MS);
+  assert.equal(stepTarget(timeline, 10 * MS + RESTART_AFTER, -1, RESTART_AFTER), 0);
+  assert.equal(stepTarget(timeline, 10 * MS + RESTART_AFTER + 1, -1, RESTART_AFTER), 10 * MS);
+});
+
+test('previous from the first step stays at the start', () => {
+  assert.equal(stepTarget(defaultTimeline(), 0, -1, RESTART_AFTER), 0);
+  assert.equal(stepTarget(defaultTimeline(), MS, -1, RESTART_AFTER), 0);
+});
+
+test('next from the last step leads to the end, and from the end nowhere', () => {
+  const timeline = defaultTimeline();
+  const lastStart = timeline.starts.at(-1);
+
+  assert.equal(stepTarget(timeline, lastStart + 5 * MS, 1, RESTART_AFTER), timeline.total);
+  assert.equal(stepTarget(timeline, timeline.total, 1, RESTART_AFTER), null);
+});
+
+test('previous from the end leads to the start of the last step', () => {
+  const timeline = defaultTimeline();
+
+  assert.equal(stepTarget(timeline, timeline.total, -1, RESTART_AFTER), timeline.starts.at(-1));
+});
