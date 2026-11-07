@@ -32,6 +32,7 @@
 @import "./segments/install.css" layer(segment);
 @import "./segments/editor.css" layer(segment);
 @import "./segments/timer.css" layer(segment);
+@import "./segments/log.css" layer(segment);
 
 @import "./utils/a11y.css" layer(util);
 @import "./utils/states.css" layer(util);

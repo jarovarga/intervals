@@ -5,6 +5,7 @@ import * as home from './modules/home.js';
 import * as i18n from './modules/i18n.js';
 import * as install from './modules/install.js';
 import * as library from './modules/library.js';
+import * as log from './modules/log.js';
 import * as modality from './modules/modality.js';
 import * as preferences from './modules/preferences.js';
 import * as presets from './modules/presets.js';
@@ -42,6 +43,7 @@ timer.init('[data-screen="timer"]', {
 });
 streak.init('[data-screen="workouts"]');
 resume.init('[data-screen="workouts"]');
+log.init('[data-screen="log"]');
 router.init('[data-screen]', {
   home: 'workouts',
   navigation: '[data-navigation="tabs"]',

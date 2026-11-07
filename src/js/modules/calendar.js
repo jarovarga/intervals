@@ -7,6 +7,9 @@
 
 const DAYS_PER_WEEK = 7;
 
+/** Both languages of the app start the week on Monday. */
+export const FIRST_DAY = 1;
+
 /**
  * @param {number} year Full year.
  * @param {number} month Month, from 0 for January.

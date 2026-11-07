@@ -57,6 +57,14 @@ export const en = {
   'tabs.log': 'Log',
   'tabs.settings': 'Settings',
 
+  'log.month': 'Month',
+  'log.year': 'Year',
+  'log.finished': 'Finished',
+  'log.time': 'Total time',
+  'log.top': 'Most often',
+  'log.history': 'History',
+  'log.empty': 'No finished workouts this month.',
+
   'settings.workout': 'Workout',
   'settings.weeklyGoal': 'Weekly goal',
   'settings.weeklyGoalNote': 'Workouts per week',

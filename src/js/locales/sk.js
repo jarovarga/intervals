@@ -57,6 +57,14 @@ export const sk = {
   'tabs.log': 'Záznam',
   'tabs.settings': 'Nastavenia',
 
+  'log.month': 'Mesiac',
+  'log.year': 'Rok',
+  'log.finished': 'Dokončené',
+  'log.time': 'Celkový čas',
+  'log.top': 'Najčastejšie',
+  'log.history': 'História',
+  'log.empty': 'V tomto mesiaci žiadny dokončený tréning.',
+
   'settings.workout': 'Tréning',
   'settings.weeklyGoal': 'Týždenný cieľ',
   'settings.weeklyGoalNote': 'Tréningy za týždeň',

@@ -98,6 +98,28 @@
             <section data-screen="log" id="log" class="section" aria-labelledby="log-title" hidden>
                 <div class="container">
                     <h2 tabindex="-1" data-i18n="tabs.log" id="log-title" class="visually-hidden">Log</h2>
+
+                    <div class="log__period">
+                        <select data-field="month" data-i18n-attr="aria-label:log.month" class="select select--field log__month" aria-label="Month"></select>
+                        <select data-field="year" data-i18n-attr="aria-label:log.year" class="select select--field log__year" aria-label="Year"></select>
+                    </div>
+
+                    <div class="log__calendar">
+                        <ol data-list="weekdays" class="log__weekdays" aria-hidden="true"></ol>
+                        <ol data-list="days" class="log__days"></ol>
+                    </div>
+
+                    <dl class="log__stats">
+                        <div class="log__stat"><dt data-i18n="log.finished" class="log__stat-label">Finished</dt><dd data-stat="count" class="log__stat-value">0</dd></div>
+                        <div class="log__stat"><dt data-i18n="log.time" class="log__stat-label">Total time</dt><dd data-stat="time" class="log__stat-value">0:00</dd></div>
+                        <div class="log__stat log__stat--wide"><dt data-i18n="log.top" class="log__stat-label">Most often</dt><dd data-stat="top" class="log__stat-value log__stat-value--text"></dd></div>
+                    </dl>
+
+                    <section class="group">
+                        <h3 data-i18n="log.history" class="group__title">History</h3>
+                        <ol data-list="history" class="log__history"></ol>
+                        <p data-i18n="log.empty" data-empty="history" class="log__empty" hidden>No finished workouts this month.</p>
+                    </section>
                 </div>
             </section>
 

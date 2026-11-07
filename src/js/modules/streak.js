@@ -1,10 +1,7 @@
-import { currentStreak, finishedThisWeek, weekDays } from './calendar.js';
+import { currentStreak, FIRST_DAY, finishedThisWeek, weekDays } from './calendar.js';
 import { count, getLocale, list, t } from './i18n.js';
 import * as library from './library.js';
 import * as preferences from './preferences.js';
-
-/** Both languages of the app start the week on Monday. */
-const FIRST_DAY = 1;
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
