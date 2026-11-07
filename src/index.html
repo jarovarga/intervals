@@ -15,15 +15,21 @@
         <link href="./assets/img/icon-96x96.png" rel="icon" type="image/png" sizes="96x96">
         <link href="./assets/img/icon-180x180.png" rel="apple-touch-icon" sizes="180x180">
         <link href="./assets/fonts/inter-latin.woff2" rel="preload" as="font" type="font/woff2" crossorigin>
+        <link href="./assets/fonts/anton-latin.woff2" rel="preload" as="font" type="font/woff2" crossorigin>
         <link href="./assets/css/app.min.css" rel="stylesheet">
         <link href="./app.webmanifest" rel="manifest">
     </head>
     <body id="app">
-        <header class="navigation">
+        <header data-navigation class="navigation">
             <div class="container">
-                <nav class="navigation__menu" aria-label="Sections">
-                    <a href="#home" class="navigation__link">Home</a>
-                    <a href="#settings" class="navigation__link">Settings</a>
+                <h1 class="navigation__brand"><img src="./assets/img/logo.svg" width="40" height="40" alt="" class="navigation__logo">Intervals</h1>
+                <nav class="navigation__bar" aria-label="Sections">
+                    <ul class="navigation__menu">
+                        <li><a href="#workouts" data-icon="timer" class="navigation__link"><span class="navigation__text">Workouts</span></a></li>
+                        <li><a href="#health" data-icon="heart" class="navigation__link"><span class="navigation__text">Health</span></a></li>
+                        <li><a href="#log" data-icon="chart-no-axes-column" class="navigation__link"><span class="navigation__text">Log</span></a></li>
+                        <li><a href="#settings" data-icon="settings" class="navigation__link"><span class="navigation__text">Settings</span></a></li>
+                    </ul>
                 </nav>
             </div>
         </header>
@@ -48,16 +54,27 @@
                 </div>
             </aside>
 
-            <section id="home" class="section">
+            <section data-screen id="workouts" class="section" aria-labelledby="workouts-title">
                 <div class="container">
-                    <h1 class="section__title">Intervals</h1>
-                    <p class="section__text">Replace this section with the app.</p>
+                    <h2 tabindex="-1" id="workouts-title" class="visually-hidden">Workouts</h2>
                 </div>
             </section>
 
-            <section id="settings" data-section="settings" class="section settings" aria-labelledby="settings-title">
+            <section data-screen id="health" class="section" aria-labelledby="health-title" hidden>
                 <div class="container">
-                    <h2 id="settings-title" class="section__title">Settings</h2>
+                    <h2 tabindex="-1" id="health-title" class="visually-hidden">Health</h2>
+                </div>
+            </section>
+
+            <section data-screen id="log" class="section" aria-labelledby="log-title" hidden>
+                <div class="container">
+                    <h2 tabindex="-1" id="log-title" class="visually-hidden">Log</h2>
+                </div>
+            </section>
+
+            <section data-screen data-section="settings" id="settings" class="section settings" aria-labelledby="settings-title" hidden>
+                <div class="container">
+                    <h2 tabindex="-1" id="settings-title" class="visually-hidden">Settings</h2>
 
                     <div class="settings__actions">
                         <button type="button" data-action="check-update" class="button">Check for updates</button>
@@ -69,6 +86,20 @@
                     <a href="https://ko-fi.com/jarovarga/tip" rel="noopener" class="settings__support">Buy me a coffee</a>
 
                     <p class="settings__version">Version __APP_VERSION__</p>
+                </div>
+            </section>
+
+            <section data-screen="full" id="editor" class="section" aria-labelledby="editor-title" hidden>
+                <div class="container">
+                    <h2 tabindex="-1" id="editor-title" class="section__title">Edit workout</h2>
+                    <a href="#workouts" class="button">Cancel</a>
+                </div>
+            </section>
+
+            <section data-screen="full" id="timer" class="section" aria-labelledby="timer-title" hidden>
+                <div class="container">
+                    <h2 tabindex="-1" id="timer-title" class="section__title">Workout</h2>
+                    <a href="#workouts" class="button">End</a>
                 </div>
             </section>
         </main>

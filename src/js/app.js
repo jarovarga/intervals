@@ -1,4 +1,5 @@
 import * as install from './modules/install.js';
+import * as router from './modules/router.js';
 import * as settings from './modules/settings.js';
 import * as sw from './modules/service-worker.js';
 import * as update from './modules/update.js';
@@ -6,6 +7,7 @@ import * as update from './modules/update.js';
 /** Shortest time between two checks for a new version while the app stays open: one hour. */
 const UPDATE_CHECK_INTERVAL = 60 * 60 * 1000;
 
+router.init('[data-screen]', { home: 'workouts', navigation: '[data-navigation]' });
 install.init('[data-notice="install"]');
 settings.init('[data-section="settings"]');
 

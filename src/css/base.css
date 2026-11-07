@@ -53,15 +53,12 @@ p {
   text-wrap: pretty;
 }
 
+/* One column as wide as a large phone, centred on tablets and desktops. */
 .container {
   margin-inline: auto;
-  max-inline-size: 88rem;
-  padding-inline: calc(var(--spacing) * 6);
+  max-inline-size: 36rem;
+  padding-inline: calc(var(--spacing) * 4);
   position: relative;
-
-  @media (width >= 64rem) {
-    padding-inline: calc(var(--spacing) * 16);
-  }
 }
 
 ::selection {

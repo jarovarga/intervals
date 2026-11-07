@@ -43,9 +43,9 @@
  * IN THE SOFTWARE.
  */
 
-[data-icon]::after {
+[data-icon]::before {
   aspect-ratio: 1;
-  background-color: var(--icon-color, var(--color-accent));
+  background-color: var(--icon-color, currentColor);
   block-size: var(--icon-size, 0.875rem);
   content: "";
   display: inline-block;

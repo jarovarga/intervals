@@ -1,5 +1,5 @@
 .section {
-  padding-block: calc(var(--spacing) * 10);
+  padding-block: calc(var(--spacing) * 7);
 }
 
 .section__title {
