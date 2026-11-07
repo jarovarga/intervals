@@ -11,6 +11,10 @@
   text-size-adjust: 100%;
 }
 
+:where(h1, h2, h3, h4, h5, h6) {
+  font: inherit;
+}
+
 :where(ul, ol) {
   list-style: none;
 }

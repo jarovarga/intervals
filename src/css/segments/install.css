@@ -19,6 +19,7 @@
 
 .install__intro {
   color: var(--color-text-muted);
+  font-size: var(--text-md);
   max-inline-size: 18rem;
 }
 
