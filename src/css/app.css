@@ -15,11 +15,15 @@
 @import "./blocks/group.css" layer(block);
 @import "./blocks/icon-button.css" layer(block);
 @import "./blocks/list.css" layer(block);
+@import "./blocks/menu.css" layer(block);
 @import "./blocks/panel.css" layer(block);
 @import "./blocks/range.css" layer(block);
+@import "./blocks/ring.css" layer(block);
 @import "./blocks/select.css" layer(block);
 @import "./blocks/stepper.css" layer(block);
+@import "./blocks/streak.css" layer(block);
 @import "./blocks/toolbar.css" layer(block);
+@import "./blocks/workout.css" layer(block);
 
 @import "./segments/section.css" layer(segment);
 @import "./segments/navigation.css" layer(segment);

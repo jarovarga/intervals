@@ -51,6 +51,19 @@ test('a saved workout is added at the end, and saving it again replaces it in it
   assert.equal(library.getWorkout(second.id).name, 'Second');
 });
 
+test('a new workout can follow another one, such as a copy after its original', () => {
+  const [first, second, copy] = [sample('First'), sample('Second'), sample('Copy')];
+
+  library.saveWorkout(first);
+  library.saveWorkout(second);
+  library.saveWorkout(copy, { after: first.id });
+
+  assert.deepEqual(
+    library.getWorkouts().map(({ name }) => name),
+    ['First', 'Copy', 'Second']
+  );
+});
+
 test('saved workouts survive a reload', () => {
   const storage = useStorage();
   const workout = sample('Leg day');

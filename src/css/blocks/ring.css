@@ -1,0 +1,21 @@
+/* A ring of arcs drawn by ring.js, with content stacked in its centre. */
+.ring {
+  display: grid;
+  place-items: center;
+
+  & > * {
+    grid-area: 1 / 1;
+  }
+}
+
+.ring__arcs {
+  block-size: 100%;
+  inline-size: 100%;
+  overflow: visible;
+}
+
+.ring__centre {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}

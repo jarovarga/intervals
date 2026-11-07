@@ -83,17 +83,28 @@ export const getWorkouts = () => workouts.get();
 export const getWorkout = (id) => workouts.get().find((workout) => workout.id === id);
 
 /**
- * Add a workout at the end, or replace the one with the same identifier in its place.
+ * Add a workout, or replace the one with the same identifier in its place. A new workout goes at the end, or right
+ * after another one, such as a copy after its original.
  *
  * @param {Workout} workout Workout to store.
+ * @param {{ after?: string }} [options] Identifier of the workout that a new one follows.
  * @returns {boolean} Whether it reached storage; when it did not, it lasts until the app closes.
  */
-export const saveWorkout = (workout) => {
+export const saveWorkout = (workout, { after } = {}) => {
   const current = workouts.get();
   const exists = current.some(({ id }) => id === workout.id);
-  const saved = workouts.set(
-    exists ? current.map((item) => (item.id === workout.id ? workout : item)) : [...current, workout]
-  );
+  const position = current.findIndex(({ id }) => id === after);
+  let next;
+
+  if (exists) {
+    next = current.map((item) => (item.id === workout.id ? workout : item));
+  } else if (position === -1) {
+    next = [...current, workout];
+  } else {
+    next = current.toSpliced(position + 1, 0, workout);
+  }
+
+  const saved = workouts.set(next);
 
   requestPersistence();
 
@@ -117,7 +128,7 @@ export const saveSession = (progress) => session.set(progress);
 
 /**
  * @param {number} [now] `Date.now()`, to tell whether the progress is too old to be worth picking up.
- * @returns {Session | null} The saved progress, or null when there is none or it is older than an hour.
+ * @returns {Session | null} The saved progress, or null when there is none, or it is older than an hour.
  */
 export const loadSession = (now = Date.now()) => {
   const progress = session.get();

@@ -22,12 +22,35 @@ let writeTitle = () => {};
  */
 export const refreshTitle = () => writeTitle();
 
+/** Shows the screen of the address; set by `init`. */
+let render = () => {};
+
+/**
+ * Go to a screen from a script, for example after saving a workout.
+ *
+ * @param {string} hash Fragment of the screen, such as `#workouts`.
+ * @param {{ workout?: string } | null} [state] What the screen needs to know, such as the workout to show.
+ * @param {{ replace?: boolean }} [options] Replace the current history entry instead of adding one, so that Back skips it.
+ * @returns {void}
+ */
+export const go = (hash, state = null, { replace = false } = {}) => {
+  if (replace) {
+    history.replaceState(state, '', hash);
+  } else {
+    history.pushState(state, '', hash);
+  }
+
+  render();
+};
+
 /**
  * Show one screen at a time: the section that the fragment of the address names, or the home screen. Links to a
  * screen stay plain fragment links; the router follows them itself, so that the page does not jump to the section,
  * and cross-fades the screens where the browser supports view transitions and motion is not reduced.
  *
- * A screen marked `data-layout="full"` covers the whole page, so the navigation hides while it shows.
+ * A screen marked `data-layout="full"` covers the whole page, so the navigation hides while it shows. A link with
+ * `data-workout` hands that workout to its screen in the history state, which survives a reload. Every screen that
+ * shows receives a `screen:show` event with that state, so that it can draw itself first.
  *
  * @param {string} selector Selector of the screen sections, each with an `id`.
  * @param {{ home: string, navigation: string, appTitle: () => string }} options Identifier of the home screen, selector of the navigation and the name of the app for the page title.
@@ -58,6 +81,7 @@ export const init = (selector, { home, navigation, appTitle }) => {
       section.hidden = section !== screen;
     });
     header.hidden = screen.dataset.layout === 'full';
+    screen.dispatchEvent(new CustomEvent('screen:show', { detail: history.state }));
     links.forEach((link) => {
       if (link.hash === `#${id}`) {
         link.setAttribute('aria-current', 'page');
@@ -75,7 +99,7 @@ export const init = (selector, { home, navigation, appTitle }) => {
     first = false;
   };
 
-  const render = () => {
+  render = () => {
     if (first || !document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) {
       update();
       return;
@@ -91,8 +115,14 @@ export const init = (selector, { home, navigation, appTitle }) => {
     if (!link || event.defaultPrevented || !plainClick) return;
     if (!screens.includes(link.getAttribute('href').slice(1))) return;
 
+    const workout = /** @type {HTMLElement} */ (link).dataset.workout;
+
     event.preventDefault();
-    if (link.getAttribute('href') !== location.hash) history.pushState(null, '', link.getAttribute('href'));
+
+    if (workout || link.getAttribute('href') !== location.hash) {
+      history.pushState(workout ? { workout } : null, '', link.getAttribute('href'));
+    }
+
     render();
   });
 

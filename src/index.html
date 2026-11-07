@@ -58,6 +58,28 @@
                         </a>
                         <button type="button" data-action="dismiss-install" data-icon="x" data-i18n-attr="aria-label:install.dismiss" class="banner__dismiss" aria-label="Don’t show again"></button>
                     </aside>
+
+                    <a href="#log" data-streak="row" class="streak" hidden>
+                        <span data-part="days" class="streak__value">0</span>
+                        <span class="streak__text"><span data-i18n="home.streak" class="streak__title">Day streak</span><span data-part="weekly" class="streak__note"></span></span>
+                        <span data-part="week" class="streak__week" role="img"></span>
+                    </a>
+
+                    <aside data-notice="streak" class="banner" aria-labelledby="streak-banner-title" hidden>
+                        <a href="#settings" class="banner__link">
+                            <span data-icon="plus" class="banner__icon" aria-hidden="true"></span>
+                            <span data-i18n="home.setStreak" id="streak-banner-title" class="banner__title">Set your streak</span>
+                            <span data-i18n="home.setStreakNote" class="banner__note">Pick your weekly workouts</span>
+                        </a>
+                        <button type="button" data-action="dismiss-streak" data-icon="x" data-i18n-attr="aria-label:install.dismiss" class="banner__dismiss" aria-label="Don’t show again"></button>
+                    </aside>
+
+                    <section class="group" aria-labelledby="workouts-mine-title">
+                        <h3 class="group__title"><span data-i18n="home.mine" id="workouts-mine-title">My workouts</span> <span data-count="workouts" class="group__count">0</span></h3>
+                        <ul data-list="workouts" class="workouts">
+                            <li data-tile="create" class="workout workout--new"><a href="#editor" data-icon="plus" data-i18n="home.create" class="workout__create">Create workout</a></li>
+                        </ul>
+                    </section>
                 </div>
             </section>
 
@@ -204,6 +226,24 @@
                 </div>
             </form>
         </dialog>
+
+        <template data-template="workout">
+            <li class="workout">
+                <a href="#timer" data-part="start" class="workout__start">
+                    <span data-part="name" class="workout__name"></span>
+                    <span class="ring workout__ring"><svg viewBox="0 0 100 100" data-part="ring" class="ring__arcs" aria-hidden="true"></svg><span class="ring__centre workout__centre"><span data-part="time" class="workout__time"></span><span data-i18n="home.start" class="workout__go">Start</span></span></span>
+                    <span class="workout__meta"><span data-part="exercises"></span><span data-part="rounds"></span></span>
+                </a>
+                <details data-menu="workout" class="menu workout__menu">
+                    <summary data-part="actions" data-icon="ellipsis" class="icon-button menu__toggle workout__actions" aria-label="Actions"></summary>
+                    <ul class="menu__list">
+                        <li><a href="#editor" data-part="edit" data-icon="pencil" data-i18n="home.edit" class="menu__item">Edit</a></li>
+                        <li><button type="button" data-part="duplicate" data-action="duplicate" data-icon="copy" data-i18n="home.duplicate" class="menu__item">Duplicate</button></li>
+                        <li><button type="button" data-part="delete" data-action="delete" data-icon="trash" data-i18n="home.delete" class="menu__item menu__item--danger">Delete</button></li>
+                    </ul>
+                </details>
+            </li>
+        </template>
 
         <script src="./assets/js/app.min.js" type="module"></script>
     </body>

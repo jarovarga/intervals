@@ -10,7 +10,7 @@ export const MAX_WEEKLY_GOAL = 7;
 /**
  * @typedef {{
  *   sound: boolean, volume: number, playback: boolean, countdown: number, keepAwake: boolean, weeklyGoal: number,
- *   language: string | null
+ *   streakHint: boolean, language: string | null
  * }} Preferences
  */
 
@@ -24,6 +24,8 @@ export const DEFAULTS = Object.freeze({
   keepAwake: true,
   // No goal until the user sets one.
   weeklyGoal: 0,
+  // The home screen suggests a weekly goal until one is set or the suggestion is dismissed.
+  streakHint: true,
   // Not chosen yet: the app speaks English.
   language: null
 });
@@ -43,7 +45,7 @@ const isCount = (value, max) => Number.isInteger(value) && Number(value) >= 0 &&
  * @returns {Preferences} The preferences.
  */
 export const readPreferences = (stored, fallback = DEFAULTS) => {
-  const { sound, volume, playback, countdown, keepAwake, weeklyGoal, language } = stored;
+  const { sound, volume, playback, countdown, keepAwake, weeklyGoal, streakHint, language } = stored;
 
   return {
     sound: typeof sound === 'boolean' ? sound : fallback.sound,
@@ -52,6 +54,7 @@ export const readPreferences = (stored, fallback = DEFAULTS) => {
     countdown: isCount(countdown, MAX_COUNTDOWN) ? Number(countdown) : fallback.countdown,
     keepAwake: typeof keepAwake === 'boolean' ? keepAwake : fallback.keepAwake,
     weeklyGoal: isCount(weeklyGoal, MAX_WEEKLY_GOAL) ? Number(weeklyGoal) : fallback.weeklyGoal,
+    streakHint: typeof streakHint === 'boolean' ? streakHint : fallback.streakHint,
     language: language === null || isLanguage(language) ? /** @type {string | null} */ (language) : fallback.language
   };
 };
