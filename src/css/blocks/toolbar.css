@@ -12,6 +12,7 @@
 }
 
 .toolbar__title {
+  font-family: var(--font-compact);
   font-size: var(--text-lg);
   font-weight: var(--font-weight-semibold);
   grid-column: 2;

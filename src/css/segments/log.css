@@ -95,7 +95,7 @@
 }
 
 .log__stat-value--text {
-  font-family: var(--font-sans);
+  font-family: var(--font-compact);
   font-size: var(--text-xl);
   font-weight: var(--font-weight-bold);
   line-height: var(--leading-tight);
@@ -116,6 +116,7 @@
 }
 
 .log__entry-name {
+  font-family: var(--font-compact);
   font-size: var(--text-lg);
   font-weight: var(--font-weight-semibold);
 }

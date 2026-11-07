@@ -19,6 +19,7 @@
 
 .list__label {
   display: grid;
+  font-family: var(--font-compact);
   font-size: var(--text-lg);
   font-weight: var(--font-weight-semibold);
   gap: calc(var(--spacing) * 0.5);
@@ -26,6 +27,7 @@
 
 .list__note {
   color: var(--color-text-muted);
+  font-family: var(--font-sans);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-medium);
 }

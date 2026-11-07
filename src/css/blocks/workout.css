@@ -71,6 +71,7 @@
   align-self: end;
   -webkit-box-orient: vertical;
   display: -webkit-box;
+  font-family: var(--font-compact);
   font-size: var(--text-lg);
   font-weight: var(--font-weight-semibold);
   -webkit-line-clamp: 2;

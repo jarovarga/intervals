@@ -28,6 +28,7 @@
   background-color: var(--color-surface-raised);
   border: 0.0625rem solid var(--color-border);
   border-radius: var(--radius-2xl);
+  font-family: var(--font-compact);
   font-size: var(--text-lg);
   font-weight: var(--font-weight-semibold);
   min-block-size: 2.75rem;
