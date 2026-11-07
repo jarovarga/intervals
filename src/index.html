@@ -124,7 +124,18 @@
                             <button type="button" data-action="show-install" data-icon="smartphone" data-i18n="settings.showInstall" class="button button--tile" hidden>Show install guide</button>
                             <button type="button" data-action="check-update" data-icon="refresh-cw" data-i18n="settings.checkUpdate" class="button button--tile">Check for updates</button>
                         </div>
-                        <p data-status="settings" class="settings__status" role="status"></p>
+                        <p data-status="update" class="settings__status" role="status"></p>
+                    </section>
+
+                    <section class="group" aria-labelledby="settings-data-title">
+                        <h3 data-i18n="settings.data" id="settings-data-title" class="group__title">Data</h3>
+                        <div class="settings__actions">
+                            <button type="button" data-action="export" data-icon="upload" data-i18n="settings.export" class="button button--tile">Export</button>
+                            <button type="button" data-action="import" data-icon="download" data-i18n="settings.import" class="button button--tile">Import</button>
+                            <input type="file" accept="application/json,.json" data-field="import" hidden>
+                            <button type="button" data-action="delete-all" data-i18n="settings.deleteAll" class="button button--danger settings__delete">Delete all data</button>
+                        </div>
+                        <p data-status="data" class="settings__status" role="status"></p>
                     </section>
 
                     <footer class="settings__footer">
@@ -182,6 +193,17 @@
                 </div>
             </section>
         </main>
+
+        <dialog data-dialog="confirm" class="dialog" aria-labelledby="dialog-title">
+            <form method="dialog" class="dialog__form">
+                <h2 data-title="dialog" id="dialog-title" class="dialog__title">Confirm</h2>
+                <p data-text="dialog" class="dialog__text"></p>
+                <div class="dialog__actions">
+                    <button type="submit" data-i18n="dialog.cancel" value="cancel" class="button" autofocus>Cancel</button>
+                    <button type="submit" data-confirm="dialog" value="confirm" class="button button--danger">Confirm</button>
+                </div>
+            </form>
+        </dialog>
 
         <script src="./assets/js/app.min.js" type="module"></script>
     </body>

@@ -30,6 +30,12 @@
   min-block-size: 3rem;
 }
 
+/* An action that deletes, such as Delete all workouts. */
+.button--danger {
+  background-color: transparent;
+  color: var(--color-danger);
+}
+
 /* A text-only action, such as the way back in a toolbar. */
 .button--quiet {
   background-color: transparent;

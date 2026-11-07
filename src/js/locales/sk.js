@@ -9,6 +9,8 @@ export const sk = {
 
   'count.exercises': { one: 'cvik', few: 'cviky', other: 'cvikov' },
   'count.rounds': { one: 'kolo', few: 'kolá', other: 'kôl' },
+  'count.workouts': { one: 'tréning', few: 'tréningy', other: 'tréningov' },
+  'count.finished': { one: 'dokončený tréning', few: 'dokončené tréningy', other: 'dokončených tréningov' },
 
   'update.text': 'Je pripravená nová verzia.',
   'update.reload': 'Načítať znova',
@@ -65,7 +67,22 @@ export const sk = {
   'settings.cannotCheck': 'Aktualizácie sa tu nedajú skontrolovať.',
   'settings.installing': 'Inštaluje sa nová verzia.',
   'settings.latest': 'Máte najnovšiu verziu.',
+  'settings.data': 'Údaje',
+  'settings.export': 'Exportovať',
+  'settings.import': 'Importovať',
+  'settings.deleteAll': 'Odstrániť všetky údaje',
+  'settings.tooLarge': 'Tento súbor je príliš veľký na to, aby to bol export.',
+  'settings.notExport': 'Tento súbor nie je export z aplikácie Intervals.',
+  'settings.imported': 'Importované: {workouts} a {completions}.',
+  'settings.notSaved': 'Zmenu sa nepodarilo uložiť v tomto zariadení a platí, kým aplikáciu nezatvoríte.',
+  'settings.deleteTitle': 'Odstrániť všetky údaje?',
+  'settings.deleteText':
+    'Tréningy, záznam dokončených tréningov aj nastavenia sa z tohto zariadenia odstránia. Ak si chcete ponechať kópiu, najprv ich exportujte.',
+  'settings.deleteConfirm': 'Odstrániť všetko',
+  'settings.deleted': 'Všetky údaje boli odstránené.',
   'settings.version': 'Verzia',
+
+  'dialog.cancel': 'Zrušiť',
 
   'editor.titleEdit': 'Upraviť tréning',
   'editor.cancel': 'Zrušiť',

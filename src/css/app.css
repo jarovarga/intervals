@@ -11,6 +11,7 @@
 @import "./blocks/banner.css" layer(block);
 @import "./blocks/button.css" layer(block);
 @import "./blocks/check.css" layer(block);
+@import "./blocks/dialog.css" layer(block);
 @import "./blocks/group.css" layer(block);
 @import "./blocks/icon-button.css" layer(block);
 @import "./blocks/list.css" layer(block);

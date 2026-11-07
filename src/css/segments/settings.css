@@ -3,6 +3,12 @@
   gap: calc(var(--spacing) * 3);
 }
 
+/* Deleting everything stands apart from the other data actions. */
+.settings__delete {
+  margin-block-start: calc(var(--spacing) * 3);
+  min-block-size: 3rem;
+}
+
 .settings__status {
   color: var(--color-text-muted);
   font-size: var(--text-sm);

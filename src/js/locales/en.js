@@ -9,6 +9,8 @@ export const en = {
 
   'count.exercises': { one: 'exercise', other: 'exercises' },
   'count.rounds': { one: 'round', other: 'rounds' },
+  'count.workouts': { one: 'workout', other: 'workouts' },
+  'count.finished': { one: 'finished workout', other: 'finished workouts' },
 
   'update.text': 'A new version is ready.',
   'update.reload': 'Reload',
@@ -65,7 +67,22 @@ export const en = {
   'settings.cannotCheck': 'Updates cannot be checked here.',
   'settings.installing': 'A new version is being installed.',
   'settings.latest': 'You have the latest version.',
+  'settings.data': 'Data',
+  'settings.export': 'Export',
+  'settings.import': 'Import',
+  'settings.deleteAll': 'Delete all data',
+  'settings.tooLarge': 'That file is too large to be an export.',
+  'settings.notExport': 'That file is not an export from Intervals.',
+  'settings.imported': 'Imported {workouts} and {completions}.',
+  'settings.notSaved': 'The change could not be stored on this device and lasts until the app closes.',
+  'settings.deleteTitle': 'Delete all data?',
+  'settings.deleteText':
+    'Workouts, the log of finished workouts and the settings are removed from this device. Export first to keep a copy.',
+  'settings.deleteConfirm': 'Delete all',
+  'settings.deleted': 'All data was deleted.',
   'settings.version': 'Version',
+
+  'dialog.cancel': 'Cancel',
 
   'editor.titleEdit': 'Edit workout',
   'editor.cancel': 'Cancel',

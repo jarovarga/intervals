@@ -11,6 +11,16 @@ const COUNTS = { weeklyGoal: preferences.MAX_WEEKLY_GOAL, countdown: preferences
 /** Preferences that the check boxes switch. */
 const SWITCHES = ['sound', 'playback', 'keepAwake'];
 
+/** Shows the stored preferences in the controls; set by `init`. */
+let refreshControls = () => {};
+
+/**
+ * Show the stored preferences again, for example after an import replaced them.
+ *
+ * @returns {void}
+ */
+export const refresh = () => refreshControls();
+
 /**
  * The settings screen: the weekly goal, the sound and the countdown, the screen lock and the language, each stored as
  * soon as it changes, and a check for a new version with a status message that reports the result.
@@ -27,7 +37,7 @@ export const init = (selector = '[data-screen="settings"]', { onLanguage = () =>
   const field = (name) => /** @type {HTMLInputElement} */ (section.querySelector(`[data-preference="${name}"]`));
   const steps = /** @type {HTMLButtonElement[]} */ ([...section.querySelectorAll('[data-step]')]);
   const volume = field('volume');
-  const status = section.querySelector('[data-status="settings"]');
+  const status = section.querySelector('[data-status="update"]');
 
   const say = (message) => {
     status.textContent = message;
@@ -109,5 +119,6 @@ export const init = (selector = '[data-screen="settings"]', { onLanguage = () =>
     }
   });
 
+  refreshControls = show;
   show();
 };
