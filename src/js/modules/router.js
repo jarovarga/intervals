@@ -29,7 +29,7 @@ let render = () => {};
  * Go to a screen from a script, for example after saving a workout.
  *
  * @param {string} hash Fragment of the screen, such as `#workouts`.
- * @param {{ workout?: string } | null} [state] What the screen needs to know, such as the workout to show.
+ * @param {{ workout?: string, resume?: boolean } | null} [state] What the screen needs to know, such as the workout to show.
  * @param {{ replace?: boolean }} [options] Replace the current history entry instead of adding one, so that Back skips it.
  * @returns {void}
  */
@@ -50,7 +50,9 @@ export const go = (hash, state = null, { replace = false } = {}) => {
  *
  * A screen marked `data-layout="full"` covers the whole page, so the navigation hides while it shows. A link with
  * `data-workout` hands that workout to its screen in the history state, which survives a reload. Every screen that
- * shows receives a `screen:show` event with that state, so that it can draw itself first.
+ * shows receives a `screen:show` event with that state and whether the page has just loaded, so that it can draw
+ * itself first, and the screen it replaces a `screen:hide` event, so that it can stop what it runs. A link with
+ * `data-resume` also asks its screen to pick its workout up where it stopped.
  *
  * @param {string} selector Selector of the screen sections, each with an `id`.
  * @param {{ home: string, navigation: string, appTitle: () => string }} options Identifier of the home screen, selector of the navigation and the name of the app for the page title.
@@ -65,9 +67,16 @@ export const init = (selector, { home, navigation, appTitle }) => {
 
   const links = /** @type {HTMLAnchorElement[]} */ ([...header.querySelectorAll('a[href^="#"]')]);
   let first = true;
+  /** @type {HTMLElement | null} */
+  let current = null;
 
   // Every screen starts at the top, so the browser must not restore the scroll position of a reload over it.
   history.scrollRestoration = 'manual';
+  // A page opened with a fragment is scrolled to the section of that name, below the header, once it has loaded; the
+  // next frame comes after that scroll.
+  window.addEventListener('load', () => requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' })), {
+    once: true
+  });
 
   const update = () => {
     const id = resolve(location.hash, screens, home);
@@ -81,7 +90,11 @@ export const init = (selector, { home, navigation, appTitle }) => {
       section.hidden = section !== screen;
     });
     header.hidden = screen.dataset.layout === 'full';
-    screen.dispatchEvent(new CustomEvent('screen:show', { detail: history.state }));
+
+    if (current && current !== screen) current.dispatchEvent(new CustomEvent('screen:hide'));
+
+    current = screen;
+    screen.dispatchEvent(new CustomEvent('screen:show', { detail: { ...history.state, initial: first } }));
     links.forEach((link) => {
       if (link.hash === `#${id}`) {
         link.setAttribute('aria-current', 'page');
@@ -115,13 +128,16 @@ export const init = (selector, { home, navigation, appTitle }) => {
     if (!link || event.defaultPrevented || !plainClick) return;
     if (!screens.includes(link.getAttribute('href').slice(1))) return;
 
-    const workout = /** @type {HTMLElement} */ (link).dataset.workout;
+    const { workout, resume } = /** @type {HTMLElement} */ (link).dataset;
+    let state = null;
+
+    if (workout) state = resume ? { workout, resume: true } : { workout };
 
     event.preventDefault();
 
-    // A new entry is needed when the screen or the workout it shows changes.
-    if (workout !== history.state?.workout || link.getAttribute('href') !== location.hash) {
-      history.pushState(workout ? { workout } : null, '', link.getAttribute('href'));
+    // A new entry is needed when the screen or what it shows changes.
+    if (JSON.stringify(state) !== JSON.stringify(history.state) || link.getAttribute('href') !== location.hash) {
+      history.pushState(state, '', link.getAttribute('href'));
     }
 
     render();

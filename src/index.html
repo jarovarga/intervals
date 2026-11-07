@@ -65,6 +65,15 @@
                         <span data-part="week" class="streak__week" role="img"></span>
                     </a>
 
+                    <aside data-notice="resume" data-i18n-attr="aria-label:resume.title" class="banner" aria-label="Unfinished workout" hidden>
+                        <a href="#timer" data-resume="true" data-part="resume" class="banner__link">
+                            <span data-icon="play" class="banner__icon" aria-hidden="true"></span>
+                            <span data-part="name" class="banner__title"></span>
+                            <span data-part="meta" class="banner__note"></span>
+                        </a>
+                        <button type="button" data-action="discard-resume" data-icon="x" data-i18n-attr="aria-label:resume.discard" class="banner__dismiss" aria-label="Discard"></button>
+                    </aside>
+
                     <aside data-notice="streak" class="banner" aria-labelledby="streak-banner-title" hidden>
                         <a href="#settings" class="banner__link">
                             <span data-icon="plus" class="banner__icon" aria-hidden="true"></span>
@@ -262,10 +271,34 @@
                 </div>
             </section>
 
-            <section data-screen="timer" data-layout="full" id="timer" class="section section--full" aria-labelledby="timer-title" hidden>
-                <div class="container">
-                    <h2 tabindex="-1" data-i18n="timer.title" id="timer-title" class="section__title">Timer</h2>
-                    <a href="#workouts" data-i18n="timer.end" class="button">End workout</a>
+            <section data-screen="timer" data-layout="full" id="timer" class="timer timer--prepare" aria-labelledby="timer-title" hidden>
+                <div class="container timer__layout">
+                    <h2 tabindex="-1" data-part="title" id="timer-title" class="visually-hidden">Timer</h2>
+
+                    <div class="timer__bar">
+                        <button type="button" data-action="end" data-icon="x" data-i18n-attr="aria-label:timer.end" class="icon-button timer__button" aria-label="End workout"></button>
+                        <p class="timer__remaining"><span data-part="remaining" class="timer__remaining-value">0:00</span><span data-i18n="timer.remaining" class="visually-hidden">Remaining</span></p>
+                        <button type="button" data-action="sound" data-icon="volume" data-i18n-attr="aria-label:timer.sound" class="icon-button timer__button" aria-label="Sound" aria-pressed="true"></button>
+                    </div>
+
+                    <div class="timer__display">
+                        <p data-part="phase" class="timer__phase"></p>
+                        <p data-part="clock" class="timer__clock" role="timer">0:00</p>
+                        <div class="timer__track" aria-hidden="true"><div data-part="fill" class="timer__fill"></div></div>
+                        <div data-part="focus" class="timer__focus"><p data-part="name" class="timer__name"></p><p data-part="note" class="timer__note"></p></div>
+                    </div>
+
+                    <p data-part="round" class="timer__round"></p>
+                    <p data-part="next" class="timer__next"><span data-part="next-label" class="timer__next-label"></span><span data-part="next-text" class="timer__next-text"></span><span data-part="next-time" class="timer__next-time"></span></p>
+
+                    <div class="timer__controls">
+                        <button type="button" data-action="previous" data-icon="chevrons-left" data-i18n-attr="aria-label:timer.previous" class="icon-button timer__button timer__step" aria-label="Previous interval"></button>
+                        <button type="button" data-action="toggle" data-icon="pause" class="button timer__toggle" aria-label="Pause"></button>
+                        <button type="button" data-action="next" data-icon="chevrons-right" data-i18n-attr="aria-label:timer.nextStep" class="icon-button timer__button timer__step" aria-label="Next interval"></button>
+                        <button type="button" data-action="finish" data-i18n="timer.finish" class="button timer__toggle" hidden>Finish</button>
+                    </div>
+
+                    <p data-part="announce" class="visually-hidden" aria-live="polite"></p>
                 </div>
             </section>
         </main>

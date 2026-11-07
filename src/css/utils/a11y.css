@@ -12,6 +12,11 @@
   outline-offset: 0.125rem;
 }
 
+/* A dialog focuses its first button as it opens; after a tap that focus needs no ring, after a key it keeps one. */
+.is-pointer .dialog :focus-visible {
+  outline-color: transparent;
+}
+
 /* A screen moves focus to its heading only to announce itself; the heading is no control, so it shows no ring. */
 [tabindex="-1"]:focus-visible {
   outline-color: transparent;

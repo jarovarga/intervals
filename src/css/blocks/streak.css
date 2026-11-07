@@ -45,5 +45,5 @@
 }
 
 .streak__day--done {
-  background-color: var(--color-phase-work);
+  background-color: var(--color-phase-done);
 }

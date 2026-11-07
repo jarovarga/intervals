@@ -29,10 +29,10 @@
   --color-outline-variant: oklch(0.439 0 0);
 
   --color-phase-prepare: oklch(0.86 0.13 80);
-  --color-phase-work: var(--color-accent);
+  --color-phase-work: oklch(0.68 0.23 18);
   --color-phase-rest: oklch(0.74 0.14 290);
-  --color-phase-round: oklch(0.77 0.14 350);
-  --color-phase-done: oklch(0.68 0.23 18);
+  --color-phase-round: oklch(0.86 0.12 205);
+  --color-phase-done: var(--color-accent);
 
   --color-danger: oklch(0.72 0.16 25);
   --color-track: oklch(1 0 0 / 0.1);
