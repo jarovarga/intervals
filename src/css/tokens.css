@@ -1,32 +1,41 @@
 :root {
-  --font-sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-compact: "Inter Compact", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-display: Anton, "Arial Narrow", sans-serif;
+  --font-sans: Inter, system-ui, -apple-system, sans-serif;
+  --font-compact: "Inter Compact", system-ui, -apple-system, sans-serif;
+  --font-display: Anton, sans-serif;
   --font-mono: ui-monospace, monospace;
 
-  --color-accent: oklch(0.673 0.182 276.935);
-  --color-accent-dim: oklch(0.585 0.233 277.117);
-  --color-accent-muted: oklch(0.673 0.182 276.935 / 0.1);
-  --color-accent-overlay: oklch(0.673 0.182 276.935 / 0.16);
-  --color-on-accent: oklch(0.257 0.09 281.288);
+  --color-phase-prepare: oklch(0.86 0.13 80);
+  --color-phase-work: oklch(0.914 0.203 126.7);
+  --color-phase-rest: oklch(0.74 0.14 290);
+  --color-phase-round: oklch(0.77 0.14 350);
+  --color-phase-done: oklch(0.68 0.23 18);
 
-  --color-surface: oklch(0.145 0 0);
-  --color-surface-deep: oklch(0 0 0);
-  --color-surface-overlay: oklch(0.145 0 0 / 0.85);
-  --color-surface-raised: oklch(0.205 0 0);
-  --color-surface-raised-overlay: oklch(0.205 0 0 / 0.6);
-  --color-surface-tint: oklch(0.205 0 0);
-  --color-surface-variant: oklch(0.269 0 0);
+  --color-accent: var(--color-phase-work);
+  --color-accent-dim: oklch(0.814 0.203 126.7);
+  --color-accent-muted: oklch(0.914 0.203 126.7 / 0.1);
+  --color-accent-overlay: oklch(0.914 0.203 126.7 / 0.16);
+  --color-on-accent: oklch(0.17 0.01 260);
+
+  --color-surface: oklch(0.145 0.008 260);
+  --color-surface-deep: oklch(0.1 0.005 260);
+  --color-surface-overlay: oklch(0.145 0.008 260 / 0.85);
+  --color-surface-raised: oklch(0.195 0.01 260);
+  --color-surface-raised-overlay: oklch(0.195 0.01 260 / 0.6);
+  --color-surface-tint: oklch(0.195 0.01 260);
+  --color-surface-variant: oklch(0.245 0.012 260);
 
   --color-text: oklch(0.97 0 0);
   --color-text-dim: oklch(0.87 0 0);
-  --color-text-muted: oklch(0.708 0 0);
+  --color-text-muted: oklch(0.8 0 0);
 
-  --color-border: oklch(0.371 0 0);
-  --color-border-dim: oklch(0.269 0 0);
+  --color-border: oklch(1 0 0 / 0.09);
+  --color-border-dim: oklch(1 0 0 / 0.07);
   --color-border-muted: oklch(0.205 0 0);
 
   --color-outline-variant: oklch(0.439 0 0);
+
+  --color-danger: oklch(0.72 0.16 25);
+  --color-track: oklch(1 0 0 / 0.1);
 
   --spacing: 0.25rem;
 
@@ -42,6 +51,8 @@
   --text-6xl: 3rem;
   --text-7xl: 3.5rem;
   --text-8xl: 4rem;
+
+  --text-display: 8rem;
 
   --font-weight-thin: 100;
   --font-weight-extralight: 200;
