@@ -1,0 +1,65 @@
+/* One exercise in the editor: its number and name, then its time and the buttons that move or remove it. */
+.exercise {
+  align-items: center;
+  display: grid;
+  gap: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+  grid-template-columns: 3rem minmax(0, 1fr);
+  padding: calc(var(--spacing) * 4.5) calc(var(--spacing) * 4);
+
+  & + & {
+    border-block-start: 0.0625rem solid var(--color-border-dim);
+  }
+}
+
+.exercise__number {
+  align-items: center;
+  background-color: var(--color-surface-variant);
+  block-size: 1.75rem;
+  border-radius: 50%;
+  display: flex;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-bold);
+  inline-size: 1.75rem;
+  justify-content: center;
+}
+
+.exercise__name {
+  background-color: var(--color-surface-raised);
+  border: 0.0625rem solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  min-block-size: 2.75rem;
+  min-inline-size: 0;
+  padding-inline: calc(var(--spacing) * 3.5);
+}
+
+/* The label and the field of the time take the cells of the second row. */
+.exercise__time {
+  display: contents;
+}
+
+.exercise__time-label {
+  color: var(--color-text-muted);
+  font-size: var(--text-md);
+  font-weight: var(--font-weight-medium);
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.exercise__time .stepper__value {
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: start;
+}
+
+.exercise__order {
+  --icon-size: 1rem;
+
+  display: flex;
+  gap: var(--spacing);
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: end;
+}

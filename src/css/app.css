@@ -12,10 +12,11 @@
 @import "./blocks/button.css" layer(block);
 @import "./blocks/check.css" layer(block);
 @import "./blocks/dialog.css" layer(block);
+@import "./blocks/exercise.css" layer(block);
+@import "./blocks/field.css" layer(block);
 @import "./blocks/group.css" layer(block);
 @import "./blocks/icon-button.css" layer(block);
 @import "./blocks/list.css" layer(block);
-@import "./blocks/menu.css" layer(block);
 @import "./blocks/panel.css" layer(block);
 @import "./blocks/range.css" layer(block);
 @import "./blocks/ring.css" layer(block);
@@ -29,6 +30,7 @@
 @import "./segments/navigation.css" layer(segment);
 @import "./segments/settings.css" layer(segment);
 @import "./segments/install.css" layer(segment);
+@import "./segments/editor.css" layer(segment);
 
 @import "./utils/a11y.css" layer(util);
 @import "./utils/states.css" layer(util);

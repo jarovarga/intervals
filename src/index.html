@@ -200,8 +200,65 @@
 
             <section data-screen="editor" data-layout="full" id="editor" class="section section--full" aria-labelledby="editor-title" hidden>
                 <div class="container">
-                    <h2 tabindex="-1" data-i18n="editor.titleEdit" id="editor-title" class="section__title">Edit workout</h2>
-                    <a href="#workouts" data-i18n="editor.cancel" class="button">Cancel</a>
+                    <form data-form="editor" class="editor" novalidate>
+                        <div class="toolbar">
+                            <button type="button" data-action="cancel" data-i18n="editor.cancel" class="button button--quiet toolbar__start">Cancel</button>
+                            <h2 tabindex="-1" data-title="editor" id="editor-title" class="toolbar__title">Edit workout</h2>
+                            <button type="submit" data-i18n="editor.save" class="button button--primary toolbar__end">Save</button>
+                        </div>
+
+                        <p data-status="editor" class="editor__status" role="alert"></p>
+
+                        <section class="group">
+                            <h3 data-i18n="editor.workout" class="group__title">Workout</h3>
+                            <div class="editor__fields">
+                                <label class="field"><span data-i18n="editor.name" class="field__label">Name</span><input type="text" name="name" maxlength="50" autocomplete="off" data-field="name" class="field__input"></label>
+                                <label class="field"><span data-i18n="editor.preset" class="field__label">Preset</span><select name="preset" data-field="preset" class="select select--field"></select></label>
+                                <label class="field">
+                                    <span data-i18n="editor.intensity" class="field__label">Intensity</span>
+                                    <select name="intensity" data-field="intensity" class="select select--field">
+                                        <option data-i18n="intensity.low" value="low">Low (LIT)</option>
+                                        <option data-i18n="intensity.moderate" value="moderate">Moderate (MIT)</option>
+                                        <option data-i18n="intensity.high" value="high">High (HIT)</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </section>
+
+                        <section class="group">
+                            <h3 class="group__title"><span data-i18n="editor.exercises">Exercises</span><span data-count="exercises" class="group__count">0</span></h3>
+                            <ol data-list="exercises" class="list"></ol>
+                            <button type="button" data-action="add" data-icon="plus" data-i18n="editor.add" class="button button--dashed">Add exercise</button>
+                        </section>
+
+                        <section class="group">
+                            <h3 data-i18n="editor.timing" class="group__title">Timing</h3>
+                            <div class="list">
+                                <div class="list__item"><label for="editor-prepare" class="list__label"><span data-i18n="editor.prepare">Get ready</span><span data-i18n="editor.prepareNote" class="list__note">Before the start</span></label><input type="text" maxlength="5" inputmode="numeric" autocomplete="off" data-field="prepare" id="editor-prepare" class="stepper__value stepper__value--time"></div>
+                                <div class="list__item"><label for="editor-rest" class="list__label"><span data-i18n="editor.rest">Rest</span><span data-i18n="editor.restNote" class="list__note">Between exercises</span></label><input type="text" maxlength="5" inputmode="numeric" autocomplete="off" data-field="rest" id="editor-rest" class="stepper__value stepper__value--time"></div>
+                                <div class="list__item">
+                                    <label for="editor-rounds" class="list__label"><span data-i18n="editor.rounds">Rounds</span><span data-i18n="editor.roundsNote" class="list__note">Repeat the circuit</span></label>
+                                    <div class="stepper">
+                                        <button type="button" data-action="fewer-rounds" data-icon="minus" data-i18n-attr="aria-label:editor.fewerRounds" class="icon-button" aria-label="Fewer rounds"></button>
+                                        <input type="text" maxlength="2" inputmode="numeric" autocomplete="off" data-field="rounds" id="editor-rounds" class="stepper__value">
+                                        <button type="button" data-action="more-rounds" data-icon="plus" data-i18n-attr="aria-label:editor.moreRounds" class="icon-button" aria-label="More rounds"></button>
+                                    </div>
+                                </div>
+                                <div class="list__item"><label for="editor-round-rest" class="list__label"><span data-i18n="editor.roundRest">Cooldown</span><span data-i18n="editor.roundRestNote" class="list__note">Between rounds</span></label><input type="text" maxlength="5" inputmode="numeric" autocomplete="off" data-field="round-rest" id="editor-round-rest" class="stepper__value stepper__value--time"></div>
+                            </div>
+                        </section>
+
+                        <section class="group">
+                            <h3 data-i18n="editor.summary" class="group__title">Summary</h3>
+                            <div class="list">
+                                <div class="list__item"><span data-i18n="editor.total" class="list__label">Total time</span><output data-total="editor" class="editor__total">0:00</output></div>
+                            </div>
+                        </section>
+
+                        <div class="editor__end">
+                            <button type="button" data-action="delete" data-i18n="editor.delete" class="button button--danger">Delete workout</button>
+                        </div>
+                    </form>
                 </div>
             </section>
 
@@ -231,14 +288,20 @@
                     <span class="ring workout__ring"><svg viewBox="0 0 100 100" data-part="ring" class="ring__arcs" aria-hidden="true"></svg><span class="ring__centre workout__centre"><span data-part="time" class="workout__time"></span><span data-i18n="home.start" class="workout__go">Start</span></span></span>
                     <span class="workout__meta"><span data-part="exercises"></span><span data-part="rounds"></span></span>
                 </a>
-                <details data-menu="workout" class="menu workout__menu">
-                    <summary data-part="actions" data-icon="ellipsis" class="icon-button menu__toggle workout__actions" aria-label="Actions"></summary>
-                    <ul class="menu__list">
-                        <li><a href="#editor" data-part="edit" data-icon="pencil" data-i18n="home.edit" class="menu__item">Edit</a></li>
-                        <li><button type="button" data-part="duplicate" data-action="duplicate" data-icon="copy" data-i18n="home.duplicate" class="menu__item">Duplicate</button></li>
-                        <li><button type="button" data-part="delete" data-action="delete" data-icon="trash" data-i18n="home.delete" class="menu__item menu__item--danger">Delete</button></li>
-                    </ul>
-                </details>
+                <a href="#editor" data-part="edit" data-icon="ellipsis" class="icon-button workout__actions" aria-label="Edit"></a>
+            </li>
+        </template>
+
+        <template data-template="exercise">
+            <li class="exercise">
+                <span data-part="number" class="exercise__number" aria-hidden="true"></span>
+                <input type="text" maxlength="50" autocomplete="off" data-field="exercise-name" class="exercise__name" aria-label="Exercise name">
+                <label class="exercise__time"><span data-i18n="editor.time" class="exercise__time-label">Time</span><input type="text" maxlength="5" inputmode="numeric" autocomplete="off" data-field="exercise-time" class="stepper__value stepper__value--time" aria-label="Time"></label>
+                <span class="exercise__order">
+                    <button type="button" data-action="up" data-icon="arrow-up" class="icon-button" aria-label="Move up"></button>
+                    <button type="button" data-action="down" data-icon="arrow-down" class="icon-button" aria-label="Move down"></button>
+                    <button type="button" data-action="remove" data-icon="trash" class="icon-button icon-button--danger" aria-label="Remove"></button>
+                </span>
             </li>
         </template>
 

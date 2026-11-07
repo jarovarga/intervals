@@ -18,3 +18,8 @@
   min-block-size: 2.75rem;
   text-align: center;
 }
+
+/* A time such as 1:30, which needs more room than a count. */
+.stepper__value--time {
+  inline-size: 5rem;
+}

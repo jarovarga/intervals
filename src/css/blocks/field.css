@@ -1,0 +1,21 @@
+/* A labelled form field with its label above it. */
+.field {
+  display: grid;
+  gap: calc(var(--spacing) * 3);
+}
+
+.field__label {
+  color: var(--color-text-muted);
+  font-size: var(--text-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.field__input {
+  background-color: var(--color-surface-raised);
+  border: 0.0625rem solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  min-block-size: 3.5rem;
+  padding-inline: calc(var(--spacing) * 4);
+}

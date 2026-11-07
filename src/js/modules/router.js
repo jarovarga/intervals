@@ -119,7 +119,8 @@ export const init = (selector, { home, navigation, appTitle }) => {
 
     event.preventDefault();
 
-    if (workout || link.getAttribute('href') !== location.hash) {
+    // A new entry is needed when the screen or the workout it shows changes.
+    if (workout !== history.state?.workout || link.getAttribute('href') !== location.hash) {
       history.pushState(workout ? { workout } : null, '', link.getAttribute('href'));
     }
 

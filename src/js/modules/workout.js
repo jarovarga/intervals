@@ -59,16 +59,6 @@ export const createWorkout = (name, exercises) => ({
 export const createBlankWorkout = () =>
   createWorkout(t('workout.new'), [createExercise(t('workout.exerciseNumbered', { n: 1 }))]);
 
-/**
- * @param {Workout} workout Workout to copy.
- * @returns {Workout} The same workout under new identifiers, so that it is saved next to the original.
- */
-export const duplicateWorkout = (workout) => ({
-  ...workout,
-  id: createId(),
-  exercises: workout.exercises.map((exercise) => ({ ...exercise, id: createId() }))
-});
-
 const isId = (value) => typeof value === 'string' && ID_PATTERN.test(value);
 
 const readSeconds = (value, min, fallback) =>

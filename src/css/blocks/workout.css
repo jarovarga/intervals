@@ -5,7 +5,7 @@
 
 .workout {
   background-color: var(--color-surface-raised);
-  border-radius: var(--radius-3xl);
+  border-radius: var(--radius-2xl);
   display: grid;
   padding: calc(var(--spacing) * 5) calc(var(--spacing) * 4.5);
   position: relative;
@@ -19,7 +19,7 @@
   }
 }
 
-/* The whole tile starts the workout; the menu sits on top of it as its own target. */
+/* The whole tile starts the workout; the edit button sits on top of it as its own target. */
 .workout__start {
   align-items: center;
   display: grid;
@@ -29,7 +29,7 @@
   padding-inline-end: calc(var(--spacing) * 8);
 
   &::after {
-    border-radius: var(--radius-3xl);
+    border-radius: var(--radius-2xl);
     content: "";
     inset: 0;
     position: absolute;
@@ -93,17 +93,11 @@
 
   background-color: transparent;
   color: var(--color-text-muted);
-}
-
-.workout__menu {
   inset: -0.0625rem 0.5rem auto auto;
   position: absolute;
-  z-index: 1;
 
-  /* An open menu covers the menu button of the tile below. */
-  &[open] {
-    z-index: 2;
-  }
+  /* Above the link of the tile, which covers the whole tile. */
+  z-index: 1;
 }
 
 /* The tile that creates a workout: a dashed outline instead of a surface. */
@@ -121,7 +115,7 @@
   justify-items: center;
 
   &::after {
-    border-radius: var(--radius-3xl);
+    border-radius: var(--radius-2xl);
     content: "";
     inset: 0;
     position: absolute;

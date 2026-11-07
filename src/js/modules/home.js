@@ -1,17 +1,16 @@
-import * as dialog from './dialog.js';
 import { count, t } from './i18n.js';
 import * as library from './library.js';
 import * as ring from './ring.js';
 import { format } from './time.js';
-import { duplicateWorkout, totalSeconds } from './workout.js';
+import { totalSeconds } from './workout.js';
 
 /** Stroke width of the ring of a workout tile, in the units of its 100 × 100 box. */
 const RING_WIDTH = 3.8;
 
 /**
- * The workouts of the home screen: a tile for each with its ring, total time and size, which starts it, and a menu
- * to edit, duplicate or delete it, followed by a tile that creates a new workout. The list is drawn whenever the
- * screen shows.
+ * The workouts of the home screen: a tile for each with its ring, total time and size, which starts it, and a button
+ * that opens it in the editor, followed by a tile that creates a new workout. The list is drawn whenever the screen
+ * shows.
  *
  * @param {string} [selector] Selector of the home screen.
  * @returns {void}
@@ -41,10 +40,8 @@ export const init = (selector = '[data-screen="workouts"]') => {
     part('time').textContent = time;
     part('exercises').textContent = count('count.exercises', workout.exercises.length);
     part('rounds').textContent = count('count.rounds', workout.rounds);
-    part('actions').setAttribute('aria-label', t('home.actions', { name: workout.name }));
     part('edit').dataset.workout = workout.id;
-    part('duplicate').dataset.workout = workout.id;
-    part('delete').dataset.workout = workout.id;
+    part('edit').setAttribute('aria-label', t('home.edit', { name: workout.name }));
     ring.draw(
       fragment.querySelector('[data-part="ring"]'),
       ring.layout(ring.segments(workout), RING_WIDTH),
@@ -57,28 +54,6 @@ export const init = (selector = '[data-screen="workouts"]') => {
   const show = () => {
     list.replaceChildren(...library.getWorkouts().map(tile), creator);
   };
-
-  const remove = async (workout) => {
-    const confirmed = await dialog.ask({
-      title: t('home.deleteTitle', { name: workout.name }),
-      text: t('home.deleteText'),
-      confirmLabel: t('home.delete')
-    });
-
-    if (confirmed) library.deleteWorkout(workout.id);
-  };
-
-  list.addEventListener('click', async (event) => {
-    const button = /** @type {Element} */ (event.target).closest('button[data-action]');
-    const workout = button && library.getWorkout(/** @type {HTMLElement} */ (button).dataset.workout);
-
-    if (!workout) return;
-
-    if (button.dataset.action === 'duplicate') library.saveWorkout(duplicateWorkout(workout), { after: workout.id });
-    if (button.dataset.action === 'delete') await remove(workout);
-
-    show();
-  });
 
   screen.addEventListener('screen:show', show);
 };

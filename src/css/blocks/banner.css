@@ -1,6 +1,6 @@
 .banner {
   background-color: var(--color-surface-raised);
-  border-radius: var(--radius-3xl);
+  border-radius: var(--radius-2xl);
   position: relative;
 }
 

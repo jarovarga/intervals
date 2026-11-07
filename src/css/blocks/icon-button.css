@@ -13,3 +13,9 @@
     opacity: 0.4;
   }
 }
+
+/* An icon button that deletes, such as the removal of an exercise. */
+.icon-button--danger {
+  background-color: transparent;
+  color: var(--color-danger);
+}

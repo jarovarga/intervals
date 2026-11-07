@@ -36,6 +36,13 @@
   color: var(--color-danger);
 }
 
+/* An action that adds something, such as Add exercise. */
+.button--dashed {
+  background-color: transparent;
+  border: 0.0625rem dashed oklch(1 0 0 / 0.22);
+  inline-size: 100%;
+}
+
 /* A text-only action, such as the way back in a toolbar. */
 .button--quiet {
   background-color: transparent;

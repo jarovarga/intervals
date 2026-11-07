@@ -6,7 +6,6 @@ import {
   createBlankWorkout,
   createExercise,
   createWorkout,
-  duplicateWorkout,
   MAX_ROUNDS,
   readWorkout,
   totalSeconds
@@ -61,22 +60,6 @@ test('a blank workout starts with one numbered exercise', () => {
   assert.deepEqual(
     workout.exercises.map(({ name }) => name),
     ['Exercise 1']
-  );
-});
-
-test('a duplicate has new identifiers and the same content', () => {
-  const workout = sample();
-  const copy = duplicateWorkout(workout);
-
-  assert.notEqual(copy.id, workout.id);
-  assert.notEqual(copy.exercises[0].id, workout.exercises[0].id);
-  assert.deepEqual(
-    {
-      ...copy,
-      id: workout.id,
-      exercises: copy.exercises.map((exercise, index) => ({ ...exercise, id: workout.exercises[index].id }))
-    },
-    workout
   );
 });
 

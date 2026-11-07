@@ -1,6 +1,6 @@
 .panel {
   background-color: var(--color-surface-raised);
-  border-radius: var(--radius-3xl);
+  border-radius: var(--radius-2xl);
   display: flex;
   flex-direction: column;
   gap: calc(var(--spacing) * 2);
