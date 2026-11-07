@@ -72,6 +72,7 @@ All linters treat warnings as errors. Prettier ignores `*.html`, `*.md` and `pub
 The generated files are ignored by Git; never edit them directly. `public/robots.txt` is a tracked source file that the build does not overwrite. Raise `version` in `package.json` only for a new feature or another significant change.
 
 ## Deployment
+licences/                   Licences of the bundled fonts
 
 `.github/workflows/pages.yml` audits, lints, tests and builds the site on every push to `main` and publishes `public/` through GitHub Pages. In the repository settings, set Pages to build and deploy from **GitHub Actions**. The site is then served from `https://<user>.github.io/<repository>/`. `.github/workflows/ci.yml` runs the same checks on pushes to `dev` and on pull requests to `main`. Both pin their actions to commit hashes and install without running package scripts. `.github/dependabot.yml` proposes weekly updates of npm packages and GitHub Actions after a seven-day cooldown.
 
@@ -110,4 +111,4 @@ The cascade layers are ordered by ascending priority: `reset`, `base`, `helper`,
 
 ## Licence
 
-ISC, see `LICENSE`.
+ISC, see `LICENSE`. The fonts Anton and Inter, taken from Fontsource 5.3.0, are licensed under the SIL Open Font License 1.1, see `licences/`.
