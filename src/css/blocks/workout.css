@@ -96,7 +96,7 @@
 }
 
 .workout__menu {
-  inset: -0.0625rem 0.125rem auto auto;
+  inset: -0.0625rem 0.5rem auto auto;
   position: absolute;
   z-index: 1;
 
