@@ -10,12 +10,3 @@
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
 }
-
-.group__count {
-  color: var(--color-text-muted);
-  font-family: var(--font-sans);
-  font-size: var(--text-md);
-  font-variant-numeric: tabular-nums;
-  font-weight: var(--font-weight-medium);
-  letter-spacing: var(--tracking-normal);
-}

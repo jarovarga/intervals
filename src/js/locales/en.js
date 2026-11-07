@@ -42,7 +42,6 @@ export const en = {
   'home.weekEmpty': 'No workouts this week',
   'home.setStreak': 'Set your streak',
   'home.setStreakNote': 'Pick your weekly workouts',
-  'home.mine': 'My workouts',
   'home.create': 'Create workout',
   'home.start': 'Start',
   'home.startNamed': 'Start {name}, {time}',

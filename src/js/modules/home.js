@@ -19,10 +19,9 @@ const RING_WIDTH = 3.8;
 export const init = (selector = '[data-screen="workouts"]') => {
   const screen = /** @type {HTMLElement | null} */ (document.querySelector(selector));
   const list = screen?.querySelector('[data-list="workouts"]');
-  const tally = screen?.querySelector('[data-count="workouts"]');
   const template = /** @type {HTMLTemplateElement | null} */ (document.querySelector('[data-template="workout"]'));
 
-  if (!screen || !list || !tally || !template) return;
+  if (!screen || !list || !template) return;
 
   const creator = list.querySelector('[data-tile="create"]');
 
@@ -56,10 +55,7 @@ export const init = (selector = '[data-screen="workouts"]') => {
   };
 
   const show = () => {
-    const workouts = library.getWorkouts();
-
-    list.replaceChildren(...workouts.map(tile), creator);
-    tally.textContent = String(workouts.length);
+    list.replaceChildren(...library.getWorkouts().map(tile), creator);
   };
 
   const remove = async (workout) => {

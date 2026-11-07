@@ -42,7 +42,6 @@ export const sk = {
   'home.weekEmpty': 'Tento týždeň žiadny tréning',
   'home.setStreak': 'Nastavte si sériu',
   'home.setStreakNote': 'Vyberte si počet tréningov za týždeň',
-  'home.mine': 'Moje tréningy',
   'home.create': 'Vytvoriť tréning',
   'home.start': 'Štart',
   'home.startNamed': 'Spustiť {name}, {time}',
