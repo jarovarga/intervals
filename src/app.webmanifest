@@ -1,15 +1,16 @@
 {
   "id": "./",
-  "name": "PWA kit",
-  "short_name": "PWA kit",
-  "description": "Starter kit for installable, offline-capable web apps.",
+  "name": "Interval timer for circuit workouts",
+  "short_name": "Intervals",
+  "description": "Interval timer for circuit workouts. Build your own workouts with rounds, work and rest, then follow them on a full-screen timer.",
+  "categories": ["health", "fitness"],
   "lang": "en-GB",
   "dir": "ltr",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "theme_color": "#101010",
-  "background_color": "#101010",
+  "theme_color": "#080a0e",
+  "background_color": "#080a0e",
   "icons": [
     {
       "src": "./assets/img/icon.svg",
