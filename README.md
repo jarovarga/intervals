@@ -2,15 +2,23 @@
 
 PWA interval timer for circuit workouts: build your own routines, then train with a full-screen timer, even offline. It is written in plain HTML, layered CSS and ES modules, built with esbuild and checked with Stylelint, ESLint, HTML-validate and Prettier.
 
+Open it at [jarovarga.github.io/intervals](https://jarovarga.github.io/intervals/) and add it to the Home Screen to use it like an app.
+
 ## Features
 
-- A web app manifest and icons, including a maskable icon, with the document head tags for iOS
-- A service worker whose cache name and precache list come from a content hash of the build; a new version waits until the visitor accepts it
-- An update notice with a Reload button, a check for updates when the app returns to the foreground and a manual check in the settings
-- An Add to Home Screen explanation for Safari on iOS and iPadOS, which can be shown again from the settings
-- Settings with the version of the app, set by the build from `package.json`, and a Buy me a coffee link
-- Safe-area padding for the translucent iOS status bar and the home indicator
-- Deployment to GitHub Pages from GitHub Actions
+- Workouts with a name, an intensity, any number of exercises with their own time, a get-ready countdown, rest between exercises, rounds and a cooldown between rounds; each shows as a ring of its exercises and rests with its total time
+- The presets 30/30 Circuit and Tabata, which a new device starts with and the editor offers to fill a workout from
+- An editor with a total time that updates while you edit, checks before saving and the deletion of a workout
+- A full-screen timer with a colour for every phase, the exercise in view or the one up next, the round, what follows, a pulsing countdown, skips and a paused state; Space and the arrow keys control it
+- Sound cues for the countdown, an exercise, rest, a cooldown and the end, with their volume, and on iOS an option to play them in silent mode
+- The screen stays on during a workout, unless you turn that off
+- An unfinished workout is kept when you leave the timer or the app is closed, and a card on the home screen picks it up for an hour
+- A day streak with the workouts of this week against a weekly goal, or a suggestion to set one
+- A log with a calendar of the chosen month, a summary of it and its finished workouts
+- English and Slovak; the app starts in English, and the settings switch the language
+- An export of the preferences, workouts and log to a file, its import and the deletion of all data
+- Installable and available offline: a service worker precaches the build, an update waits for a Reload, and an install guide explains Add to Home Screen on iOS and offers the install prompt elsewhere
+- Everything stays in the browser on your device; nothing is sent anywhere
 
 ## Requirements
 
@@ -65,7 +73,7 @@ The generated files are ignored by Git; never edit them directly. `public/robots
 
 ## Known limitations
 
-On iOS, the app may flash white for a moment when opened from the Home Screen. iOS ignores `background_color` in the web app manifest and shows its own splash screen unless `apple-touch-startup-image` supplies one for each device's exact resolution; the kit does not ship those images, because the list would need constant upkeep and WebKit may still flash white with one (see [WebKit bug 215479](https://bugs.webkit.org/show_bug.cgi?id=215479)).
+On iOS, the app may flash white for a moment when opened from the Home Screen. iOS ignores `background_color` in the web app manifest and shows its own splash screen unless `apple-touch-startup-image` supplies one for each device's exact resolution; the app does not ship those images, because the list would need constant upkeep and WebKit may still flash white with one (see [WebKit bug 215479](https://bugs.webkit.org/show_bug.cgi?id=215479)).
 
 ## Structure
 
@@ -87,12 +95,13 @@ src/
 ├── fonts/
 ├── img/
 ├── js/
+│   ├── locales/            Texts of each language, by key
 │   ├── modules/            One behaviour per kebab-case module
 │   └── app.js              Entry point that wires all behaviour
 ├── app.webmanifest         Web app manifest
 ├── index.html              Page: header and main with one section per page part
 └── service-worker.js       Offline cache and update handling
-tests/                      Unit tests
+tests/                      Unit tests, with helpers in tests/helpers/
 ```
 
 The cascade layers are ordered by ascending priority: `reset`, `base`, `helper`, `block`, `module`, `segment`, `util`. The root files start the cascade and `utils/` ends it.
