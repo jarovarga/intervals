@@ -30,6 +30,29 @@ export const restoreGlobals = () => {
 };
 
 /**
+ * A page that records its listeners, so that a visibility change can be played out by hand.
+ *
+ * @param {'visible' | 'hidden'} [visibilityState] How visible the page is to begin with.
+ * @returns {{ visibilityState: string, addEventListener: Function, show: () => void, hide: () => void }} The page.
+ */
+export const fakeDocument = (visibilityState = 'visible') => {
+  const listeners = [];
+  const page = {
+    visibilityState,
+    addEventListener: (type, handler) => listeners.push({ type, handler }),
+    show: () => change('visible'),
+    hide: () => change('hidden')
+  };
+
+  function change(state) {
+    page.visibilityState = state;
+    listeners.filter(({ type }) => type === 'visibilitychange').forEach(({ handler }) => handler());
+  }
+
+  return page;
+};
+
+/**
  * Collect what the code under test writes with `console.warn`, so that it neither clutters the output nor goes unseen.
  *
  * @param {import('node:test').TestContext} context Test that owns the collecting.
