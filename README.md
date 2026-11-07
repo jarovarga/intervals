@@ -73,7 +73,7 @@ The generated files are ignored by Git; never edit them directly. `public/robots
 
 ## Deployment
 
-`.github/workflows/pages.yml` audits, lints, tests and builds the site on every push to `main` and publishes `public/` through GitHub Pages. In the repository settings, set Pages to build and deploy from **GitHub Actions**. The site is then served from `https://<user>.github.io/<repository>/`. `.github/workflows/ci.yml` runs the same checks on pushes to `dev` and on pull requests to `main`.
+`.github/workflows/pages.yml` audits, lints, tests and builds the site on every push to `main` and publishes `public/` through GitHub Pages. In the repository settings, set Pages to build and deploy from **GitHub Actions**. The site is then served from `https://<user>.github.io/<repository>/`. `.github/workflows/ci.yml` runs the same checks on pushes to `dev` and on pull requests to `main`. Both pin their actions to commit hashes and install without running package scripts. `.github/dependabot.yml` proposes weekly updates of npm packages and GitHub Actions after a seven-day cooldown.
 
 ## Known limitations
 
